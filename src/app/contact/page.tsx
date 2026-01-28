@@ -1,3 +1,6 @@
+"use client"
+
+import { useState, FormEvent } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -28,6 +31,45 @@ const contactInfo = [
 ]
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitMessage('')
+
+    const formData = new FormData(e.currentTarget)
+    const data = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      company: formData.get('company'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      projectDetails: formData.get('projectDetails'),
+    }
+
+    try {
+      // TODO: Replace with actual API endpoint
+      // const response = await fetch('/api/contact', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(data),
+      // })
+      
+      // Simulate API call - data will be used when API is implemented
+      console.log('Form data:', data)
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      
+      setSubmitMessage('Thank you! We\'ll get back to you within 24 hours.')
+      e.currentTarget.reset()
+    } catch {
+      setSubmitMessage('Something went wrong. Please call us at (323) 939-8911.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div>
       {/* Hero */}
@@ -53,51 +95,62 @@ export default function ContactPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-slate-700 mb-1 block">
+                      <label htmlFor="firstName" className="text-sm font-medium text-slate-700 mb-1 block">
                         First Name *
                       </label>
-                      <Input placeholder="John" required />
+                      <Input id="firstName" name="firstName" placeholder="John" required />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-slate-700 mb-1 block">
+                      <label htmlFor="lastName" className="text-sm font-medium text-slate-700 mb-1 block">
                         Last Name *
                       </label>
-                      <Input placeholder="Smith" required />
+                      <Input id="lastName" name="lastName" placeholder="Smith" required />
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-slate-700 mb-1 block">Company</label>
-                    <Input placeholder="Your Company" />
+                    <label htmlFor="company" className="text-sm font-medium text-slate-700 mb-1 block">Company</label>
+                    <Input id="company" name="company" placeholder="Your Company" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-slate-700 mb-1 block">
+                      <label htmlFor="email" className="text-sm font-medium text-slate-700 mb-1 block">
                         Email *
                       </label>
-                      <Input type="email" placeholder="john@company.com" required />
+                      <Input id="email" name="email" type="email" placeholder="john@company.com" required />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-slate-700 mb-1 block">
+                      <label htmlFor="phone" className="text-sm font-medium text-slate-700 mb-1 block">
                         Phone *
                       </label>
-                      <Input type="tel" placeholder="(323) 555-0123" required />
+                      <Input id="phone" name="phone" type="tel" placeholder="(323) 555-0123" required />
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-slate-700 mb-1 block">
+                    <label htmlFor="projectDetails" className="text-sm font-medium text-slate-700 mb-1 block">
                       Project Details *
                     </label>
                     <Textarea
+                      id="projectDetails"
+                      name="projectDetails"
                       placeholder="Tell us what you need printed, quantities, timeline, etc."
                       className="min-h-[120px]"
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
-                    Submit Request
+                  {submitMessage && (
+                    <div className={`p-3 rounded-md text-sm ${
+                      submitMessage.includes('Thank you') 
+                        ? 'bg-green-50 text-green-700' 
+                        : 'bg-red-50 text-red-700'
+                    }`}>
+                      {submitMessage}
+                    </div>
+                  )}
+                  <Button type="submit" disabled={isSubmitting} className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
+                    {isSubmitting ? 'Submitting...' : 'Submit Request'}
                   </Button>
                 </form>
               </CardContent>
