@@ -4,6 +4,8 @@ import { useState, FormEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 
 interface QuoteFormProps {
   variant?: 'light' | 'dark'
@@ -24,29 +26,24 @@ export function QuoteForm({ variant = 'light', className = '' }: QuoteFormProps)
     setIsSubmitting(true)
     setSubmitMessage('')
 
-    const formData = new FormData(e.currentTarget)
-    const data = {
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      projectDetails: formData.get('projectDetails'),
-    }
+    const form = e.currentTarget
+    const formData = new FormData(form)
 
     try {
-      // TODO: Replace with actual API endpoint
-      // const response = await fetch('/api/quote', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data),
-      // })
-      
-      // Simulate API call - data will be used when API is implemented
-      console.log('Form data:', data)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await addDoc(collection(db, 'quotes'), {
+        firstName: formData.get('firstName') as string,
+        lastName: formData.get('lastName') as string,
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string,
+        company: '',
+        message: formData.get('projectDetails') as string,
+        status: 'new',
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      })
       
       setSubmitMessage('Thank you! We\'ll get back to you within 24 hours.')
-      e.currentTarget.reset()
+      form.reset()
     } catch {
       setSubmitMessage('Something went wrong. Please call us at (323) 939-8911.')
     } finally {

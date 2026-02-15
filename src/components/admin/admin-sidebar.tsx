@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/lib/auth-context'
 import {
   FileText,
   Users,
@@ -10,6 +11,7 @@ import {
   Layout,
   Settings,
   X,
+  LogOut,
 } from 'lucide-react'
 
 interface AdminSidebarProps {
@@ -31,10 +33,16 @@ const navItems = [
 
 export function AdminSidebar({ newQuoteCount, open, onClose }: AdminSidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { user, logout } = useAuth()
+
+  const handleSignOut = async () => {
+    await logout()
+    router.push('/staff-login')
+  }
 
   return (
     <>
-      {/* Overlay for mobile */}
       {open && (
         <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={onClose} />
       )}
@@ -116,15 +124,22 @@ export function AdminSidebar({ newQuoteCount, open, onClose }: AdminSidebarProps
 
         {/* User footer */}
         <div className="p-4 border-t border-slate-800">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 rounded-full bg-cyan-600 flex items-center justify-center text-xs font-bold">
               AP
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <div className="text-sm font-medium">Artistic Printing</div>
-              <div className="text-xs text-slate-400">Owner</div>
+              <div className="text-xs text-slate-400 truncate">{user?.email || 'Owner'}</div>
             </div>
           </div>
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
+          </button>
         </div>
       </aside>
     </>

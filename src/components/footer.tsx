@@ -83,8 +83,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-8 pt-8 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()} Artistic Printing Company. All rights reserved.
+        <div className="border-t border-slate-800 mt-8 pt-8 flex items-center justify-between text-sm text-slate-500">
+          <span>© {new Date().getFullYear()} Artistic Printing Company. All rights reserved.</span>
+          <Link href="/staff-login" className="hover:text-slate-300 transition-colors">
+            Staff Login
+          </Link>
         </div>
       </div>
     </footer>

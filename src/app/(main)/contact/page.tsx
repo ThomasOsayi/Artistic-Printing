@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import {
   ArrowRight,
   Phone,
@@ -102,24 +104,25 @@ export default function ContactPage() {
     setFormStatus('loading')
     setSubmitMessage('')
 
-    const formData = new FormData(e.currentTarget)
-    const data = {
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      company: formData.get('company'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      projectDetails: formData.get('projectDetails'),
-    }
+    const form = e.currentTarget
+    const formData = new FormData(form)
 
     try {
-      // TODO: Replace with actual API endpoint
-      console.log('Form data:', data)
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      await addDoc(collection(db, 'quotes'), {
+        firstName: formData.get('firstName') as string,
+        lastName: formData.get('lastName') as string,
+        company: (formData.get('company') as string) || '',
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string,
+        message: formData.get('projectDetails') as string,
+        status: 'new',
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      })
 
       setFormStatus('success')
       setSubmitMessage("Thank you! We'll get back to you within 24 hours.")
-      e.currentTarget.reset()
+      form.reset()
     } catch {
       setFormStatus('error')
       setSubmitMessage('Something went wrong. Please call us at (323) 939-8911.')
