@@ -30,7 +30,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   const newQuoteCount = mockQuotes.filter((q) => q.status === 'new').length
-  const pageTitle = pathname.includes('/clients') ? 'Clients' : 'Quote Management'
+  const pageTitle = pathname.includes('/portfolio')
+    ? 'Portfolio Manager'
+    : pathname.includes('/clients')
+      ? 'Clients'
+      : 'Quote Management'
 
   return (
     <div className="min-h-screen bg-slate-100">

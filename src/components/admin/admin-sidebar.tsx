@@ -25,7 +25,7 @@ const navItems = [
   { label: 'Quotes', href: '/admin/quotes', icon: FileText, badge: true },
   { label: 'Clients', href: '/admin/clients', icon: Users },
   { label: 'Management', type: 'section' as const },
-  { label: 'Portfolio', href: '#', icon: Layout, soon: true },
+  { label: 'Portfolio', href: '/admin/portfolio', icon: Layout },
   { label: 'Site Images', href: '#', icon: Image, soon: true },
   { label: 'Settings', type: 'section' as const },
   { label: 'Settings', href: '#', icon: Settings, soon: true },

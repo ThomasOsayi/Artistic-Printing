@@ -26,6 +26,21 @@ export interface Client {
   createdAt?: string
 }
 
+export interface PortfolioItem {
+  id: string
+  client: string
+  industry: string
+  type: string
+  description: string
+  imageUrl: string        // Firebase Storage download URL
+  imagePath: string       // Firebase Storage path (for deletion)
+  featured: boolean
+  visible: boolean
+  order: number           // For drag-to-reorder (lower = first)
+  createdAt?: string
+  updatedAt?: string
+}
+
 export const mockQuotes: Quote[] = [
   {
     id: 'q1',

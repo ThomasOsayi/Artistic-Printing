@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { QuoteForm } from '@/components/quote-form'
 import { TestimonialsSection } from '@/components/testimonials-section'
+import { HomePortfolioSection } from '@/components/home-portfolio-section'
 import {
   FileText,
   Package,
@@ -23,7 +24,6 @@ import {
   Check,
   Phone,
   Shield,
-  Eye,
 } from 'lucide-react'
 
 const clients = [
@@ -75,45 +75,6 @@ const industries = [
     color: 'from-slate-600 to-slate-800',
     image: 'https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=600&q=80',
     items: ['Sales brochures', 'Service forms', 'Showroom signage', 'Promotional materials'],
-  },
-]
-
-const portfolio = [
-  {
-    client: 'Kaiser Permanente',
-    type: 'Patient Forms & Signage',
-    cat: 'Healthcare',
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    client: 'Beverly Hills Café',
-    type: 'Menus & Packaging',
-    cat: 'Hospitality',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    client: 'Toyota Hollywood',
-    type: 'Sales Brochures',
-    cat: 'Automotive',
-    image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    client: 'UCLA Extension',
-    type: 'Course Catalogs',
-    cat: 'Education',
-    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    client: 'Vista Hospital',
-    type: 'Patient Materials',
-    cat: 'Healthcare',
-    image: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=600&q=80',
-  },
-  {
-    client: 'Broadway Bank',
-    type: 'Marketing Collateral',
-    cat: 'Finance',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80',
   },
 ]
 
@@ -396,67 +357,9 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════
-          PORTFOLIO PREVIEW — Recent project showcase
+          PORTFOLIO PREVIEW — Recent project showcase (Firestore-driven)
           ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <Badge className="bg-purple-100 text-purple-700 mb-4">Our Work</Badge>
-              <h2 className="text-4xl font-bold text-slate-900 mb-2">Recent Projects</h2>
-              <p className="text-slate-600 text-lg">
-                A glimpse at what we&apos;ve delivered for LA businesses.
-              </p>
-            </div>
-            <Button
-              asChild
-              variant="outline"
-              className="border-slate-300 hover:border-cyan-500 hover:text-cyan-600 group self-start md:self-auto"
-            >
-              <Link href="/portfolio">
-                View All Work
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {portfolio.map((project, i) => (
-              <Link
-                key={i}
-                href="/portfolio"
-                className="group relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer"
-              >
-                <div className="relative h-56 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={project.image}
-                    alt={project.client}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute top-4 left-4">
-                    <Badge className="bg-white/90 text-slate-700 backdrop-blur-sm shadow-sm text-xs">
-                      {project.cat}
-                    </Badge>
-                  </div>
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                      <Eye className="w-5 h-5 text-slate-700" />
-                    </div>
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-slate-900 text-lg group-hover:text-cyan-600 transition-colors">
-                    {project.client}
-                  </h3>
-                  <p className="text-slate-500 text-sm">{project.type}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomePortfolioSection />
 
       {/* ═══════════════════════════════════════════════════════════
           FEATURES + QUOTE FORM — Dark section with background image

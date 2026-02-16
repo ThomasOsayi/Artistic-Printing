@@ -1,9 +1,12 @@
-"use client"
+'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import { collection, onSnapshot, query, orderBy, where } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import type { PortfolioItem } from '@/lib/admin-data'
 import {
   Heart,
   Car,
@@ -20,176 +23,32 @@ import {
   Users,
   Calendar,
   ThumbsUp,
+  GraduationCap,
+  ShoppingBag,
+  Loader2,
+  type LucideIcon,
 } from 'lucide-react'
 
-/* ─── PROJECT DATA ─── */
-const projects = [
-  {
-    id: 1,
-    client: 'Kaiser Permanente',
-    industry: 'Healthcare',
-    type: 'Patient Forms & Signage',
-    description:
-      'Complete print package including intake forms, wayfinding signage, and patient education brochures.',
-    image:
-      'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-rose-500',
-  },
-  {
-    id: 2,
-    client: 'Jim Falk Lexus',
-    industry: 'Automotive',
-    type: 'Sales Brochures & Signage',
-    description:
-      'Premium dealership materials including vehicle brochures, showroom banners, and promotional flyers.',
-    image:
-      'https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-slate-700',
-  },
-  {
-    id: 3,
-    client: 'Beverly Hills Café',
-    industry: 'Hospitality',
-    type: 'Menus & Packaging',
-    description:
-      'Custom menus, branded napkins, takeout packaging, and table tents for upscale dining experience.',
-    image:
-      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-amber-500',
-  },
-  {
-    id: 4,
-    client: 'Vista Hospital',
-    industry: 'Healthcare',
-    type: 'Patient Materials',
-    description:
-      'Hospital-wide print materials including directories, patient guides, and departmental signage.',
-    image:
-      'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-rose-500',
-  },
-  {
-    id: 5,
-    client: 'Broadway Federal Bank',
-    industry: 'Finance',
-    type: 'Marketing Collateral',
-    description:
-      'Professional banking materials including brochures, rate sheets, and promotional displays.',
-    image:
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-blue-600',
-  },
-  {
-    id: 6,
-    client: 'K-Earth 101 FM',
-    industry: 'Media',
-    type: 'Event Materials & Promos',
-    description:
-      'Radio station promotional materials, event banners, bumper stickers, and concert flyers.',
-    image:
-      'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-purple-500',
-  },
-  {
-    id: 7,
-    client: 'Toyota Hollywood',
-    industry: 'Automotive',
-    type: 'Dealership Package',
-    description:
-      'Full dealership print suite including window stickers, service forms, and showroom graphics.',
-    image:
-      'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-slate-700',
-  },
-  {
-    id: 8,
-    client: 'LABioMed',
-    industry: 'Healthcare',
-    type: 'Research Publications',
-    description:
-      'Scientific publications, research posters, conference materials, and institutional brochures.',
-    image:
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-rose-500',
-  },
-  {
-    id: 9,
-    client: 'Promise Hospital',
-    industry: 'Healthcare',
-    type: 'Facility Signage',
-    description:
-      'Complete wayfinding system, department signs, and patient communication materials.',
-    image:
-      'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-rose-500',
-  },
-  {
-    id: 10,
-    client: 'United Independent Taxi',
-    industry: 'Automotive',
-    type: 'Fleet Graphics & Forms',
-    description: 'Vehicle wraps, driver ID cards, receipt books, and dispatch forms.',
-    image:
-      'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-slate-700',
-  },
-  {
-    id: 11,
-    client: 'EMI Music',
-    industry: 'Media',
-    type: 'Album Packaging',
-    description:
-      'CD packaging, promotional posters, press kits, and concert merchandise.',
-    image:
-      'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-purple-500',
-  },
-  {
-    id: 12,
-    client: 'Alta Los Angeles Hospitals',
-    industry: 'Healthcare',
-    type: 'System-Wide Materials',
-    description:
-      'Multi-facility print program including branded materials across all hospital locations.',
-    image:
-      'https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=800&q=80',
-    color: 'bg-rose-500',
-  },
-]
+/* ─── INDUSTRY ICON MAP ─── */
+const industryIcons: Record<string, LucideIcon> = {
+  Healthcare: Heart,
+  Automotive: Car,
+  Hospitality: UtensilsCrossed,
+  Finance: Building2,
+  Media: Radio,
+  Education: GraduationCap,
+  Retail: ShoppingBag,
+}
 
-const industries = [
-  { id: 'all', name: 'All Projects', icon: Grid3X3, count: projects.length },
-  {
-    id: 'Healthcare',
-    name: 'Healthcare',
-    icon: Heart,
-    count: projects.filter((p) => p.industry === 'Healthcare').length,
-  },
-  {
-    id: 'Automotive',
-    name: 'Automotive',
-    icon: Car,
-    count: projects.filter((p) => p.industry === 'Automotive').length,
-  },
-  {
-    id: 'Hospitality',
-    name: 'Hospitality',
-    icon: UtensilsCrossed,
-    count: projects.filter((p) => p.industry === 'Hospitality').length,
-  },
-  {
-    id: 'Finance',
-    name: 'Finance',
-    icon: Building2,
-    count: projects.filter((p) => p.industry === 'Finance').length,
-  },
-  {
-    id: 'Media',
-    name: 'Media',
-    icon: Radio,
-    count: projects.filter((p) => p.industry === 'Media').length,
-  },
-]
+const industryColors: Record<string, string> = {
+  Healthcare: 'bg-rose-500',
+  Automotive: 'bg-slate-700',
+  Hospitality: 'bg-amber-500',
+  Finance: 'bg-blue-600',
+  Media: 'bg-purple-500',
+  Education: 'bg-cyan-600',
+  Retail: 'bg-pink-500',
+}
 
 const stats = [
   { icon: Trophy, value: '500+', label: 'Projects Completed' },
@@ -198,28 +57,78 @@ const stats = [
   { icon: ThumbsUp, value: '100%', label: 'Satisfaction Rate' },
 ]
 
-const clientNames = [
-  'Kaiser Permanente',
-  'K-Earth 101 FM',
-  'Vista Hospital',
-  'Jim Falk Lexus',
-  'EMI Music',
-  'Promise Hospital',
-  'Toyota Hollywood',
-  'Beverly Hills Café',
-  'LABioMed',
-  'Broadway Federal Bank',
-  'United Independent Taxi',
-  'Alta Los Angeles Hospitals',
-]
-
 export default function PortfolioPage() {
+  const [projects, setProjects] = useState<PortfolioItem[]>([])
+  const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState('all')
 
+  // ─── Fetch visible portfolio items from Firestore ───
+  useEffect(() => {
+    const q = query(
+      collection(db, 'portfolio'),
+      where('visible', '==', true),
+      orderBy('order', 'asc')
+    )
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((docSnap) => {
+        const d = docSnap.data()
+        return {
+          id: docSnap.id,
+          client: d.client || '',
+          industry: d.industry || '',
+          type: d.type || '',
+          description: d.description || '',
+          imageUrl: d.imageUrl || '',
+          imagePath: d.imagePath || '',
+          featured: d.featured ?? false,
+          visible: d.visible ?? true,
+          order: d.order ?? 999,
+        } as PortfolioItem
+      })
+      setProjects(data)
+      setLoading(false)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  // ─── Build dynamic industry filters ───
+  const industries = useMemo(() => {
+    const counts: Record<string, number> = {}
+    projects.forEach((p) => {
+      counts[p.industry] = (counts[p.industry] || 0) + 1
+    })
+
+    const tabs: { id: string; name: string; icon: LucideIcon; count: number }[] = [
+      { id: 'all', name: 'All Projects', icon: Grid3X3, count: projects.length },
+    ]
+
+    Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .forEach(([ind, count]) => {
+        tabs.push({
+          id: ind,
+          name: ind,
+          icon: industryIcons[ind] || Grid3X3,
+          count,
+        })
+      })
+
+    return tabs
+  }, [projects])
+
+  // ─── Filtered projects ───
   const filteredProjects =
     activeFilter === 'all'
       ? projects
       : projects.filter((p) => p.industry === activeFilter)
+
+  // ─── Client names for marquee ───
+  const clientNames = useMemo(
+    () => [...new Set(projects.map((p) => p.client))],
+    [projects]
+  )
 
   return (
     <div>
@@ -306,63 +215,89 @@ export default function PortfolioPage() {
           ═══════════════════════════════════════════════════════════ */}
       <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <div
-                key={project.id}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer"
-              >
-                {/* Image */}
-                <div className="relative h-64 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={project.image}
-                    alt={project.client}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-6 h-6 text-cyan-500 animate-spin" />
+              <span className="ml-2 text-slate-500 text-sm">Loading portfolio...</span>
+            </div>
+          ) : (
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProjects.map((project) => (
+                  <div
+                    key={project.id}
+                    className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer"
+                  >
+                    {/* Image */}
+                    <div className="relative h-64 overflow-hidden bg-slate-100">
+                      {project.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={project.imageUrl}
+                          alt={project.client}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <LayoutGrid className="w-12 h-12 text-slate-200" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                  {/* Industry badge */}
-                  <div className="absolute top-4 left-4">
-                    <Badge className={`${project.color} text-white shadow-lg`}>
-                      {project.industry}
-                    </Badge>
-                  </div>
+                      {/* Industry badge */}
+                      <div className="absolute top-4 left-4">
+                        <Badge
+                          className={`${industryColors[project.industry] || 'bg-slate-600'} text-white shadow-lg`}
+                        >
+                          {project.industry}
+                        </Badge>
+                      </div>
 
-                  {/* Hover overlay content */}
-                  <div className="absolute inset-0 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <p className="text-white/90 text-sm leading-relaxed">
-                      {project.description}
-                    </p>
-                  </div>
+                      {/* Featured star */}
+                      {project.featured && (
+                        <div className="absolute top-4 right-4">
+                          <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                            <Trophy className="w-4 h-4 text-white" />
+                          </div>
+                        </div>
+                      )}
 
-                  {/* View button */}
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
-                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
-                      <Eye className="w-5 h-5 text-slate-700" />
+                      {/* Hover overlay content */}
+                      <div className="absolute inset-0 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <p className="text-white/90 text-sm leading-relaxed">
+                          {project.description}
+                        </p>
+                      </div>
+
+                      {/* View button */}
+                      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                          <Eye className="w-5 h-5 text-slate-700" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <div className="text-sm text-slate-500 mb-1">{project.type}</div>
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">
+                        {project.client}
+                      </h3>
                     </div>
                   </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <div className="text-sm text-slate-500 mb-1">{project.type}</div>
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">
-                    {project.client}
-                  </h3>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
 
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-20">
-              <LayoutGrid className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-slate-600 mb-2">
-                No projects found
-              </h3>
-              <p className="text-slate-500">Try selecting a different filter</p>
-            </div>
+              {filteredProjects.length === 0 && (
+                <div className="text-center py-20">
+                  <LayoutGrid className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-slate-600 mb-2">
+                    No projects found
+                  </h3>
+                  <p className="text-slate-500">Try selecting a different filter</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
@@ -394,35 +329,39 @@ export default function PortfolioPage() {
       {/* ═══════════════════════════════════════════════════════════
           CLIENTS MARQUEE
           ═══════════════════════════════════════════════════════════ */}
-      <section className="py-16 bg-slate-900 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-          <div className="text-center">
-            <Badge className="bg-white/10 text-white border-white/20 mb-4">
-              Trusted Partners
-            </Badge>
-            <h2 className="text-3xl font-bold text-white">
-              Clients We&apos;ve Worked With
-            </h2>
+      {clientNames.length > 0 && (
+        <section className="py-16 bg-slate-900 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+            <div className="text-center">
+              <Badge className="bg-white/10 text-white border-white/20 mb-4">
+                Trusted Partners
+              </Badge>
+              <h2 className="text-3xl font-bold text-white">
+                Clients We&apos;ve Worked With
+              </h2>
+            </div>
           </div>
-        </div>
 
-        {/* Scrolling logos */}
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-slate-900 to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-slate-900 to-transparent z-10" />
+          {/* Scrolling logos */}
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-slate-900 to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-slate-900 to-transparent z-10" />
 
-          <div className="flex gap-8 animate-scroll">
-            {[...clientNames, ...clientNames].map((name, i) => (
-              <div
-                key={i}
-                className="flex-shrink-0 px-8 py-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-colors cursor-pointer"
-              >
-                <span className="text-white font-medium whitespace-nowrap">{name}</span>
-              </div>
-            ))}
+            <div className="flex gap-8 animate-scroll">
+              {[...clientNames, ...clientNames].map((name, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 px-8 py-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  <span className="text-white font-medium whitespace-nowrap">
+                    {name}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════════════════════
           CTA SECTION

@@ -46,16 +46,20 @@ Artistic-Printing/
 │   │   │   │   └── page.tsx             # Contact page with form
 │   │   │   ├── portfolio/
 │   │   │   │   └── page.tsx             # Portfolio with filters and project grid
-│   │   │   └── services/
-│   │   │       └── page.tsx             # Services listing with hero and capabilities
+│   │   │   ├── services/
+│   │   │   │   └── page.tsx             # Services listing with hero and capabilities
+│   │   │   └── staff-login/
+│   │   │       └── page.tsx             # Staff login (Firebase Auth) → redirects to /admin/quotes
 │   │   │
 │   │   └── admin/                       # Admin dashboard section (separate layout)
 │   │       ├── layout.tsx               # Admin layout with sidebar + top header (NO main site nav)
 │   │       ├── page.tsx                 # Redirects to /admin/quotes
 │   │       ├── quotes/
 │   │       │   └── page.tsx             # Quote management dashboard
-│   │       └── clients/
-│   │           └── page.tsx             # Client directory page
+│   │       ├── clients/
+│   │       │   └── page.tsx            # Client directory page
+│   │       └── portfolio/
+│   │           └── page.tsx            # Portfolio manager (Firestore + Storage)
 │   │
 │   ├── components/
 │   │   ├── header.tsx                   # Site header with navigation
@@ -71,7 +75,9 @@ Artistic-Printing/
 │   │   │   ├── quote-detail-panel.tsx   # Right-side detail panel for selected quote
 │   │   │   ├── reply-modal.tsx          # Email reply modal dialog
 │   │   │   ├── status-badge.tsx         # Reusable status badge component
-│   │   │   └── client-table.tsx         # Client directory table
+│   │   │   ├── client-table.tsx         # Client directory table
+│   │   │   ├── client-modal.tsx         # Add/Edit client modal (from quote companies or manual)
+│   │   │   └── portfolio-modal.tsx      # Add/Edit portfolio item with image upload (Firebase Storage)
 │   │   │
 │   │   └── ui/                          # shadcn/ui components
 │   │       ├── badge.tsx
@@ -83,7 +89,8 @@ Artistic-Printing/
 │   │
 │   └── lib/
 │       ├── firebase.ts                  # Firebase initialization (Firestore + Storage)
-│       ├── admin-data.ts                # Mock data + TypeScript types for admin dashboard
+│       ├── auth-context.tsx             # Firebase Auth context (AuthProvider, useAuth)
+│       ├── admin-data.ts                # TypeScript types (Quote, Client) + mock data for fallback
 │       └── utils.ts                     # Utility functions (cn helper)
 │
 ├── .claude/                             # Claude AI settings
@@ -115,6 +122,7 @@ Artistic-Printing/
 | `/services` | `src/app/(main)/services/page.tsx` | Services listing |
 | `/portfolio` | `src/app/(main)/portfolio/page.tsx` | Portfolio with filters |
 | `/contact` | `src/app/(main)/contact/page.tsx` | Contact page with quote form |
+| `/staff-login` | `src/app/(main)/staff-login/page.tsx` | Staff login (Firebase Auth); redirects to `/admin/quotes` on success |
 
 ### Admin Dashboard
 
@@ -123,6 +131,7 @@ Artistic-Printing/
 | `/admin` | `src/app/admin/page.tsx` | Redirects to `/admin/quotes` |
 | `/admin/quotes` | `src/app/admin/quotes/page.tsx` | Quote management dashboard |
 | `/admin/clients` | `src/app/admin/clients/page.tsx` | Client directory |
+| `/admin/portfolio` | `src/app/admin/portfolio/page.tsx` | Portfolio manager (CRUD + image upload) |
 
 ---
 
@@ -158,9 +167,10 @@ Artistic-Printing/
 ### 4. Portfolio Page (`/portfolio`)
 **File:** `src/app/(main)/portfolio/page.tsx`
 
+- **Data:** Fetches visible portfolio items from Firestore `portfolio` collection (where `visible === true`). Uses `PortfolioItem` type from admin-data.
 - **Hero:** Dark section with background, title "Our Work", description.
 - **Filter Bar:** Sticky bar with industry filters (All, Healthcare, Hospitality, Automotive, Finance, Media, Education, Retail) and project counts; filter pills with active state.
-- **Projects Grid:** Filterable project cards; each has Unsplash image, industry badge, client name, project type, short description, hover overlay. Multiple industries (Healthcare, Automotive, Hospitality, Finance, Media, etc.).
+- **Projects Grid:** Filterable project cards; each has image (Firebase Storage URL or placeholder), industry badge, client name, project type, short description, hover overlay.
 - **Empty State:** When no projects match filter, "No projects found" message with LayoutGrid icon.
 - **Stats Section:** Four stat cards with icons (Trophy, Users, Calendar, ThumbsUp) and values/labels.
 - **Clients Marquee:** "Trusted Partners" / "Clients We've Worked With" with infinite horizontal scroll of client names (same `animate-scroll` pattern).
@@ -170,24 +180,41 @@ Artistic-Printing/
 **File:** `src/app/(main)/contact/page.tsx`
 
 - **Hero:** Page title and description.
-- **Contact Form:** Quote request form — First Name, Last Name, Company, Email, Phone, Project Details; validation; loading and success/error messages; simulated submit (ready for API).
+- **Contact Form:** Quote request form — First Name, Last Name, Company, Email, Phone, Project Details; validation; loading and success/error messages. Submissions saved to Firestore `quotes` collection.
 - **Contact Information:** Address, Phone, Email, Hours with icons.
 - **Map Placeholder:** Area reserved for Google Maps.
 - **Quick Response Guarantee:** Info box.
 
-### 6. Admin — Quotes Dashboard (`/admin/quotes`)
+### 6. Staff Login (`/staff-login`)
+**File:** `src/app/(main)/staff-login/page.tsx`
+
+- **Client component.** Email + password form using `useAuth().login()` (Firebase Auth). On success redirects to `/admin/quotes`. Error message on invalid credentials. Branded header with "A" logo and "Artistic Printing Company — Admin Access".
+
+### 7. Admin — Quotes Dashboard (`/admin/quotes`)
 **File:** `src/app/admin/quotes/page.tsx`
 
+- **Data:** Real-time Firestore `quotes` collection via `onSnapshot`; status and `finalPrice` updates written with `updateDoc` + `serverTimestamp`.
 - **Stats Row:** Four stat cards — New Requests (cyan), Pending Review (amber), Approved (green), Monthly Revenue (blue). Each shows count/value, change indicator, tinted icon.
 - **Quotes Table (left ~65%):** Filterable table with status tabs (All, New, Pending, In Progress, Approved, Completed, Declined). Columns: Client (name + company), Service, Status (colored badge), Date. Clickable rows, selected row gets cyan highlight. Search filters by name/company/service. Scrollable body.
-- **Quote Detail Panel (right ~35%):** Shows selected quote details — client avatar (colored initials), status dropdown, contact info (email, phone), request details (service, quantity, urgency), client message. Action buttons: Reply (opens modal), Approve, Decline.
-- **Status Changes:** Updating status re-renders table and stats, shows toast notification.
+- **Quote Detail Panel (right ~35%):** Shows selected quote — client avatar, status dropdown, contact info, request details, message. Actions: Reply (opens modal), Approve, Decline. When status is "completed", inline Final Price field (persisted to Firestore).
+- **Status / Final Price:** Updates persist to Firestore; toast on success or error.
 
-### 7. Admin — Clients Directory (`/admin/clients`)
+### 8. Admin — Clients Directory (`/admin/clients`)
 **File:** `src/app/admin/clients/page.tsx`
 
+- **Data:** Real-time Firestore `clients` and `quotes` via `onSnapshot`. Client list from `clients` collection; Total Orders, Last Order, Revenue derived from `quotes` (by company name). Add client via `addDoc`, edit via `updateDoc`, delete via `deleteDoc` with confirmation.
 - **Stats Row:** Three stat cards — Total Clients, Repeat Clients, Avg. Order Value.
-- **Client Table:** Columns: Client (avatar + name), Industry (badge), Total Orders, Last Order (date), Revenue (green, bold). "Add Client" button (shows "Coming soon" toast).
+- **Client Table:** Columns: Client (avatar + name), Industry (badge), Total Orders, Last Order (date), Revenue (green, bold). Row actions: Edit, Delete (with confirm). "Add Client" opens ClientModal.
+- **ClientModal:** Add new client (choose company from quote-derived list or enter manually) or edit existing; fields: name/company, industry, contact email/phone, notes. Save writes to Firestore `clients`.
+
+### 9. Admin — Portfolio Manager (`/admin/portfolio`)
+**File:** `src/app/admin/portfolio/page.tsx`
+
+- **Data:** Real-time Firestore `portfolio` collection (ordered by `order`); also listens to `clients` for dropdown. Image files in Firebase Storage (`portfolio/{timestamp}-{id}.{ext}`). Add via `addDoc`, edit via `updateDoc`, delete via `deleteDoc` + `deleteObject` for Storage.
+- **Stats Row:** Four cards — Total Projects (visible count), Industries (unique count), Featured (featured + visible), Hidden (not visible).
+- **Toolbar:** Search (client/type/industry), industry filter tabs (dynamic from data), "Add Project" button.
+- **Project Grid:** Cards show image, client, industry badge, type, description snippet. Per item: visibility toggle (Eye/EyeOff), featured star, Edit, Delete (with confirmation). Reorder via `order` field (lower = first).
+- **PortfolioModal:** Add or edit item — client, industry, type, description, image upload (JPG/PNG/WEBP, max 5MB) to Storage, visible/featured toggles. Replacing image deletes old file from Storage. Save writes to Firestore and optionally Storage.
 
 ---
 
@@ -196,7 +223,7 @@ Artistic-Printing/
 ### Layout Components
 
 #### Root Layout (`src/app/layout.tsx`)
-- HTML/body wrapper, Inter font, metadata (title, description, OpenGraph), global CSS import. Does NOT include Header/Footer (those are in the `(main)` route group layout).
+- HTML/body wrapper, Inter font, metadata (title, description, OpenGraph), global CSS import. Wraps app with `AuthProvider` (Firebase Auth). Does NOT include Header/Footer (those are in the `(main)` route group layout).
 
 #### Main Site Layout (`src/app/(main)/layout.tsx`)
 - Wraps public pages with `<Header>` and `<Footer>`. Uses Next.js route groups so admin routes are excluded.
@@ -221,7 +248,7 @@ Artistic-Printing/
 ### Admin Components
 
 #### AdminSidebar (`src/components/admin/admin-sidebar.tsx`)
-- Fixed left sidebar (260px, dark `slate-950`). Brand mark, nav links with icons (Quotes with badge count, Clients). "Coming soon" items grayed out (Portfolio, Site Images, Settings). User footer with avatar initials. Collapses off-screen on mobile (<900px).
+- Fixed left sidebar (260px, dark `slate-950`). Brand mark, nav links with icons: Quotes (with new-count badge), Clients, Portfolio (active). "Coming soon" items grayed out (Site Images, Settings). User footer with avatar initials and Sign out (useAuth logout → redirect to `/staff-login`). Collapses off-screen on mobile with overlay.
 
 #### AdminHeader (`src/components/admin/admin-header.tsx`)
 - Sticky top header (white). Dynamic page title based on route. Search input (filters quotes), notification bell with red dot, external link to live site. Mobile hamburger toggle for sidebar.
@@ -242,7 +269,16 @@ Artistic-Printing/
 - Colored badge matching status: cyan (new), amber (pending), blue (in-progress), green (approved), green-dark (completed), red (declined).
 
 #### ClientTable (`src/components/admin/client-table.tsx`)
-- Client directory table. Avatar initials, name, industry badge, total orders, last order date, revenue (green, bold).
+- Client directory table. Avatar initials, name, industry badge, total orders, last order date, revenue (green, bold). Edit and Delete actions per row; delete confirmation. Integrates with Firestore clients + quote-derived summaries.
+
+#### ClientModal (`src/components/admin/client-modal.tsx`)
+- **Client component.** Add or edit client. When adding: searchable list of companies from quotes (excluding existing clients), or manual name entry; industry dropdown; contact email/phone; notes. When editing: pre-filled from selected client. On save calls `onSave` with client data (id/createdAt omitted for new). Avatar color palette for initials.
+
+#### PortfolioModal (`src/components/admin/portfolio-modal.tsx`)
+- **Client component.** Add or edit portfolio item. Fields: client, industry (dropdown), type, description, image (file upload), visible (toggle), featured (toggle). Image upload to Firebase Storage (`portfolio/` path); validation (JPG/PNG/WEBP, max 5MB); local preview; on replace, deletes previous image from Storage. On save calls `onSave` with item data (id/createdAt/updatedAt omitted for new).
+
+### Auth (`src/lib/auth-context.tsx`)
+- **AuthProvider** wraps the app (in root layout). Uses Firebase Auth: `getAuth(app)`, `onAuthStateChanged`, `signInWithEmailAndPassword`, `signOut`. Exposes **useAuth()**: `{ user, loading, login, logout }`.
 
 ### UI Components (shadcn/ui)
 
@@ -275,13 +311,27 @@ NEXT_PUBLIC_FIREBASE_APP_ID
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 ```
 
-### Firestore Collections
-- **`quotes`** — Quote submissions from the public-facing form
-  - Fields: `firstName`, `lastName`, `email`, `phone`, `company`, `message`, `status` ("new"), `createdAt` (serverTimestamp), `updatedAt` (serverTimestamp)
+### Firebase Auth
+- **Auth** — Initialized via `getAuth(app)` in `auth-context.tsx`. Used for staff login: `signInWithEmailAndPassword`, `signOut`, `onAuthStateChanged`. Root layout wraps children with `AuthProvider`; `useAuth()` provides `user`, `loading`, `login`, `logout`.
 
-### Current Integration Points
-- **QuoteForm component** — Writes to Firestore `quotes` collection on form submit
-- **Admin dashboard** — Currently uses mock data in React state (not yet connected to Firestore)
+### Firestore Collections
+- **`quotes`** — Quote submissions from the public form and admin updates
+  - Fields: `firstName`, `lastName`, `email`, `phone`, `company`, `message`, `status`, `createdAt` (serverTimestamp), `updatedAt` (serverTimestamp), plus optional `industry`, `service`, `quantity`, `urgency`, `estimatedPrice`, `finalPrice`
+- **`clients`** — Client directory (admin-managed)
+  - Fields: `name`, `industry`, `contactEmail`, `contactPhone`, `notes`, `createdAt` (serverTimestamp)
+- **`portfolio`** — Portfolio projects (admin-managed, shown on public `/portfolio`)
+  - Fields: `client`, `industry`, `type`, `description`, `imageUrl` (Storage download URL), `imagePath` (Storage path for deletion), `featured`, `visible`, `order` (number, for sort), `createdAt`, `updatedAt` (serverTimestamp)
+
+### Firebase Storage
+- **Portfolio images** — Path `portfolio/{timestamp}-{id}.{ext}`. Upload via PortfolioModal; delete when item is deleted or image is replaced.
+
+### Integration Points
+- **QuoteForm** — Writes new quotes to Firestore `quotes` with `serverTimestamp()`.
+- **Admin Quotes page** — Real-time `onSnapshot(quotes)`; `updateDoc` for status and `finalPrice`.
+- **Admin Clients page** — Real-time `onSnapshot(clients)` and `onSnapshot(quotes)`; `addDoc`/`updateDoc`/`deleteDoc` for clients; revenue/orders derived from quotes by company name.
+- **Admin Portfolio page** — Real-time `onSnapshot(portfolio)` and `onSnapshot(clients)`; `addDoc`/`updateDoc`/`deleteDoc` for portfolio; image upload/delete via Storage.
+- **Public Portfolio page** — Reads from Firestore `portfolio` (visible items only) for project grid.
+- **ReplyModal** — Updates quote in Firestore (status, estimatedPrice) when sending reply.
 
 ---
 
@@ -289,13 +339,12 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 
 ### TypeScript Interfaces
 - **`Quote`** — id, firstName, lastName, company, email, phone, industry, service, status, date, message, quantity, urgency, estimatedPrice?, finalPrice?
-- **`Client`** — id, name, industry, totalOrders, lastOrderDate, totalRevenue
+- **`Client`** — id, name, industry, contactEmail, contactPhone, notes, createdAt? (totalOrders, lastOrderDate, totalRevenue are computed on the clients page from quotes)
+- **`PortfolioItem`** — id, client, industry, type, description, imageUrl, imagePath, featured, visible, order, createdAt?, updatedAt?
 
-### Mock Quotes (11 entries)
-Realistic quotes from actual Artistic Printing clients: Kaiser Permanente, Jim Falk Lexus, Beverly Hills Café, UCLA Extension, Vista Hospital, Broadway Federal Bank, Toyota Hollywood, K-Earth 101 FM, LABioMed, Salud Clinica, Promise Hospital. Status mix: 4 new, 3 pending, 2 approved, 1 completed, 1 declined.
-
-### Mock Clients (10 entries)
-Client directory with revenue figures and order counts for all major clients.
+### Mock Data
+- **mockQuotes** — Used as fallback/reference; admin quotes and clients pages use live Firestore data.
+- **mockClients** — Optional fallback; admin clients page reads from Firestore `clients` and derives order/revenue stats from `quotes`.
 
 ---
 
@@ -347,14 +396,13 @@ npm run lint     # Run ESLint
 
 ## Pending / TODO
 
-1. **Admin → Firestore integration:** Connect admin dashboard to read quotes from Firestore instead of mock data.
-2. **Authentication:** Add Firebase Auth to protect the `/admin` routes.
-3. **Google Maps:** Contact page map placeholder ready for embed or API.
-4. **Team photos:** About page team cards use initial avatars; replace with real photos if desired.
-5. **Analytics:** Add tracking (e.g. Google Analytics) if required.
-6. **Admin "Coming Soon" features:** Portfolio manager, Site Images manager, Settings page.
-7. **Email notifications:** Send actual emails on quote reply (currently frontend-only).
-8. **Client detail view:** Clicking a client in the admin directory (future feature).
+1. **Protect /admin routes:** Optionally redirect unauthenticated users from `/admin/*` to `/staff-login` (AuthProvider and login page are in place).
+2. **Google Maps:** Contact page map placeholder ready for embed or API.
+3. **Team photos:** About page team cards use real images; update if needed.
+4. **Analytics:** Add tracking (e.g. Google Analytics) if required.
+5. **Admin "Coming Soon" features:** Site Images manager, Settings page (Portfolio manager is implemented).
+6. **Email notifications:** Send actual emails on quote reply (e.g. via Firebase Extensions or backend); reply modal currently updates Firestore only.
+7. **Client detail view:** Dedicated client detail page (e.g. `/admin/clients/[id]`) for future expansion.
 
 ---
 
