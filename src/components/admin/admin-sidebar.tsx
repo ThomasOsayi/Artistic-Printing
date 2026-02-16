@@ -26,7 +26,7 @@ const navItems = [
   { label: 'Clients', href: '/admin/clients', icon: Users },
   { label: 'Management', type: 'section' as const },
   { label: 'Portfolio', href: '/admin/portfolio', icon: Layout },
-  { label: 'Site Images', href: '#', icon: Image, soon: true },
+  { label: 'Site Images', href: '/admin/site-images', icon: Image },
   { label: 'Settings', type: 'section' as const },
   { label: 'Settings', href: '#', icon: Settings, soon: true },
 ]

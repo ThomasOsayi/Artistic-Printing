@@ -66,6 +66,7 @@ Artistic-Printing/
 │   │   ├── footer.tsx                   # Site footer
 │   │   ├── quote-form.tsx               # Reusable quote request form (Firebase integrated)
 │   │   ├── testimonials-section.tsx     # Home page testimonials carousel
+│   │   ├── home-portfolio-section.tsx   # Home "Recent Projects" block (Firestore portfolio, visible, limit 6)
 │   │   │
 │   │   ├── admin/                       # Admin dashboard components
 │   │   │   ├── admin-sidebar.tsx        # Left sidebar navigation
@@ -143,7 +144,7 @@ Artistic-Printing/
 - **Hero:** Full-bleed background image (Unsplash), gradient overlay, glow orbs, grid pattern. Headline "Where Ideas Become Print", CTAs (Get Your Quote, See Our Work), trust bullets (Free LA Delivery, 24hr Turnaround, 100% Satisfaction). Right: floating product cards with real images (business cards, brochures, packaging, banners) and hover rotation/scale.
 - **Trust Bar:** "Trusted by 500+ LA businesses" with Shield icon; infinite horizontal scroll of client pills (Kaiser Permanente, Toyota, LABioMed, etc.); gradient edge masks; hover pauses animation.
 - **Industries:** "Industries We Serve" — four image-based cards (Healthcare, Hospitality, Education, Automotive) with Unsplash images, gradient overlays, hover scale/color, expandable item lists and client stats.
-- **Portfolio Preview:** "Recent Projects" with 6 project cards (client, type, category badge), Unsplash images, hover overlay and "View All Work" link to `/portfolio`.
+- **Portfolio Preview:** `HomePortfolioSection` — "Recent Projects" with up to 6 items from Firestore `portfolio` (visible only, ordered by `order`, featured first). Cards show image (Storage URL or placeholder), industry badge, optional "Featured" pill, client name, type; "View All Work" link to `/portfolio`. Section hides if no items after load.
 - **Features + Quote Form:** Dark section with background image, "LA's Most Trusted Printing Partner", four feature cards (Fast Turnaround, Free Delivery, Quality Guaranteed, All On-Site), facility image strip with "Tour" link to `/about`, floating quote form (QuoteForm dark variant).
 - **Testimonials:** `TestimonialsSection` — "What Our Clients Say" with avatar list, active testimonial card, 5-star display, auto-rotate every 6s.
 - **CTA:** Full-width background image, cyan overlay, "Ready to Bring Your Ideas to Life?", Request a Quote and phone buttons.
@@ -245,6 +246,9 @@ Artistic-Printing/
 #### TestimonialsSection (`src/components/testimonials-section.tsx`)
 - **Client component.** "What Our Clients Say" with Badge "Customer Stories." Left: list of testimonial rows (avatar from Unsplash, name, role/company); click to set active. Right: large card with quote, 5-star display, active author avatar and name. Auto-advance every 6s via `useEffect` + `setInterval`. Dot-pattern background.
 
+#### HomePortfolioSection (`src/components/home-portfolio-section.tsx`)
+- **Client component.** Home page "Recent Projects" block. Real-time Firestore query: `portfolio` where `visible === true`, `orderBy('order')`, `limit(6)`; sorts featured first, then by order. Renders grid of cards (image, industry badge, optional "Featured" pill, client, type), loading state, and "View All Work" link. Returns `null` if no items when loading finishes.
+
 ### Admin Components
 
 #### AdminSidebar (`src/components/admin/admin-sidebar.tsx`)
@@ -331,6 +335,7 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 - **Admin Clients page** — Real-time `onSnapshot(clients)` and `onSnapshot(quotes)`; `addDoc`/`updateDoc`/`deleteDoc` for clients; revenue/orders derived from quotes by company name.
 - **Admin Portfolio page** — Real-time `onSnapshot(portfolio)` and `onSnapshot(clients)`; `addDoc`/`updateDoc`/`deleteDoc` for portfolio; image upload/delete via Storage.
 - **Public Portfolio page** — Reads from Firestore `portfolio` (visible items only) for project grid.
+- **HomePortfolioSection** — Real-time `onSnapshot` on `portfolio` (visible, orderBy order, limit 6) for home page "Recent Projects"; featured-first sort client-side.
 - **ReplyModal** — Updates quote in Firestore (status, estimatedPrice) when sending reply.
 
 ---

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, FormEvent } from 'react'
+import { useSiteImages } from '@/hooks/use-site-images'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -95,6 +96,7 @@ const quickServices = [
 ]
 
 export default function ContactPage() {
+  const { getImageUrl } = useSiteImages('contact')
   const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
@@ -139,7 +141,7 @@ export default function ContactPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('contact-hero-bg') || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover opacity-30"
           />
@@ -485,7 +487,7 @@ export default function ContactPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('contact-cta-bg') || 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover"
           />

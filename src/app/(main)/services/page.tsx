@@ -1,6 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { useSiteImages } from '@/hooks/use-site-images'
 import {
   FileText,
   Package,
@@ -95,6 +98,13 @@ const services = [
   },
 ]
 
+const serviceImageKeys: Record<string, string> = {
+  commercial: 'services-commercial',
+  packaging: 'services-packaging',
+  'large-format': 'services-large-format',
+  office: 'services-office',
+}
+
 const capabilities = [
   { icon: Zap, name: 'High-Speed B&W Copies', desc: 'Volume printing' },
   { icon: Palette, name: 'Full-Color Copies', desc: 'Vibrant output' },
@@ -137,9 +147,11 @@ const process = [
 function ServiceSection({
   service,
   index,
+  imageUrl,
 }: {
   service: (typeof services)[0]
   index: number
+  imageUrl: string
 }) {
   const isReversed = index % 2 === 1
   const Icon = service.icon
@@ -158,7 +170,7 @@ function ServiceSection({
             <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={service.image}
+                src={imageUrl}
                 alt={service.name}
                 className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
@@ -225,6 +237,8 @@ function ServiceSection({
 }
 
 export default function ServicesPage() {
+  const { getImageUrl } = useSiteImages('services')
+
   return (
     <div>
       {/* ═══════════════════════════════════════════════════════════
@@ -235,7 +249,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('services-hero-bg') || 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover opacity-30"
           />
@@ -283,7 +297,12 @@ export default function ServicesPage() {
           SERVICE CATEGORIES — Alternating layout sections
           ═══════════════════════════════════════════════════════════ */}
       {services.map((service, i) => (
-        <ServiceSection key={service.id} service={service} index={i} />
+        <ServiceSection
+          key={service.id}
+          service={service}
+          index={i}
+          imageUrl={getImageUrl(serviceImageKeys[service.id]) || service.image}
+        />
       ))}
 
       {/* ═══════════════════════════════════════════════════════════
@@ -294,7 +313,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('services-capabilities-bg') || 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover opacity-10"
           />
@@ -386,7 +405,7 @@ export default function ServicesPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('services-cta-bg') || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover"
           />

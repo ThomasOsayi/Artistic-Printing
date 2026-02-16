@@ -1,6 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { useSiteImages } from '@/hooks/use-site-images'
 import {
   ArrowRight,
   Phone,
@@ -54,6 +57,8 @@ const team = [
   },
 ]
 
+const teamKeys = ['about-team-kassa', 'about-team-marcel', 'about-team-estevan', 'about-team-joao']
+
 const values = [
   {
     icon: Shield,
@@ -105,7 +110,11 @@ const facilityImages = [
   },
 ]
 
+const facilityKeys = ['about-facility-digital', 'about-facility-offset', 'about-facility-design', 'about-facility-finishing']
+
 export default function AboutPage() {
+  const { getImageUrl } = useSiteImages('about')
+
   return (
     <div>
       {/* ═══════════════════════════════════════════════════════════
@@ -116,7 +125,7 @@ export default function AboutPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('about-hero-bg') || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover opacity-30"
           />
@@ -268,7 +277,7 @@ export default function AboutPage() {
                 <div className="relative h-64 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={member.image}
+                    src={getImageUrl(teamKeys[i]) || member.image}
                     alt={member.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -315,7 +324,7 @@ export default function AboutPage() {
               <div key={i} className="group relative rounded-2xl overflow-hidden cursor-pointer">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={img.src}
+                  src={getImageUrl(facilityKeys[i]) || img.src}
                   alt={img.label}
                   className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
                 />
@@ -415,7 +424,7 @@ export default function AboutPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('about-cta-bg') || 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover"
           />

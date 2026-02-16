@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { collection, onSnapshot, query, orderBy, where } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
+import { useSiteImages } from '@/hooks/use-site-images'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -58,6 +59,7 @@ const stats = [
 ]
 
 export default function PortfolioPage() {
+  const { getImageUrl } = useSiteImages('portfolio')
   const [projects, setProjects] = useState<PortfolioItem[]>([])
   const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState('all')
@@ -140,7 +142,7 @@ export default function PortfolioPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('portfolio-hero-bg') || 'https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover opacity-30"
           />
@@ -371,7 +373,7 @@ export default function PortfolioPage() {
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80"
+            src={getImageUrl('portfolio-cta-bg') || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'}
             alt=""
             className="w-full h-full object-cover"
           />

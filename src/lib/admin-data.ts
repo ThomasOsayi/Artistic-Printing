@@ -41,6 +41,19 @@ export interface PortfolioItem {
   updatedAt?: string
 }
 
+export interface SiteImage {
+  id: string
+  page: string
+  section: string
+  name: string
+  location: string
+  stockUrl: string
+  customUrl: string
+  customPath: string
+  recommendedSize: string
+  order: number
+}
+
 export const mockQuotes: Quote[] = [
   {
     id: 'q1',
