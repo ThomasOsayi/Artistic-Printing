@@ -58,15 +58,21 @@ Artistic-Printing/
 │   │       │   └── page.tsx             # Quote management dashboard
 │   │       ├── clients/
 │   │       │   └── page.tsx            # Client directory page
-│   │       └── portfolio/
-│   │           └── page.tsx            # Portfolio manager (Firestore + Storage)
+│   │       ├── portfolio/
+│   │       │   └── page.tsx            # Portfolio manager (Firestore + Storage)
+│   │       └── site-images/
+│   │           └── page.tsx            # Site Images manager (hero, CTA, product cards, etc.)
 │   │
 │   ├── components/
 │   │   ├── header.tsx                   # Site header with navigation
 │   │   ├── footer.tsx                   # Site footer
 │   │   ├── quote-form.tsx               # Reusable quote request form (Firebase integrated)
 │   │   ├── testimonials-section.tsx     # Home page testimonials carousel
-│   │   ├── home-portfolio-section.tsx   # Home "Recent Projects" block (Firestore portfolio, visible, limit 6)
+│   │   ├── home-hero-section.tsx        # Home hero (uses useSiteImages('home'))
+│   │   ├── home-industries-section.tsx  # Home industries grid (optional site images)
+│   │   ├── home-features-section.tsx    # Home features + quote form (uses useSiteImages)
+│   │   ├── home-cta-section.tsx         # Home CTA banner (uses useSiteImages)
+│   │   ├── home-portfolio-section.tsx   # Home "Recent Projects" (Firestore portfolio, limit 6)
 │   │   │
 │   │   ├── admin/                       # Admin dashboard components
 │   │   │   ├── admin-sidebar.tsx        # Left sidebar navigation
@@ -88,10 +94,14 @@ Artistic-Printing/
 │   │       ├── tabs.tsx
 │   │       └── textarea.tsx
 │   │
+│   ├── hooks/
+│   │   └── use-site-images.ts          # Real-time site images by page; getImageUrl(key)
+│   │
 │   └── lib/
 │       ├── firebase.ts                  # Firebase initialization (Firestore + Storage)
 │       ├── auth-context.tsx             # Firebase Auth context (AuthProvider, useAuth)
-│       ├── admin-data.ts                # TypeScript types (Quote, Client) + mock data for fallback
+│       ├── admin-data.ts                # TypeScript types (Quote, Client, PortfolioItem, SiteImage) + mock data
+│       ├── site-images-seed.ts         # Seed Firestore siteImages with stock URLs + doc IDs
 │       └── utils.ts                     # Utility functions (cn helper)
 │
 ├── .claude/                             # Claude AI settings
@@ -133,6 +143,7 @@ Artistic-Printing/
 | `/admin/quotes` | `src/app/admin/quotes/page.tsx` | Quote management dashboard |
 | `/admin/clients` | `src/app/admin/clients/page.tsx` | Client directory |
 | `/admin/portfolio` | `src/app/admin/portfolio/page.tsx` | Portfolio manager (CRUD + image upload) |
+| `/admin/site-images` | `src/app/admin/site-images/page.tsx` | Site Images manager (per-page, upload/revert/reset) |
 
 ---
 
@@ -141,13 +152,14 @@ Artistic-Printing/
 ### 1. Home Page (`/`)
 **File:** `src/app/(main)/page.tsx`
 
-- **Hero:** Full-bleed background image (Unsplash), gradient overlay, glow orbs, grid pattern. Headline "Where Ideas Become Print", CTAs (Get Your Quote, See Our Work), trust bullets (Free LA Delivery, 24hr Turnaround, 100% Satisfaction). Right: floating product cards with real images (business cards, brochures, packaging, banners) and hover rotation/scale.
-- **Trust Bar:** "Trusted by 500+ LA businesses" with Shield icon; infinite horizontal scroll of client pills (Kaiser Permanente, Toyota, LABioMed, etc.); gradient edge masks; hover pauses animation.
-- **Industries:** "Industries We Serve" — four image-based cards (Healthcare, Hospitality, Education, Automotive) with Unsplash images, gradient overlays, hover scale/color, expandable item lists and client stats.
-- **Portfolio Preview:** `HomePortfolioSection` — "Recent Projects" with up to 6 items from Firestore `portfolio` (visible only, ordered by `order`, featured first). Cards show image (Storage URL or placeholder), industry badge, optional "Featured" pill, client name, type; "View All Work" link to `/portfolio`. Section hides if no items after load.
-- **Features + Quote Form:** Dark section with background image, "LA's Most Trusted Printing Partner", four feature cards (Fast Turnaround, Free Delivery, Quality Guaranteed, All On-Site), facility image strip with "Tour" link to `/about`, floating quote form (QuoteForm dark variant).
-- **Testimonials:** `TestimonialsSection` — "What Our Clients Say" with avatar list, active testimonial card, 5-star display, auto-rotate every 6s.
-- **CTA:** Full-width background image, cyan overlay, "Ready to Bring Your Ideas to Life?", Request a Quote and phone buttons.
+- Composed of sections (and inline trust bar). Hero, Industries, Features, and CTA use **useSiteImages('home')** for managed images where applicable; fallback to stock URLs if no custom image.
+- **Hero:** `HomeHeroSection` — full-bleed background (site image key `home-hero-bg`), glow orbs, grid pattern, headline "Where Ideas Become Print", CTAs, trust bullets; right: floating product cards (site image keys for business cards, brochures, packaging, banners) with hover rotation/scale.
+- **Trust Bar:** Inline — "Trusted by 500+ LA businesses", infinite horizontal scroll of client pills; gradient edge masks; hover pauses animation.
+- **Industries:** `HomeIndustriesSection` — "Industries We Serve" (optional site image keys per industry); four image-based cards with gradient overlays, hover expand, client stats.
+- **Portfolio Preview:** `HomePortfolioSection` — "Recent Projects" from Firestore `portfolio` (visible, limit 6, featured first). Cards: image, industry badge, optional "Featured" pill, client, type; "View All Work" link. Hides if no items.
+- **Features + Quote Form:** `HomeFeaturesSection` — dark section with background (site image), "LA's Most Trusted Printing Partner", four feature cards, facility image strip (site image keys), "Tour" link, floating QuoteForm (dark).
+- **Testimonials:** `TestimonialsSection` — "What Our Clients Say", avatar list, active card, 5-star, auto-rotate 6s.
+- **CTA:** `HomeCTASection` — full-width background (site image key `home-cta-bg`), cyan overlay, "Ready to Bring Your Ideas to Life?", Request a Quote and phone buttons.
 
 ### 2. About Page (`/about`)
 **File:** `src/app/(main)/about/page.tsx`
@@ -217,6 +229,14 @@ Artistic-Printing/
 - **Project Grid:** Cards show image, client, industry badge, type, description snippet. Per item: visibility toggle (Eye/EyeOff), featured star, Edit, Delete (with confirmation). Reorder via `order` field (lower = first).
 - **PortfolioModal:** Add or edit item — client, industry, type, description, image upload (JPG/PNG/WEBP, max 5MB) to Storage, visible/featured toggles. Replacing image deletes old file from Storage. Save writes to Firestore and optionally Storage.
 
+### 10. Admin — Site Images Manager (`/admin/site-images`)
+**File:** `src/app/admin/site-images/page.tsx`
+
+- **Data:** Real-time Firestore `siteImages` collection (ordered by `order`). On first load runs **seedSiteImages()** to create default docs (per-page, per-section stock URLs and doc IDs). Custom uploads stored in Firebase Storage; `customUrl`/`customPath` on each doc.
+- **Tabs:** Home, Services, About, Portfolio, Contact — filter images by page. Desktop/mobile preview toggle; optional iframe preview of live page.
+- **Per-section cards:** Grouped by section (e.g. Hero Background, Product Cards, CTA Background). Each image: name, location, recommended size, current image (custom or stock). Actions: Upload (replace with custom), Revert to stock (clear customUrl/customPath, delete from Storage), Reset all (confirm dialog).
+- **Full-width sections:** Hero Background, CTA Background, Features Background, Capabilities Background get full-width display. Storage path for custom uploads (e.g. `siteImages/{page}/{id}.{ext}`).
+
 ---
 
 ## Components
@@ -246,13 +266,30 @@ Artistic-Printing/
 #### TestimonialsSection (`src/components/testimonials-section.tsx`)
 - **Client component.** "What Our Clients Say" with Badge "Customer Stories." Left: list of testimonial rows (avatar from Unsplash, name, role/company); click to set active. Right: large card with quote, 5-star display, active author avatar and name. Auto-advance every 6s via `useEffect` + `setInterval`. Dot-pattern background.
 
+#### HomeHeroSection (`src/components/home-hero-section.tsx`)
+- **Client component.** Home hero: background and floating product cards use **useSiteImages('home')** and `getImageUrl(key)` (e.g. `home-hero-bg`, product card keys); fallback to stock URLs. Headline, CTAs, trust bullets.
+
+#### HomeIndustriesSection (`src/components/home-industries-section.tsx`)
+- **Client component.** "Industries We Serve" — four industry cards; optional site image keys per industry; gradient overlays, hover expand, stats.
+
+#### HomeFeaturesSection (`src/components/home-features-section.tsx`)
+- **Client component.** Dark "Why Choose Us" section: background and facility strip images via useSiteImages('home'); four feature cards; QuoteForm (dark); "Tour" link to `/about`.
+
+#### HomeCTASection (`src/components/home-cta-section.tsx`)
+- **Client component.** Final CTA banner: background via `getImageUrl('home-cta-bg')` with fallback; cyan overlay; headline and Request a Quote + phone buttons.
+
 #### HomePortfolioSection (`src/components/home-portfolio-section.tsx`)
-- **Client component.** Home page "Recent Projects" block. Real-time Firestore query: `portfolio` where `visible === true`, `orderBy('order')`, `limit(6)`; sorts featured first, then by order. Renders grid of cards (image, industry badge, optional "Featured" pill, client, type), loading state, and "View All Work" link. Returns `null` if no items when loading finishes.
+- **Client component.** Home "Recent Projects" block. Real-time Firestore query: `portfolio` where `visible === true`, `orderBy('order')`, `limit(6)`; sorts featured first. Grid of cards (image, industry badge, optional "Featured" pill, client, type), loading state, "View All Work" link. Returns `null` if no items when loading finishes.
+
+### Hooks
+
+#### useSiteImages (`src/hooks/use-site-images.ts`)
+- **Client hook.** `useSiteImages(page)` — real-time `onSnapshot` on Firestore `siteImages` where `page === page`, ordered by `order`. Returns `{ images: Map<string, SiteImage>, loading, getImageUrl(key) }`. `getImageUrl(key)` returns `customUrl || stockUrl` for that image key (used by HomeHeroSection, HomeFeaturesSection, HomeCTASection, etc.).
 
 ### Admin Components
 
 #### AdminSidebar (`src/components/admin/admin-sidebar.tsx`)
-- Fixed left sidebar (260px, dark `slate-950`). Brand mark, nav links with icons: Quotes (with new-count badge), Clients, Portfolio (active). "Coming soon" items grayed out (Site Images, Settings). User footer with avatar initials and Sign out (useAuth logout → redirect to `/staff-login`). Collapses off-screen on mobile with overlay.
+- Fixed left sidebar (260px, dark `slate-950`). Brand mark, nav links: Quotes (with new-count badge), Clients, Portfolio, Site Images (active). "Coming soon": Settings only. User footer with avatar initials and Sign out (useAuth logout → redirect to `/staff-login`). Collapses off-screen on mobile with overlay.
 
 #### AdminHeader (`src/components/admin/admin-header.tsx`)
 - Sticky top header (white). Dynamic page title based on route. Search input (filters quotes), notification bell with red dot, external link to live site. Mobile hamburger toggle for sidebar.
@@ -325,9 +362,12 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
   - Fields: `name`, `industry`, `contactEmail`, `contactPhone`, `notes`, `createdAt` (serverTimestamp)
 - **`portfolio`** — Portfolio projects (admin-managed, shown on public `/portfolio`)
   - Fields: `client`, `industry`, `type`, `description`, `imageUrl` (Storage download URL), `imagePath` (Storage path for deletion), `featured`, `visible`, `order` (number, for sort), `createdAt`, `updatedAt` (serverTimestamp)
+- **`siteImages`** — Managed site images (hero, CTA, product cards, facility strip, etc.)
+  - Fields: `id` (doc ID used as key), `page` (home | services | about | portfolio | contact), `section`, `name`, `location`, `stockUrl`, `customUrl`, `customPath`, `recommendedSize`, `order`. Seed script creates default docs; admin uploads set `customUrl`/`customPath` and use Storage.
 
 ### Firebase Storage
 - **Portfolio images** — Path `portfolio/{timestamp}-{id}.{ext}`. Upload via PortfolioModal; delete when item is deleted or image is replaced.
+- **Site Images** — Custom uploads (e.g. `siteImages/{page}/{id}.{ext}`) when admin replaces a stock image; reverted or reset deletes from Storage.
 
 ### Integration Points
 - **QuoteForm** — Writes new quotes to Firestore `quotes` with `serverTimestamp()`.
@@ -335,7 +375,9 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 - **Admin Clients page** — Real-time `onSnapshot(clients)` and `onSnapshot(quotes)`; `addDoc`/`updateDoc`/`deleteDoc` for clients; revenue/orders derived from quotes by company name.
 - **Admin Portfolio page** — Real-time `onSnapshot(portfolio)` and `onSnapshot(clients)`; `addDoc`/`updateDoc`/`deleteDoc` for portfolio; image upload/delete via Storage.
 - **Public Portfolio page** — Reads from Firestore `portfolio` (visible items only) for project grid.
-- **HomePortfolioSection** — Real-time `onSnapshot` on `portfolio` (visible, orderBy order, limit 6) for home page "Recent Projects"; featured-first sort client-side.
+- **HomePortfolioSection** — Real-time `onSnapshot` on `portfolio` (visible, orderBy order, limit 6) for home "Recent Projects"; featured-first sort client-side.
+- **useSiteImages** — Public home (and other pages) use `useSiteImages(page)` to read `siteImages` and resolve `getImageUrl(key)` (customUrl || stockUrl) for hero, CTA, product cards, facility strip, etc.
+- **Admin Site Images page** — Real-time `onSnapshot(siteImages)`; seed on load via **site-images-seed.ts**; upload/revert/reset with Storage; updateDoc for customUrl/customPath.
 - **ReplyModal** — Updates quote in Firestore (status, estimatedPrice) when sending reply.
 
 ---
@@ -346,8 +388,10 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 - **`Quote`** — id, firstName, lastName, company, email, phone, industry, service, status, date, message, quantity, urgency, estimatedPrice?, finalPrice?
 - **`Client`** — id, name, industry, contactEmail, contactPhone, notes, createdAt? (totalOrders, lastOrderDate, totalRevenue are computed on the clients page from quotes)
 - **`PortfolioItem`** — id, client, industry, type, description, imageUrl, imagePath, featured, visible, order, createdAt?, updatedAt?
+- **`SiteImage`** — id, page, section, name, location, stockUrl, customUrl, customPath, recommendedSize, order
 
-### Mock Data
+### Seed & Mock Data
+- **site-images-seed.ts** — `seedSiteImages()` ensures Firestore `siteImages` has default docs (by id: e.g. home-hero-bg, home-cta-bg, home-product-*, home-facility-*, etc.) with stockUrl and order; creates only if missing. Used on admin Site Images page load.
 - **mockQuotes** — Used as fallback/reference; admin quotes and clients pages use live Firestore data.
 - **mockClients** — Optional fallback; admin clients page reads from Firestore `clients` and derives order/revenue stats from `quotes`.
 
@@ -405,7 +449,7 @@ npm run lint     # Run ESLint
 2. **Google Maps:** Contact page map placeholder ready for embed or API.
 3. **Team photos:** About page team cards use real images; update if needed.
 4. **Analytics:** Add tracking (e.g. Google Analytics) if required.
-5. **Admin "Coming Soon" features:** Site Images manager, Settings page (Portfolio manager is implemented).
+5. **Admin "Coming Soon" features:** Settings page only (Portfolio and Site Images managers are implemented).
 6. **Email notifications:** Send actual emails on quote reply (e.g. via Firebase Extensions or backend); reply modal currently updates Firestore only.
 7. **Client detail view:** Dedicated client detail page (e.g. `/admin/clients/[id]`) for future expansion.
 
