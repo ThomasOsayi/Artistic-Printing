@@ -20,9 +20,10 @@ export interface Client {
   id: string
   name: string
   industry: string
-  totalOrders: number
-  lastOrderDate: string
-  totalRevenue: number
+  contactEmail: string
+  contactPhone: string
+  notes: string
+  createdAt?: string
 }
 
 export const mockQuotes: Quote[] = [
@@ -198,17 +199,4 @@ export const mockQuotes: Quote[] = [
     quantity: '150 signs',
     urgency: 'Rush',
   },
-]
-
-export const mockClients: Client[] = [
-  { id: 'c1', name: 'Kaiser Permanente', industry: 'Healthcare', totalOrders: 24, lastOrderDate: '2026-02-12', totalRevenue: 87500 },
-  { id: 'c2', name: 'Jim Falk Lexus', industry: 'Automotive', totalOrders: 12, lastOrderDate: '2026-02-11', totalRevenue: 34200 },
-  { id: 'c3', name: 'Beverly Hills Café', industry: 'Hospitality', totalOrders: 8, lastOrderDate: '2026-02-10', totalRevenue: 12800 },
-  { id: 'c4', name: 'UCLA Extension', industry: 'Education', totalOrders: 18, lastOrderDate: '2026-02-09', totalRevenue: 62400 },
-  { id: 'c5', name: 'Vista Hospital', industry: 'Healthcare', totalOrders: 15, lastOrderDate: '2026-02-05', totalRevenue: 45600 },
-  { id: 'c6', name: 'Broadway Federal Bank', industry: 'Finance', totalOrders: 6, lastOrderDate: '2026-02-03', totalRevenue: 18900 },
-  { id: 'c7', name: 'Toyota Hollywood', industry: 'Automotive', totalOrders: 10, lastOrderDate: '2026-02-01', totalRevenue: 28700 },
-  { id: 'c8', name: 'K-Earth 101 FM', industry: 'Media', totalOrders: 5, lastOrderDate: '2026-01-25', totalRevenue: 15400 },
-  { id: 'c9', name: 'LABioMed', industry: 'Healthcare', totalOrders: 7, lastOrderDate: '2026-01-20', totalRevenue: 38200 },
-  { id: 'c10', name: 'Salud Clinica', industry: 'Healthcare', totalOrders: 9, lastOrderDate: '2026-01-10', totalRevenue: 22100 },
 ]
