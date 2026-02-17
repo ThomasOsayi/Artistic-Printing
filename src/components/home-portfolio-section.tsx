@@ -13,6 +13,7 @@ import {
 import { db } from '@/lib/firebase'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { useScrollReveal } from '@/hooks/use-scroll-reveal'
 import {
   ArrowRight,
   Eye,
@@ -35,9 +36,9 @@ const industryColors: Record<string, string> = {
 export function HomePortfolioSection() {
   const [items, setItems] = useState<PortfolioItem[]>([])
   const [loading, setLoading] = useState(true)
+  const revealRef = useScrollReveal()
 
   useEffect(() => {
-    // Get visible items ordered by order field, limit to 6
     const q = query(
       collection(db, 'portfolio'),
       where('visible', '==', true),
@@ -64,7 +65,6 @@ export function HomePortfolioSection() {
         } as PortfolioItem
       })
 
-      // Sort: featured items first, then by order
       const sorted = [...data].sort((a, b) => {
         if (a.featured && !b.featured) return -1
         if (!a.featured && b.featured) return 1
@@ -78,24 +78,24 @@ export function HomePortfolioSection() {
     return () => unsubscribe()
   }, [])
 
-  // Don't render the section at all if no items and done loading
   if (!loading && items.length === 0) return null
 
   return (
-    <section className="py-20 bg-slate-50">
+    <section className="py-20 bg-slate-50" ref={revealRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
-            <Badge className="bg-purple-100 text-purple-700 mb-4">Our Work</Badge>
-            <h2 className="text-4xl font-bold text-slate-900 mb-2">Recent Projects</h2>
-            <p className="text-slate-600 text-lg">
+            <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">Our Work</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-2">Recent Projects</h2>
+            <p data-reveal="delay-2" className="text-slate-600 text-lg">
               A glimpse at what we&apos;ve delivered for LA businesses.
             </p>
           </div>
           <Button
             asChild
             variant="outline"
-            className="border-slate-300 hover:border-cyan-500 hover:text-cyan-600 group self-start md:self-auto"
+            data-reveal="delay-2"
+            className="border-slate-300 hover:border-cyan-500 hover:text-cyan-600 group self-start md:self-auto transition-all duration-300 hover:shadow-md"
           >
             <Link href="/portfolio">
               View All Work
@@ -110,12 +110,13 @@ export function HomePortfolioSection() {
             <span className="ml-2 text-slate-400 text-sm">Loading projects...</span>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
             {items.map((project) => (
               <Link
                 key={project.id}
                 href="/portfolio"
-                className="group relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer"
+                data-reveal="scale"
+                className="group relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer hover:-translate-y-1"
               >
                 <div className="relative h-56 overflow-hidden">
                   {project.imageUrl ? (
@@ -147,14 +148,14 @@ export function HomePortfolioSection() {
                       </span>
                     </div>
                   )}
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
                     <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
                       <Eye className="w-5 h-5 text-slate-700" />
                     </div>
                   </div>
                 </div>
                 <div className="p-5">
-                  <h3 className="font-bold text-slate-900 text-lg group-hover:text-cyan-600 transition-colors">
+                  <h3 className="font-bold text-slate-900 text-lg group-hover:text-cyan-600 transition-colors duration-300">
                     {project.client}
                   </h3>
                   <p className="text-slate-500 text-sm">{project.type}</p>

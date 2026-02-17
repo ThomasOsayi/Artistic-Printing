@@ -1,9 +1,11 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useSiteImages } from '@/hooks/use-site-images'
+import { useScrollReveal } from '@/hooks/use-scroll-reveal'
 import {
   FileText,
   Package,
@@ -117,33 +119,13 @@ const capabilities = [
 ]
 
 const process = [
-  {
-    step: 1,
-    icon: MessageSquare,
-    title: 'Consultation',
-    desc: 'Tell us about your project needs and goals',
-  },
-  {
-    step: 2,
-    icon: FileCheck,
-    title: 'Quote & Proof',
-    desc: 'Receive pricing and approve your digital proof',
-  },
-  {
-    step: 3,
-    icon: Printer,
-    title: 'Production',
-    desc: 'We print using the best method for your job',
-  },
-  {
-    step: 4,
-    icon: Send,
-    title: 'Delivery',
-    desc: 'Free pickup or delivery anywhere in LA',
-  },
+  { step: 1, icon: MessageSquare, title: 'Consultation', desc: 'Tell us about your project needs and goals' },
+  { step: 2, icon: FileCheck, title: 'Quote & Proof', desc: 'Receive pricing and approve your digital proof' },
+  { step: 3, icon: Printer, title: 'Production', desc: 'We print using the best method for your job' },
+  { step: 4, icon: Send, title: 'Delivery', desc: 'Free pickup or delivery anywhere in LA' },
 ]
 
-/* ─── SERVICE CATEGORY COMPONENT ─── */
+/* ─── SERVICE SECTION COMPONENT ─── */
 function ServiceSection({
   service,
   index,
@@ -155,15 +137,16 @@ function ServiceSection({
 }) {
   const isReversed = index % 2 === 1
   const Icon = service.icon
+  const revealRef = useScrollReveal()
 
   return (
-    <section className={`py-20 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}>
+    <section className={`py-20 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`} ref={revealRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${isReversed ? 'lg:flex-row-reverse' : ''}`}
         >
           {/* Image side */}
-          <div className={`relative ${isReversed ? 'lg:order-2' : ''}`}>
+          <div className={`relative ${isReversed ? 'lg:order-2' : ''}`} data-reveal={isReversed ? 'from-right' : 'from-left'}>
             <div
               className={`absolute inset-0 bg-gradient-to-br ${service.color} rounded-3xl transform ${isReversed ? 'rotate-3' : '-rotate-3'} opacity-20`}
             />
@@ -174,11 +157,7 @@ function ServiceSection({
                 alt={service.name}
                 className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div
-                className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-20`}
-              />
-
-              {/* Floating badge */}
+              <div className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-20`} />
               <div className="absolute top-6 left-6">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm shadow-lg">
                   <Icon className="w-5 h-5 text-slate-700" />
@@ -190,40 +169,39 @@ function ServiceSection({
 
           {/* Content side */}
           <div className={isReversed ? 'lg:order-1' : ''}>
-            <Badge className={service.lightColor + ' mb-4'}>{service.tagline}</Badge>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">{service.name}</h2>
-            <p className="text-lg text-slate-600 mb-8 leading-relaxed">
+            <Badge data-reveal className={service.lightColor + ' mb-4'}>{service.tagline}</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">{service.name}</h2>
+            <p data-reveal="delay-2" className="text-lg text-slate-600 mb-8 leading-relaxed">
               {service.description}
             </p>
 
-            {/* Service items */}
             <div className="space-y-4">
               {service.items.map((item, i) => (
                 <div
                   key={i}
-                  className="group flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 hover:border-cyan-300 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  data-reveal={`delay-${i + 2}`}
+                  className="group/item flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 hover:border-cyan-300 hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-x-1"
                 >
                   <div className="flex items-center gap-4">
-                    <div
-                      className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center`}
-                    >
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center`}>
                       <CheckCircle2 className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-900 group-hover:text-cyan-600 transition-colors">
+                      <div className="font-semibold text-slate-900 group-hover/item:text-cyan-600 transition-colors duration-300">
                         {item.name}
                       </div>
                       <div className="text-sm text-slate-500">{item.desc}</div>
                     </div>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-cyan-500 group-hover:translate-x-1 transition-all" />
+                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover/item:text-cyan-500 group-hover/item:translate-x-1 transition-all duration-300" />
                 </div>
               ))}
             </div>
 
             <Button
               asChild
-              className={`mt-8 bg-gradient-to-r ${service.color} hover:opacity-90 text-white font-semibold h-12 px-6`}
+              data-reveal="delay-6"
+              className={`mt-8 bg-gradient-to-r ${service.color} hover:opacity-90 text-white font-semibold h-12 px-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
             >
               <Link href="/contact">
                 Get a Quote <ArrowRight className="w-4 h-4 ml-2" />
@@ -238,46 +216,61 @@ function ServiceSection({
 
 export default function ServicesPage() {
   const { getImageUrl } = useSiteImages('services')
+  const [heroMounted, setHeroMounted] = useState(false)
+  const capRef = useScrollReveal()
+  const processRef = useScrollReveal()
+  const ctaRef = useScrollReveal()
+
+  useEffect(() => {
+    const t = setTimeout(() => setHeroMounted(true), 100)
+    return () => clearTimeout(t)
+  }, [])
 
   return (
     <div>
-      {/* ═══════════════════════════════════════════════════════════
-          HERO SECTION
-          ═══════════════════════════════════════════════════════════ */}
+      {/* ═══════════ HERO ═══════════ */}
       <section className="relative py-24 bg-slate-900 text-white overflow-hidden">
-        {/* Background image */}
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={getImageUrl('services-hero-bg') || 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&w=1920&q=80'}
             alt=""
-            className="w-full h-full object-cover opacity-30"
+            className={`w-full h-full object-cover transition-all duration-[2s] ease-out ${heroMounted ? 'opacity-30 scale-100' : 'opacity-0 scale-105'}`}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80" />
         </div>
-
-        {/* Glow orbs */}
-        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-purple-500/15 rounded-full blur-[80px]" />
+        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-purple-500/15 rounded-full blur-[80px] animate-float-slower" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-3xl">
-            <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6">
+            <Badge
+              className={`bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6 transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              style={{ transitionDelay: '0.2s' }}
+            >
               Full-Service Printing
             </Badge>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1
+              className={`text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              style={{ transitionDelay: '0.35s' }}
+            >
               Our{' '}
               <span className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
                 Services
               </span>
             </h1>
-            <p className="text-xl text-slate-300 leading-relaxed max-w-2xl">
+            <p
+              className={`text-xl text-slate-300 leading-relaxed max-w-2xl transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              style={{ transitionDelay: '0.5s' }}
+            >
               Full-service commercial printing with digital, offset, and large format
               capabilities—all under one roof. From concept to delivery in 24-48 hours.
             </p>
 
-            {/* Quick stats */}
-            <div className="flex flex-wrap gap-8 mt-10">
+            <div
+              className={`flex flex-wrap gap-8 mt-10 transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              style={{ transitionDelay: '0.65s' }}
+            >
               {[
                 { value: '24-48hr', label: 'Turnaround' },
                 { value: '15+', label: 'Years Experience' },
@@ -293,9 +286,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          SERVICE CATEGORIES — Alternating layout sections
-          ═══════════════════════════════════════════════════════════ */}
+      {/* ═══════════ SERVICE CATEGORIES ═══════════ */}
       {services.map((service, i) => (
         <ServiceSection
           key={service.id}
@@ -305,11 +296,8 @@ export default function ServicesPage() {
         />
       ))}
 
-      {/* ═══════════════════════════════════════════════════════════
-          CAPABILITIES — Dark section with icon grid
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-slate-900 relative overflow-hidden">
-        {/* Background */}
+      {/* ═══════════ CAPABILITIES ═══════════ */}
+      <section className="py-20 bg-slate-900 relative overflow-hidden" ref={capRef}>
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -318,30 +306,27 @@ export default function ServicesPage() {
             className="w-full h-full object-cover opacity-10"
           />
         </div>
-        {/* Glow */}
-        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px] animate-float-slow" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
-            <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-4">
-              In-House Equipment
-            </Badge>
-            <h2 className="text-4xl font-bold text-white mb-4">Our Capabilities</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-              State-of-the-art equipment and experienced technicians for any printing
-              challenge.
+            <Badge data-reveal="fade" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-4">In-House Equipment</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-white mb-4">Our Capabilities</h2>
+            <p data-reveal="delay-2" className="text-slate-400 max-w-2xl mx-auto text-lg">
+              State-of-the-art equipment and experienced technicians for any printing challenge.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
             {capabilities.map((cap, i) => {
               const Icon = cap.icon
               return (
                 <div
                   key={i}
-                  className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 backdrop-blur-sm cursor-pointer"
+                  data-reveal="scale"
+                  className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 backdrop-blur-sm cursor-pointer hover:-translate-y-1"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="font-semibold text-white mb-1">{cap.name}</h3>
@@ -353,41 +338,35 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          PROCESS — 4-step visual walkthrough
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-white">
+      {/* ═══════════ PROCESS ═══════════ */}
+      <section className="py-20 bg-white" ref={processRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <Badge className="bg-purple-100 text-purple-700 mb-4">How It Works</Badge>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">Simple 4-Step Process</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+            <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">How It Works</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">Simple 4-Step Process</h2>
+            <p data-reveal="delay-2" className="text-slate-600 max-w-2xl mx-auto text-lg">
               From initial consultation to final delivery, we make printing easy.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-4 gap-8 stagger-children">
             {process.map((step, i) => {
               const Icon = step.icon
               return (
-                <div key={i} className="relative">
-                  {/* Connector line */}
+                <div key={i} data-reveal className="relative">
                   {i < process.length - 1 && (
                     <div className="hidden md:block absolute top-10 left-[60%] w-full h-0.5 bg-gradient-to-r from-cyan-500 to-transparent" />
                   )}
-
                   <div className="text-center">
                     <div className="relative inline-flex">
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 hover:scale-110 transition-transform duration-300">
                         <Icon className="w-8 h-8 text-white" />
                       </div>
                       <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-bold">
                         {step.step}
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mt-6 mb-2">
-                      {step.title}
-                    </h3>
+                    <h3 className="text-xl font-bold text-slate-900 mt-6 mb-2">{step.title}</h3>
                     <p className="text-slate-600">{step.desc}</p>
                   </div>
                 </div>
@@ -397,11 +376,8 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          CTA — Background image with cyan overlay
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 relative overflow-hidden">
-        {/* Background */}
+      {/* ═══════════ CTA ═══════════ */}
+      <section className="py-20 relative overflow-hidden" ref={ctaRef}>
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -411,33 +387,17 @@ export default function ServicesPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/90 to-cyan-500/90" />
         </div>
-
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Don&apos;t See What You Need?
-          </h2>
-          <p className="text-cyan-100 text-lg mb-8 max-w-2xl mx-auto">
+          <h2 data-reveal className="text-4xl font-bold text-white mb-4">Don&apos;t See What You Need?</h2>
+          <p data-reveal="delay-1" className="text-cyan-100 text-lg mb-8 max-w-2xl mx-auto">
             We handle custom projects of all kinds. If you can imagine it, we can print it.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button
-              asChild
-              size="lg"
-              className="bg-white text-cyan-600 hover:bg-cyan-50 font-semibold h-14 px-8"
-            >
-              <Link href="/contact">
-                Contact Us <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
+          <div data-reveal="delay-2" className="flex flex-wrap gap-4 justify-center">
+            <Button asChild size="lg" className="bg-white text-cyan-600 hover:bg-cyan-50 font-semibold h-14 px-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl">
+              <Link href="/contact">Contact Us <ArrowRight className="w-5 h-5 ml-2" /></Link>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/30 bg-white/10 text-white hover:bg-white/20 h-14 px-8"
-            >
-              <a href="tel:323-939-8911">
-                <Phone className="w-4 h-4 mr-2" /> (323) 939-8911
-              </a>
+            <Button asChild size="lg" variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white/20 h-14 px-8 transition-all duration-300 hover:-translate-y-0.5">
+              <a href="tel:323-939-8911"><Phone className="w-4 h-4 mr-2" /> (323) 939-8911</a>
             </Button>
           </div>
         </div>

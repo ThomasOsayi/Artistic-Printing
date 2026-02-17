@@ -1,9 +1,11 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useSiteImages } from '@/hooks/use-site-images'
+import { useScrollReveal } from '@/hooks/use-scroll-reveal'
 import {
   ArrowRight,
   Phone,
@@ -114,40 +116,57 @@ const facilityKeys = ['about-facility-digital', 'about-facility-offset', 'about-
 
 export default function AboutPage() {
   const { getImageUrl } = useSiteImages('about')
+  const [heroMounted, setHeroMounted] = useState(false)
+  const storyRef = useScrollReveal()
+  const timelineRef = useScrollReveal()
+  const teamRef = useScrollReveal()
+  const facilityRef = useScrollReveal()
+  const valuesRef = useScrollReveal()
+  const ctaRef = useScrollReveal()
+
+  useEffect(() => {
+    const t = setTimeout(() => setHeroMounted(true), 100)
+    return () => clearTimeout(t)
+  }, [])
 
   return (
     <div>
-      {/* ═══════════════════════════════════════════════════════════
-          HERO SECTION
-          ═══════════════════════════════════════════════════════════ */}
+      {/* ═══════════ HERO SECTION ═══════════ */}
       <section className="relative py-24 bg-slate-900 text-white overflow-hidden">
-        {/* Background image */}
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={getImageUrl('about-hero-bg') || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'}
             alt=""
-            className="w-full h-full object-cover opacity-30"
+            className={`w-full h-full object-cover transition-all duration-[2s] ease-out ${heroMounted ? 'opacity-30 scale-100' : 'opacity-0 scale-105'}`}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80" />
         </div>
 
-        {/* Glow orbs */}
-        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-purple-500/15 rounded-full blur-[80px]" />
+        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-purple-500/15 rounded-full blur-[80px] animate-float-slower" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="max-w-3xl">
-            <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6">
+            <Badge
+              className={`bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6 transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+              style={{ transitionDelay: '0.2s' }}
+            >
               Family-Owned Since 2010
             </Badge>
-            <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1
+              className={`text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              style={{ transitionDelay: '0.35s' }}
+            >
               About{' '}
               <span className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
                 Us
               </span>
             </h1>
-            <p className="text-xl text-slate-300 leading-relaxed max-w-2xl">
+            <p
+              className={`text-xl text-slate-300 leading-relaxed max-w-2xl transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              style={{ transitionDelay: '0.5s' }}
+            >
               Family-owned and operated since 2010, serving Los Angeles businesses with
               pride, precision, and a personal touch that big print shops can&apos;t match.
             </p>
@@ -155,21 +174,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          OUR STORY + STATS
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-white">
+      {/* ═══════════ OUR STORY + STATS ═══════════ */}
+      <section className="py-20 bg-white" ref={storyRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Content */}
             <div>
-              <Badge className="bg-cyan-100 text-cyan-700 mb-4">Our Story</Badge>
-              <h2 className="text-4xl font-bold text-slate-900 mb-6">
+              <Badge data-reveal className="bg-cyan-100 text-cyan-700 mb-4">Our Story</Badge>
+              <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-6">
                 From Small Shop to{' '}
                 <span className="text-cyan-600">LA&apos;s Trusted Partner</span>
               </h2>
 
-              <div className="space-y-4 text-slate-600 leading-relaxed">
+              <div data-reveal="delay-2" className="space-y-4 text-slate-600 leading-relaxed">
                 <p>
                   Artistic Printing Company was founded in 2010 with a simple mission:
                   provide Los Angeles businesses with exceptional printing services and
@@ -188,26 +204,26 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-4 mt-8">
-                <Button asChild className="bg-cyan-600 hover:bg-cyan-700 text-white">
+              <div data-reveal="delay-3" className="flex items-center gap-4 mt-8">
+                <Button asChild className="bg-cyan-600 hover:bg-cyan-700 text-white transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 hover:-translate-y-0.5">
                   <Link href="/portfolio">
                     See Our Work <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" className="border-slate-300">
+                <Button asChild variant="outline" className="border-slate-300 transition-all duration-300 hover:-translate-y-0.5">
                   <Link href="/contact">Contact Us</Link>
                 </Button>
               </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 stagger-children">
               {stats.map((stat, i) => {
                 const Icon = stat.icon
                 return (
                   <div
                     key={i}
-                    className="bg-gradient-to-br from-slate-50 to-white p-6 rounded-2xl border border-slate-200 hover:shadow-lg hover:border-cyan-200 transition-all duration-300"
+                    data-reveal="scale"
+                    className="bg-gradient-to-br from-slate-50 to-white p-6 rounded-2xl border border-slate-200 hover:shadow-lg hover:border-cyan-200 transition-all duration-300 hover:-translate-y-1"
                   >
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/20">
                       <Icon className="w-6 h-6 text-white" />
@@ -222,25 +238,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          TIMELINE
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-slate-50">
+      {/* ═══════════ TIMELINE ═══════════ */}
+      <section className="py-20 bg-slate-50" ref={timelineRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <Badge className="bg-purple-100 text-purple-700 mb-4">Our Journey</Badge>
-            <h2 className="text-4xl font-bold text-slate-900">15 Years of Growth</h2>
+            <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">Our Journey</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900">15 Years of Growth</h2>
           </div>
 
           <div className="relative">
-            {/* Timeline line */}
             <div className="absolute top-8 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full hidden md:block" />
 
-            <div className="grid md:grid-cols-5 gap-8">
+            <div className="grid md:grid-cols-5 gap-8 stagger-children">
               {timeline.map((item, i) => (
-                <div key={i} className="relative text-center">
-                  {/* Dot */}
-                  <div className="w-16 h-16 rounded-full bg-white border-4 border-cyan-500 flex items-center justify-center mx-auto mb-4 relative z-10 shadow-lg">
+                <div key={i} data-reveal className="relative text-center">
+                  <div className="w-16 h-16 rounded-full bg-white border-4 border-cyan-500 flex items-center justify-center mx-auto mb-4 relative z-10 shadow-lg hover:scale-110 transition-transform duration-300">
                     <span className="text-cyan-600 font-bold">{item.year}</span>
                   </div>
                   <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -252,28 +264,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          TEAM
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-white">
+      {/* ═══════════ TEAM ═══════════ */}
+      <section className="py-20 bg-white" ref={teamRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <Badge className="bg-amber-100 text-amber-700 mb-4">Meet the Team</Badge>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
+            <Badge data-reveal className="bg-amber-100 text-amber-700 mb-4">Meet the Team</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">
               The People Behind the Press
             </h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+            <p data-reveal="delay-2" className="text-slate-600 max-w-2xl mx-auto">
               Our experienced team brings decades of combined expertise to every project.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
             {team.map((member, i) => (
               <div
                 key={i}
-                className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500"
+                data-reveal="scale"
+                className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
               >
-                {/* Photo */}
                 <div className="relative h-64 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -282,15 +292,11 @@ export default function AboutPage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
-
-                  {/* Name overlay on image */}
                   <div className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-xl font-bold text-white">{member.name}</h3>
                     <p className="text-cyan-300 text-sm">{member.role}</p>
                   </div>
                 </div>
-
-                {/* Bio */}
                 <div className="p-5">
                   <p className="text-slate-600 text-sm leading-relaxed">{member.bio}</p>
                 </div>
@@ -300,28 +306,22 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          FACILITY TOUR
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-slate-900 relative overflow-hidden">
-        {/* Glow */}
-        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
+      {/* ═══════════ FACILITY TOUR ═══════════ */}
+      <section className="py-20 bg-slate-900 relative overflow-hidden" ref={facilityRef}>
+        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px] animate-float-slow" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12">
-            <Badge className="bg-white/10 text-white border-white/20 mb-4">
-              Our Facility
-            </Badge>
-            <h2 className="text-4xl font-bold text-white mb-4">Take a Tour</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Our 5,000 sq ft facility houses state-of-the-art equipment for every printing
-              need.
+            <Badge data-reveal="fade" className="bg-white/10 text-white border-white/20 mb-4">Our Facility</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-white mb-4">Take a Tour</h2>
+            <p data-reveal="delay-2" className="text-slate-400 max-w-2xl mx-auto">
+              Our 5,000 sq ft facility houses state-of-the-art equipment for every printing need.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
             {facilityImages.map((img, i) => (
-              <div key={i} className="group relative rounded-2xl overflow-hidden cursor-pointer">
+              <div key={i} data-reveal="scale" className="group relative rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-500">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={getImageUrl(facilityKeys[i]) || img.src}
@@ -336,76 +336,62 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* Location info */}
-          <div className="mt-12 grid md:grid-cols-3 gap-6">
-            <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-cyan-400" />
-              </div>
-              <div>
-                <div className="text-white font-medium">Location</div>
-                <div className="text-slate-400 text-sm">5878 W Pico Blvd, LA 90019</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
-                <Clock className="w-6 h-6 text-cyan-400" />
-              </div>
-              <div>
-                <div className="text-white font-medium">Hours</div>
-                <div className="text-slate-400 text-sm">Mon-Fri: 8am - 6pm</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
-                <Mail className="w-6 h-6 text-cyan-400" />
-              </div>
-              <div>
-                <div className="text-white font-medium">Contact</div>
-                <div className="text-slate-400 text-sm">info@artisticprinting.com</div>
-              </div>
-            </div>
+          <div className="mt-12 grid md:grid-cols-3 gap-6 stagger-children">
+            {[
+              { icon: MapPin, title: 'Location', desc: '5878 W Pico Blvd, LA 90019' },
+              { icon: Clock, title: 'Hours', desc: 'Mon-Fri: 8am - 6pm' },
+              { icon: Mail, title: 'Contact', desc: 'info@artisticprinting.com' },
+            ].map((item, i) => {
+              const Icon = item.icon
+              return (
+                <div key={i} data-reveal className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+                    <Icon className="w-6 h-6 text-cyan-400" />
+                  </div>
+                  <div>
+                    <div className="text-white font-medium">{item.title}</div>
+                    <div className="text-slate-400 text-sm">{item.desc}</div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          VALUES
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 bg-white">
+      {/* ═══════════ VALUES ═══════════ */}
+      <section className="py-20 bg-white" ref={valuesRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <Badge className="bg-cyan-100 text-cyan-700 mb-4">Our Values</Badge>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">What We Stand For</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              These principles guide everything we do, from the smallest business card to
-              the largest banner.
+            <Badge data-reveal className="bg-cyan-100 text-cyan-700 mb-4">Our Values</Badge>
+            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">What We Stand For</h2>
+            <p data-reveal="delay-2" className="text-slate-600 max-w-2xl mx-auto">
+              These principles guide everything we do, from the smallest business card to the largest banner.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 stagger-children">
             {values.map((value, i) => {
               const Icon = value.icon
               return (
                 <div
                   key={i}
-                  className="group relative bg-white rounded-2xl p-8 border border-slate-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden"
+                  data-reveal="scale"
+                  className="group relative bg-white rounded-2xl p-8 border border-slate-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-1"
                 >
-                  {/* Background gradient on hover */}
                   <div
                     className={`absolute inset-0 bg-gradient-to-br ${value.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
                   />
-
                   <div className="relative z-10">
                     <div
-                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg group-hover:bg-white/20 transition-colors`}
+                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg group-hover:bg-white/20 group-hover:scale-110 transition-all duration-500`}
                     >
                       <Icon className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-900 group-hover:text-white mb-3 transition-colors">
+                    <h3 className="text-2xl font-bold text-slate-900 group-hover:text-white mb-3 transition-colors duration-300">
                       {value.title}
                     </h3>
-                    <p className="text-slate-600 group-hover:text-white/90 transition-colors leading-relaxed">
+                    <p className="text-slate-600 group-hover:text-white/90 transition-colors duration-300 leading-relaxed">
                       {value.description}
                     </p>
                   </div>
@@ -416,11 +402,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════
-          CTA
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="py-20 relative overflow-hidden">
-        {/* Background */}
+      {/* ═══════════ CTA ═══════════ */}
+      <section className="py-20 relative overflow-hidden" ref={ctaRef}>
         <div className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -432,16 +415,16 @@ export default function AboutPage() {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <h2 className="text-4xl font-bold text-white mb-4">Ready to Work Together?</h2>
-          <p className="text-cyan-100 text-lg mb-8 max-w-2xl mx-auto">
+          <h2 data-reveal className="text-4xl font-bold text-white mb-4">Ready to Work Together?</h2>
+          <p data-reveal="delay-1" className="text-cyan-100 text-lg mb-8 max-w-2xl mx-auto">
             Visit our shop, give us a call, or request a quote online. We&apos;d love to
             hear about your project.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div data-reveal="delay-2" className="flex flex-wrap gap-4 justify-center">
             <Button
               asChild
               size="lg"
-              className="bg-white text-cyan-600 hover:bg-cyan-50 font-semibold h-14 px-8"
+              className="bg-white text-cyan-600 hover:bg-cyan-50 font-semibold h-14 px-8 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
             >
               <Link href="/contact">
                 Get a Quote <ArrowRight className="w-5 h-5 ml-2" />
@@ -451,7 +434,7 @@ export default function AboutPage() {
               asChild
               size="lg"
               variant="outline"
-              className="border-white/30 bg-white/10 text-white hover:bg-white/20 h-14 px-8"
+              className="border-white/30 bg-white/10 text-white hover:bg-white/20 h-14 px-8 transition-all duration-300 hover:-translate-y-0.5"
             >
               <a href="tel:323-939-8911">
                 <Phone className="w-4 h-4 mr-2" /> (323) 939-8911

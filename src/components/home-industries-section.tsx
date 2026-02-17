@@ -2,6 +2,7 @@
 
 import { Badge } from '@/components/ui/badge'
 import { useSiteImages } from '@/hooks/use-site-images'
+import { useScrollReveal } from '@/hooks/use-scroll-reveal'
 import {
   Heart,
   UtensilsCrossed,
@@ -56,23 +57,25 @@ const industries = [
 
 export function HomeIndustriesSection() {
   const { getImageUrl } = useSiteImages('home')
+  const revealRef = useScrollReveal()
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white" ref={revealRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="bg-cyan-100 text-cyan-700 mb-4">Specialized Expertise</Badge>
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">Industries We Serve</h2>
-          <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+          <Badge data-reveal className="bg-cyan-100 text-cyan-700 mb-4">Specialized Expertise</Badge>
+          <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">Industries We Serve</h2>
+          <p data-reveal="delay-2" className="text-slate-600 max-w-2xl mx-auto text-lg">
             Deep experience across sectors that demand precision, compliance, and reliability.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 stagger-children">
           {industries.map((industry, i) => (
             <div
               key={i}
-              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[420px] shadow-lg hover:shadow-2xl transition-all duration-500"
+              data-reveal="scale"
+              className="group relative rounded-2xl overflow-hidden cursor-pointer h-[420px] shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
             >
               {/* Background image */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -90,7 +93,7 @@ export function HomeIndustriesSection() {
 
               {/* Content */}
               <div className="relative z-10 h-full flex flex-col justify-end p-6">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500">
                   <industry.icon className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-1">{industry.name}</h3>

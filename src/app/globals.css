@@ -144,3 +144,131 @@
   animation: scroll 30s linear infinite;
   width: max-content;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS
+   Add this block to the end of your globals.css
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── Base state: hidden before reveal ─── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* ─── Direction variants ─── */
+[data-reveal~="from-left"] {
+  transform: translateX(-40px) translateY(0);
+}
+[data-reveal~="from-right"] {
+  transform: translateX(40px) translateY(0);
+}
+[data-reveal~="scale"] {
+  transform: scale(0.92);
+}
+[data-reveal~="fade"] {
+  transform: none;
+}
+
+/* ─── Stagger delays ─── */
+[data-reveal~="delay-1"] { transition-delay: 0.1s; }
+[data-reveal~="delay-2"] { transition-delay: 0.2s; }
+[data-reveal~="delay-3"] { transition-delay: 0.3s; }
+[data-reveal~="delay-4"] { transition-delay: 0.4s; }
+[data-reveal~="delay-5"] { transition-delay: 0.5s; }
+[data-reveal~="delay-6"] { transition-delay: 0.6s; }
+[data-reveal~="delay-7"] { transition-delay: 0.7s; }
+
+/* ─── Revealed state ─── */
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* ─── Longer duration variant ─── */
+[data-reveal~="slow"] {
+  transition-duration: 1s;
+}
+[data-reveal~="fast"] {
+  transition-duration: 0.45s;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   SMOOTH HOVER TRANSITIONS (global)
+   ═══════════════════════════════════════════════════════════ */
+
+/* Buttery image zoom on hover parents with .group */
+.group img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth color transitions for interactive elements */
+a, button {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   GLOW ORB ANIMATIONS
+   ═══════════════════════════════════════════════════════════ */
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(15px, -20px) scale(1.05); }
+  66% { transform: translate(-10px, 10px) scale(0.97); }
+}
+
+@keyframes float-slower {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-20px, 15px) scale(1.03); }
+}
+
+.animate-float-slow {
+  animation: float-slow 12s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slower 16s ease-in-out infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   STAGGERED CHILDREN UTILITY
+   Parent gets .stagger-children, children auto-stagger
+   ═══════════════════════════════════════════════════════════ */
+.stagger-children > [data-reveal]:nth-child(1) { transition-delay: 0s; }
+.stagger-children > [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
+.stagger-children > [data-reveal]:nth-child(3) { transition-delay: 0.16s; }
+.stagger-children > [data-reveal]:nth-child(4) { transition-delay: 0.24s; }
+.stagger-children > [data-reveal]:nth-child(5) { transition-delay: 0.32s; }
+.stagger-children > [data-reveal]:nth-child(6) { transition-delay: 0.4s; }
+.stagger-children > [data-reveal]:nth-child(7) { transition-delay: 0.48s; }
+.stagger-children > [data-reveal]:nth-child(8) { transition-delay: 0.56s; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER SCROLL EFFECT (backdrop tightens on scroll)
+   ═══════════════════════════════════════════════════════════ */
+.header-scrolled {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   COUNTER ANIMATION (for stats)
+   ═══════════════════════════════════════════════════════════ */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-count-up {
+  animation: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
