@@ -46,34 +46,41 @@ export function HomePortfolioSection() {
       limit(6)
     )
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((docSnap) => {
-        const d = docSnap.data()
-        return {
-          id: docSnap.id,
-          client: d.client || '',
-          industry: d.industry || '',
-          type: d.type || '',
-          description: d.description || '',
-          imageUrl: d.imageUrl || '',
-          imagePath: d.imagePath || '',
-          featured: d.featured ?? false,
-          visible: d.visible ?? true,
-          order: d.order ?? 999,
-          createdAt: d.createdAt?.toDate?.()?.toISOString() || '',
-          updatedAt: d.updatedAt?.toDate?.()?.toISOString() || '',
-        } as PortfolioItem
-      })
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map((docSnap) => {
+          const d = docSnap.data()
+          return {
+            id: docSnap.id,
+            client: d.client || '',
+            industry: d.industry || '',
+            type: d.type || '',
+            description: d.description || '',
+            imageUrl: d.imageUrl || '',
+            imagePath: d.imagePath || '',
+            featured: d.featured ?? false,
+            visible: d.visible ?? true,
+            order: d.order ?? 999,
+            createdAt: d.createdAt?.toDate?.()?.toISOString() || '',
+            updatedAt: d.updatedAt?.toDate?.()?.toISOString() || '',
+          } as PortfolioItem
+        })
 
-      const sorted = [...data].sort((a, b) => {
-        if (a.featured && !b.featured) return -1
-        if (!a.featured && b.featured) return 1
-        return a.order - b.order
-      })
+        const sorted = [...data].sort((a, b) => {
+          if (a.featured && !b.featured) return -1
+          if (!a.featured && b.featured) return 1
+          return a.order - b.order
+        })
 
-      setItems(sorted)
-      setLoading(false)
-    })
+        setItems(sorted)
+        setLoading(false)
+      },
+      (error) => {
+        console.error('Portfolio query failed:', error)
+        setLoading(false)
+      }
+    )
 
     return () => unsubscribe()
   }, [])
@@ -110,13 +117,13 @@ export function HomePortfolioSection() {
             <span className="ml-2 text-slate-400 text-sm">Loading projects...</span>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-children">
-            {items.map((project) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {items.map((project, index) => (
               <Link
                 key={project.id}
                 href="/portfolio"
-                data-reveal="scale"
-                className="group relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer hover:-translate-y-1"
+                className="group relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-4"
+                style={{ animationDelay: `${index * 100}ms`, animationFillMode: 'both', animationDuration: '600ms' }}
               >
                 <div className="relative h-56 overflow-hidden">
                   {project.imageUrl ? (
