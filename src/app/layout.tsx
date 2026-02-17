@@ -6,25 +6,22 @@ import { AuthProvider } from '@/lib/auth-context'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Artistic Printing Company | Commercial Printing in Los Angeles',
-  description:
-    'LA\'s trusted commercial printing partner for healthcare, hospitality, education, and automotive industries. Business cards, brochures, packaging, large format printing and more.',
-  keywords: [
-    'commercial printing',
-    'Los Angeles printing',
-    'business cards LA',
-    'brochure printing',
-    'custom packaging',
-    'healthcare printing',
-    'restaurant menus',
-  ],
+  title: 'Artistic Printing Co. | Commercial Printing in Los Angeles',
+  description: 'Trusted by 500+ LA businesses for commercial printing, custom packaging, and large format printing. Request a free quote today.',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
   openGraph: {
-    title: 'Artistic Printing Company | Commercial Printing in Los Angeles',
-    description:
-      'Premium commercial printing for healthcare, hospitality, education & automotive industries. Quality you can count on, delivered on time.',
-    url: 'https://artisticprinting.com',
-    siteName: 'Artistic Printing Company',
-    locale: 'en_US',
+    title: 'Artistic Printing Co.',
+    description: 'Commercial Printing • Custom Packaging • Large Format — Los Angeles',
+    url: 'https://artistic-printing.vercel.app',
+    images: [{ url: '/og-image.png', width: 1200, height: 630 }],
     type: 'website',
   },
 }

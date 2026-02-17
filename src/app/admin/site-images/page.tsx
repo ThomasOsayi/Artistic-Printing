@@ -10,16 +10,18 @@ import {
   Image,
   Upload,
   RotateCcw,
-  Monitor,
   Loader2,
   ImageIcon,
   Globe,
   Layers,
   AlertTriangle,
   Check,
-  X,
   Info,
+  FileText,
+  Maximize2,
+  Monitor,
 } from 'lucide-react'
+import ImagePreviewModal from '@/components/admin/image-preview-modal'
 
 const PAGE_TABS = [
   { key: 'home', label: 'Home' },
@@ -28,14 +30,6 @@ const PAGE_TABS = [
   { key: 'portfolio', label: 'Portfolio' },
   { key: 'contact', label: 'Contact' },
 ]
-
-const PAGE_PREVIEW_URLS: Record<string, string> = {
-  home: '/',
-  services: '/services',
-  about: '/about',
-  portfolio: '/portfolio',
-  contact: '/contact',
-}
 
 const FULL_WIDTH_SECTIONS = new Set([
   'Hero Background',
@@ -52,15 +46,13 @@ export default function SiteImagesPage() {
   const [allImages, setAllImages] = useState<SiteImage[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('home')
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop')
   const [uploadingId, setUploadingId] = useState<string | null>(null)
   const [revertingId, setRevertingId] = useState<string | null>(null)
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [resettingAll, setResettingAll] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const pendingImageId = useRef<string | null>(null)
-  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
     seedSiteImages().catch(console.error)
@@ -94,12 +86,6 @@ export default function SiteImagesPage() {
     return acc
   }, {})
 
-  const refreshPreview = useCallback(() => {
-    if (iframeRef.current) {
-      iframeRef.current.src = iframeRef.current.src
-    }
-  }, [])
-
   const handleFileSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     const imageId = pendingImageId.current
@@ -128,7 +114,6 @@ export default function SiteImagesPage() {
       await uploadBytes(storageRef, file)
       const downloadUrl = await getDownloadURL(storageRef)
       await updateDoc(doc(db, 'siteImages', imageId), { customUrl: downloadUrl, customPath: storagePath })
-      setTimeout(refreshPreview, 1000)
     } catch (err) {
       console.error('Upload failed:', err)
       alert('Upload failed. Please try again.')
@@ -136,7 +121,7 @@ export default function SiteImagesPage() {
       setUploadingId(null)
       pendingImageId.current = null
     }
-  }, [allImages, refreshPreview])
+  }, [allImages])
 
   const handleReplace = useCallback((imageId: string) => {
     pendingImageId.current = imageId
@@ -152,14 +137,13 @@ export default function SiteImagesPage() {
         try { await deleteObject(ref(storage, img.customPath)) } catch { /* ok */ }
       }
       await updateDoc(doc(db, 'siteImages', imageId), { customUrl: '', customPath: '' })
-      setTimeout(refreshPreview, 1000)
     } catch (err) {
       console.error('Revert failed:', err)
       alert('Revert failed. Please try again.')
     } finally {
       setRevertingId(null)
     }
-  }, [allImages, refreshPreview])
+  }, [allImages])
 
   const handleResetAll = useCallback(async () => {
     setResettingAll(true)
@@ -171,7 +155,6 @@ export default function SiteImagesPage() {
         }
         await updateDoc(doc(db, 'siteImages', img.id), { customUrl: '', customPath: '' })
       }
-      setTimeout(refreshPreview, 1000)
     } catch (err) {
       console.error('Reset all failed:', err)
       alert('Reset failed. Please try again.')
@@ -179,7 +162,16 @@ export default function SiteImagesPage() {
       setResettingAll(false)
       setShowResetConfirm(false)
     }
-  }, [pageImages, refreshPreview])
+  }, [pageImages])
+
+  // Determine grid columns based on section item count and type
+  const getGridClass = (sectionName: string, count: number): string => {
+    const isFullWidth = FULL_WIDTH_SECTIONS.has(sectionName) || count === 1
+    if (isFullWidth) return 'grid-cols-1'
+    if (count === 2) return 'grid-cols-1 sm:grid-cols-2'
+    if (count === 3) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+    return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+  }
 
   if (loading) {
     return (
@@ -203,16 +195,15 @@ export default function SiteImagesPage() {
       {/* ═══ STATS ROW ═══ */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {[
-          { label: 'Total Images', sub: `Across ${pageCount} pages`, value: totalImages, icon: ImageIcon, iconBg: 'bg-cyan-100', iconColor: 'text-cyan-600' },
-          { label: 'Custom Uploads', sub: 'Replaced stock', value: customCount, icon: Upload, iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600' },
-          { label: 'Stock Images', sub: 'Unsplash defaults', value: stockCount, icon: Image, iconBg: 'bg-amber-100', iconColor: 'text-amber-600' },
-          { label: 'Pages', sub: 'With images', value: pageCount, icon: Globe, iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
+          { label: 'Total Images', value: totalImages, icon: ImageIcon, iconBg: 'bg-cyan-100', iconColor: 'text-cyan-600' },
+          { label: 'Custom Uploads', value: customCount, icon: Upload, iconBg: 'bg-emerald-100', iconColor: 'text-emerald-600' },
+          { label: 'Stock Images', value: stockCount, icon: Image, iconBg: 'bg-amber-100', iconColor: 'text-amber-600' },
+          { label: 'Pages', value: pageCount, icon: FileText, iconBg: 'bg-purple-100', iconColor: 'text-purple-600' },
         ].map((stat) => (
           <div key={stat.label} className="bg-white rounded-xl border border-slate-200 p-5 flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-slate-500">{stat.label}</div>
-              <div className="text-2xl font-bold text-slate-900 mt-0.5">{stat.value}</div>
-              <div className="text-xs text-slate-400 mt-0.5">{stat.sub}</div>
+              <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
+              <div className="text-sm text-slate-500 mt-0.5">{stat.label}</div>
             </div>
             <div className={`w-11 h-11 rounded-xl ${stat.iconBg} flex items-center justify-center`}>
               <stat.icon className={`w-5 h-5 ${stat.iconColor}`} />
@@ -221,31 +212,41 @@ export default function SiteImagesPage() {
         ))}
       </div>
 
-      {/* ═══ TOOLBAR ═══ */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 mb-6 flex items-center justify-between flex-wrap gap-3">
-        <div className="inline-flex gap-0.5 bg-slate-100 p-1 rounded-xl border border-slate-200">
-          {PAGE_TABS.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
-                activeTab === tab.key
-                  ? 'bg-white text-slate-900 shadow-sm font-semibold'
-                  : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'
-              }`}
-            >
-              {tab.label}
-              <span className={`ml-1 text-xs ${activeTab === tab.key ? 'text-slate-400' : 'text-slate-400'}`}>
-                {pageCounts[tab.key] || 0}
-              </span>
-            </button>
-          ))}
+      {/* ═══ TOOLBAR: Page Tabs + Reset ═══ */}
+      <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
+        <div className="inline-flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80">
+          {PAGE_TABS.map((tab) => {
+            const isActive = activeTab === tab.key
+            const count = pageCounts[tab.key] || 0
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`relative flex items-center gap-1.5 px-4 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
+                  isActive
+                    ? 'bg-white text-slate-900 shadow-sm font-semibold ring-1 ring-slate-200/60'
+                    : 'text-slate-500 hover:text-slate-700 hover:bg-white/60'
+                }`}
+              >
+                {tab.label}
+                <span
+                  className={`inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-semibold ${
+                    isActive
+                      ? 'bg-cyan-100 text-cyan-700'
+                      : 'bg-slate-200/70 text-slate-400'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            )
+          })}
         </div>
 
         <button
           onClick={() => setShowResetConfirm(true)}
           disabled={!pageImages.some((img) => img.customUrl)}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 border border-red-200 bg-white hover:bg-red-50 rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <RotateCcw className="w-4 h-4" />
           Reset All to Stock
@@ -275,6 +276,8 @@ export default function SiteImagesPage() {
       <div className="space-y-8">
         {Object.entries(sections).map(([sectionName, sectionImages]) => {
           const isFullWidth = FULL_WIDTH_SECTIONS.has(sectionName) || sectionImages.length === 1
+          const gridClass = getGridClass(sectionName, sectionImages.length)
+
           return (
             <div key={sectionName}>
               <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-cyan-100">
@@ -283,7 +286,7 @@ export default function SiteImagesPage() {
                 <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md font-medium">{sectionImages.length}</span>
               </div>
 
-              <div className={`grid gap-4 ${isFullWidth ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
+              <div className={`grid gap-4 ${gridClass}`}>
                 {sectionImages.map((img) => {
                   const isUploading = uploadingId === img.id
                   const isReverting = revertingId === img.id
@@ -299,7 +302,10 @@ export default function SiteImagesPage() {
                           : 'border border-slate-200 hover:border-cyan-400'
                       }`}
                     >
-                      <div className={`relative overflow-hidden ${isFullWidth ? 'h-56' : 'h-40'}`}>
+                      <div
+                        className={`relative overflow-hidden cursor-pointer ${isFullWidth ? 'h-56' : 'h-44'}`}
+                        onClick={() => setPreviewImage(img.id)}
+                      >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={displayUrl}
@@ -317,23 +323,17 @@ export default function SiteImagesPage() {
                         )}
 
                         {!isUploading && !isReverting && (
-                          <div className="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-3 z-10">
+                          <div className="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10">
                             <button
-                              onClick={() => handleReplace(img.id)}
-                              className="flex items-center gap-2 px-5 py-2.5 bg-cyan-500 text-white text-sm font-semibold rounded-lg hover:bg-cyan-400 transition-colors shadow-lg"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setPreviewImage(img.id)
+                              }}
+                              className="flex items-center gap-2 px-5 py-2.5 bg-white text-slate-800 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-colors shadow-lg"
                             >
-                              <Upload className="w-4 h-4" />
-                              Replace
+                              <Maximize2 className="w-4 h-4" />
+                              Click to Preview
                             </button>
-                            {isCustom && (
-                              <button
-                                onClick={() => handleRevert(img.id)}
-                                className="flex items-center gap-2 px-5 py-2.5 bg-white text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-100 transition-colors shadow-lg"
-                              >
-                                <RotateCcw className="w-4 h-4" />
-                                Revert
-                              </button>
-                            )}
                           </div>
                         )}
 
@@ -344,7 +344,7 @@ export default function SiteImagesPage() {
                             }`}
                           >
                             {isCustom && <Check className="w-3 h-3" />}
-                            {isCustom ? 'Custom' : 'Stock'}
+                            {isCustom ? 'CUSTOM' : 'STOCK'}
                           </span>
                         </div>
                       </div>
@@ -376,115 +376,39 @@ export default function SiteImagesPage() {
         </div>
         <p className="text-sm text-slate-500 leading-relaxed">
           <span className="font-semibold text-slate-700">How it works:</span>{' '}
-          Each image slot shows where it&apos;s used on the live site. Click &quot;Replace&quot; to upload your own photo — it
-          goes to Firebase Storage and the site updates instantly. &quot;Revert&quot; restores the original Unsplash stock image.
-          Orange badge = stock, Green badge = your custom upload.
+          Each image slot shows where it&apos;s used on the live site. Click any card to preview full-size.
+          Use &quot;<strong>Replace</strong>&quot; to upload your own photo — it goes to Firebase Storage and the site updates
+          instantly. &quot;<strong>Revert</strong>&quot; restores the original Unsplash stock image. <kbd className="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-xs font-mono">Esc</kbd> closes the preview.
         </p>
       </div>
 
-      {/* ═══ FLOATING PREVIEW BUTTON ═══ */}
+      {/* ═══ FLOATING LIVE PREVIEW BUTTON ═══ */}
       <button
-        onClick={() => setPreviewOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-5 py-3 bg-slate-900 text-white rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+        onClick={() => {
+          const url = { home: '/', services: '/services', about: '/about', portfolio: '/portfolio', contact: '/contact' }[activeTab] || '/'
+          window.open(url, '_blank')
+        }}
+        className="fixed bottom-6 right-6 flex items-center gap-2.5 px-5 py-3 bg-slate-900 text-white rounded-xl text-sm font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+        style={{ zIndex: 50 }}
       >
         <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
         <Monitor className="w-4 h-4" />
         Live Preview
       </button>
 
-      {/* ═══ PREVIEW SLIDE-OVER DRAWER ═══ */}
-      <div
-        className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] transition-opacity duration-300 ${
-          previewOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setPreviewOpen(false)}
+      {/* ═══ IMAGE PREVIEW MODAL ═══ */}
+      <ImagePreviewModal
+        image={previewImage ? allImages.find((i) => i.id === previewImage) ?? null : null}
+        onClose={() => setPreviewImage(null)}
+        onReplace={(id) => {
+          handleReplace(id)
+        }}
+        onRevert={(id) => {
+          handleRevert(id)
+        }}
+        isUploading={uploadingId === previewImage}
+        isReverting={revertingId === previewImage}
       />
-      <div
-        className={`fixed top-0 bottom-0 right-0 w-[520px] bg-white z-[101] shadow-2xl flex flex-col transition-transform duration-300 ease-out ${
-          previewOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
-          <div className="flex items-center gap-3">
-            <h3 className="text-[15px] font-bold text-slate-900">Live Preview</h3>
-            <span className="flex items-center gap-1.5 text-[11px] text-emerald-600 font-semibold">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-              Live updates
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="inline-flex gap-0.5 bg-slate-100 p-0.5 rounded-lg border border-slate-200">
-              <button
-                onClick={() => setPreviewMode('desktop')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                  previewMode === 'desktop' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'
-                }`}
-              >
-                Desktop
-              </button>
-              <button
-                onClick={() => setPreviewMode('mobile')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                  previewMode === 'mobile' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'
-                }`}
-              >
-                Mobile
-              </button>
-            </div>
-            <button
-              onClick={() => setPreviewOpen(false)}
-              className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Browser chrome */}
-        <div className="flex items-center gap-3 px-5 py-2.5 border-b border-slate-200 bg-slate-50/50">
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#FF5F57' }} />
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#FFBD2E' }} />
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#28CA41' }} />
-          </div>
-          <div className="flex-1 px-3 py-1 bg-white border border-slate-200 rounded-md text-[11px] text-slate-500 truncate">
-            artisticprinting.com{PAGE_PREVIEW_URLS[activeTab]}
-          </div>
-        </div>
-
-        {/* Iframe */}
-        <div className="flex-1 bg-slate-100 overflow-hidden relative">
-          {previewMode === 'desktop' ? (
-            <iframe
-              ref={iframeRef}
-              src={PAGE_PREVIEW_URLS[activeTab]}
-              title="Live Preview"
-              className="absolute top-0 left-0 border-0"
-              style={{ width: '1280px', height: '900px', transform: 'scale(0.39)', transformOrigin: 'top left' }}
-            />
-          ) : (
-            <iframe
-              ref={iframeRef}
-              src={PAGE_PREVIEW_URLS[activeTab]}
-              title="Live Preview"
-              className="absolute top-0 border-0"
-              style={{
-                width: '390px', height: '844px',
-                transform: 'scale(0.58)', transformOrigin: 'top center',
-                left: '50%', marginLeft: '-195px',
-              }}
-            />
-          )}
-        </div>
-
-        {/* Tip */}
-        <div className="px-5 py-3 bg-amber-50 border-t border-amber-100 text-center">
-          <p className="text-[11px] text-amber-700 leading-relaxed">
-            💡 Changes update in real-time. Upload or revert an image to see it change here instantly.
-          </p>
-        </div>
-      </div>
     </>
   )
 }

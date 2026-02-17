@@ -29,7 +29,8 @@ Artistic-Printing/
 │   ├── globe.svg
 │   ├── next.svg
 │   ├── vercel.svg
-│   └── window.svg
+│   ├── window.svg
+│   └── site.webmanifest                 # PWA web app manifest (name, icons, theme_color)
 │
 ├── src/
 │   ├── app/
@@ -84,7 +85,8 @@ Artistic-Printing/
 │   │   │   ├── status-badge.tsx         # Reusable status badge component
 │   │   │   ├── client-table.tsx         # Client directory table
 │   │   │   ├── client-modal.tsx         # Add/Edit client modal (from quote companies or manual)
-│   │   │   └── portfolio-modal.tsx      # Add/Edit portfolio item with image upload (Firebase Storage)
+│   │   │   ├── portfolio-modal.tsx      # Add/Edit portfolio item with image upload (Firebase Storage)
+│   │   │   └── image-preview-modal.tsx  # Full-size site image preview (replace/revert); portal
 │   │   │
 │   │   └── ui/                          # shadcn/ui components
 │   │       ├── badge.tsx
@@ -234,7 +236,8 @@ Artistic-Printing/
 
 - **Data:** Real-time Firestore `siteImages` collection (ordered by `order`). On first load runs **seedSiteImages()** to create default docs (per-page, per-section stock URLs and doc IDs). Custom uploads stored in Firebase Storage; `customUrl`/`customPath` on each doc.
 - **Tabs:** Home, Services, About, Portfolio, Contact — filter images by page. Desktop/mobile preview toggle; optional iframe preview of live page.
-- **Per-section cards:** Grouped by section (e.g. Hero Background, Product Cards, CTA Background). Each image: name, location, recommended size, current image (custom or stock). Actions: Upload (replace with custom), Revert to stock (clear customUrl/customPath, delete from Storage), Reset all (confirm dialog).
+- **Per-section cards:** Grouped by section (e.g. Hero Background, Product Cards, CTA Background). Each image: name, location, recommended size, current image (custom or stock). Click image to open **ImagePreviewModal** (full-size preview, Replace/Revert actions). Actions on card: Upload, Revert to stock, Reset all (confirm dialog).
+- **ImagePreviewModal:** Portal-rendered modal; shows full-size image, link to page, Replace and Revert buttons; Escape to close.
 - **Full-width sections:** Hero Background, CTA Background, Features Background, Capabilities Background get full-width display. Storage path for custom uploads (e.g. `siteImages/{page}/{id}.{ext}`).
 
 ---
@@ -317,6 +320,9 @@ Artistic-Printing/
 
 #### PortfolioModal (`src/components/admin/portfolio-modal.tsx`)
 - **Client component.** Add or edit portfolio item. Fields: client, industry (dropdown), type, description, image (file upload), visible (toggle), featured (toggle). Image upload to Firebase Storage (`portfolio/` path); validation (JPG/PNG/WEBP, max 5MB); local preview; on replace, deletes previous image from Storage. On save calls `onSave` with item data (id/createdAt/updatedAt omitted for new).
+
+#### ImagePreviewModal (`src/components/admin/image-preview-modal.tsx`)
+- **Client component.** Used by Site Images page. Rendered via React portal; shows a single **SiteImage** full-size with overlay. Displays name, location, page link; actions: Replace (triggers upload), Revert to stock. Props: image, onClose, onReplace, onRevert, isUploading, isReverting. Escape key closes modal.
 
 ### Auth (`src/lib/auth-context.tsx`)
 - **AuthProvider** wraps the app (in root layout). Uses Firebase Auth: `getAuth(app)`, `onAuthStateChanged`, `signInWithEmailAndPassword`, `signOut`. Exposes **useAuth()**: `{ user, loading, login, logout }`.
@@ -418,6 +424,9 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 
 ### Next.js (`next.config.ts`)
 - **Images:** `images.remotePatterns` allows `https://images.unsplash.com` for hero images, industry cards, portfolio, testimonials avatars, and facility strips.
+
+### PWA / Web App Manifest (`public/site.webmanifest`)
+- **site.webmanifest** — Web app manifest: `name`, `short_name`, `icons` (192×192, 512×512), `theme_color` and `background_color` (slate-900), `display: standalone`. Used when adding the site to home screen or as PWA.
 
 ### SEO & Metadata (`src/app/layout.tsx`)
 - Title: "Artistic Printing Company | Commercial Printing in Los Angeles".

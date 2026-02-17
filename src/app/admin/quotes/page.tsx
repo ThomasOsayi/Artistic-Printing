@@ -112,10 +112,10 @@ export default function QuotesPage() {
     .reduce((sum, q) => sum + (q.finalPrice || 0), 0)
 
   const stats: StatCard[] = [
-    { label: 'New Requests', value: newCount, change: '+2 this week', icon: FileText, iconColor: 'text-cyan-600', iconBg: 'bg-cyan-50' },
-    { label: 'Pending Review', value: pendingCount, change: '+1 this week', icon: Clock, iconColor: 'text-amber-600', iconBg: 'bg-amber-50' },
-    { label: 'Approved', value: approvedCount, change: '+2 this month', icon: CheckCircle, iconColor: 'text-green-600', iconBg: 'bg-green-50' },
-    { label: 'Monthly Revenue', value: `$${revenue.toLocaleString()}`, change: 'Feb 2026', icon: DollarSign, iconColor: 'text-blue-600', iconBg: 'bg-blue-50' },
+    { label: 'New Requests', value: newCount, change: `${quotes.length} total quotes`, icon: FileText, iconColor: 'text-cyan-600', iconBg: 'bg-cyan-50' },
+    { label: 'Pending Review', value: pendingCount, change: 'Awaiting response', icon: Clock, iconColor: 'text-amber-600', iconBg: 'bg-amber-50' },
+    { label: 'Approved', value: approvedCount, change: 'Ready for production', icon: CheckCircle, iconColor: 'text-green-600', iconBg: 'bg-green-50' },
+    { label: 'Monthly Revenue', value: `$${revenue.toLocaleString()}`, change: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }), icon: DollarSign, iconColor: 'text-blue-600', iconBg: 'bg-blue-50' },
   ]
 
   if (loading) {
