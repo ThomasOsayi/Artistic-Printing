@@ -54,7 +54,7 @@ const industryColors: Record<string, string> = {
 const stats = [
   { icon: Trophy, value: '500+', label: 'Projects Completed' },
   { icon: Users, value: 'Rush', label: 'Orders Available' },
-  { icon: Calendar, value: '15+', label: 'Years Experience' },
+  { icon: Calendar, value: '20+', label: 'Years Experience' },
   { icon: ThumbsUp, value: '100%', label: 'Satisfaction Rate' },
 ]
 

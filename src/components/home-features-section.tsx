@@ -65,7 +65,7 @@ export function HomeFeaturesSection() {
               <span className="text-cyan-400">Printing Partner</span>
             </h2>
             <p data-reveal="delay-2" className="text-slate-400 mb-10 text-lg leading-relaxed">
-              15+ years of delivering quality, speed, and reliability to businesses across Los
+              20+ years of delivering quality, speed, and reliability to businesses across Los
               Angeles.
             </p>
 

@@ -21,7 +21,7 @@ import {
 } from 'lucide-react'
 
 const stats = [
-  { value: '15+', label: 'Years in Business', icon: Calendar },
+  { value: '20+', label: 'Years in Business', icon: Calendar },
   { value: '24-48hr', label: 'Turnaround', icon: Users },
   { value: '10M+', label: 'Prints Delivered', icon: Printer },
   { value: '100%', label: 'Satisfaction Rate', icon: Award },
@@ -32,7 +32,7 @@ const team = [
     name: 'Kassa',
     role: 'Business Developer & Founder',
     image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
-    bio: 'Founded Artistic Printing in 2010 with a vision to bring quality printing to LA businesses.',
+    bio: 'Founded Artistic Printing in 2005 with a vision to bring quality printing to LA businesses.',
   },
   {
     name: 'Marcel',
@@ -78,7 +78,7 @@ const values = [
 ]
 
 const timeline = [
-  { year: '2011', title: 'Founded', desc: 'Started as a small shop on Pico Boulevard' },
+  { year: '2005', title: 'Founded', desc: 'Started as a small shop on Pico Boulevard' },
   { year: '2013', title: 'Expansion', desc: 'Added large format printing capabilities' },
   { year: '2016', title: 'Healthcare Focus', desc: 'Became preferred vendor for major hospitals' },
   { year: '2020', title: 'Digital Upgrade', desc: 'Invested in state-of-the-art digital presses' },
@@ -144,7 +144,7 @@ export default function AboutPage() {
               className={`bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6 transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
               style={{ transitionDelay: '0.2s' }}
             >
-              Family-Owned Since 2010
+              Family-Owned Since 2005
             </Badge>
             {/* FIXED: text-4xl on mobile, scales up */}
             <h1
@@ -160,7 +160,7 @@ export default function AboutPage() {
               className={`text-xl text-slate-300 leading-relaxed max-w-2xl transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.5s' }}
             >
-              Family-owned and operated since 2010, serving Los Angeles businesses with
+              Family-owned and operated since 2005, serving Los Angeles businesses with
               pride, precision, and a personal touch that big print shops can&apos;t match.
             </p>
           </div>
@@ -181,7 +181,7 @@ export default function AboutPage() {
 
               <div data-reveal="delay-2" className="space-y-4 text-slate-600 leading-relaxed">
                 <p>
-                  Artistic Printing Company was founded in 2010 with a simple mission:
+                  Artistic Printing Company was founded in 2005 with a simple mission:
                   provide Los Angeles businesses with exceptional printing services and
                   unmatched customer care.
                 </p>
@@ -237,7 +237,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">Our Journey</Badge>
-            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900">15 Years of Growth</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900">20+ Years of Growth</h2>
           </div>
 
           <div className="relative">

@@ -24,7 +24,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-slate-400 text-sm max-w-md mb-4">
-              LA&apos;s trusted commercial printing partner since 2010. We deliver quality printing
+              LA&apos;s trusted commercial printing partner since 2005. We deliver quality printing
               solutions for healthcare, hospitality, education, and automotive industries.
             </p>
             <div className="flex gap-4">
@@ -32,7 +32,7 @@ export function Footer() {
                 Family Owned
               </Badge>
               <Badge variant="outline" className="border-slate-700 text-slate-400">
-                15+ Years
+                20+ Years
               </Badge>
             </div>
           </div>

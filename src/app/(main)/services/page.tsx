@@ -259,7 +259,7 @@ export default function ServicesPage() {
             >
               {[
                 { value: '24-48hr', label: 'Turnaround' },
-                { value: '15+', label: 'Years Experience' },
+                { value: '20+', label: 'Years Experience' },
                 { value: 'Free', label: 'Estimates' },
               ].map((stat, i) => (
                 <div key={i}>

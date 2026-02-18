@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   metadataBase: new URL('https://artistic-printing.vercel.app'),
   title: 'Artistic Printing Co. | Commercial Printing in Los Angeles',
-  description: 'Trusted by LA businesses since 2010 for commercial printing, custom packaging, and large format printing. Request a free quote today.',
+  description: 'Trusted by LA businesses since 2005 for commercial printing, custom packaging, and large format printing. Request a free quote today.',
   icons: {
     icon: [
       { url: '/favicon.ico' },
