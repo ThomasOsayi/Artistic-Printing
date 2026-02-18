@@ -63,7 +63,7 @@ export function HomeHeroSection() {
               style={{ transitionDelay: '0.2s' }}
             >
               <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm">Trusted by 500+ LA businesses</span>
+              <span className="text-sm">Trusted by LA businesses since 2010</span>
             </div>
 
             <h1

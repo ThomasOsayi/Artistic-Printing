@@ -7,13 +7,15 @@ export interface Quote {
   phone: string
   industry: string
   service: string
-  status: 'new' | 'pending' | 'in-progress' | 'approved' | 'completed' | 'declined'
+  status: 'new' | 'quoted' | 'approved' | 'in-production' | 'completed' | 'declined'
   date: string
   message: string
   quantity: string
   urgency: string
   estimatedPrice?: number
   finalPrice?: number
+  turnaround?: string
+  quotedAt?: string
 }
 
 export interface Client {
@@ -124,7 +126,7 @@ export const mockQuotes: Quote[] = [
     phone: '(818) 555-0156',
     industry: 'Healthcare',
     service: 'Patient Materials',
-    status: 'pending',
+    status: 'quoted',
     date: '2026-02-05',
     message: 'Need a comprehensive patient welcome kit including folder, informational brochures, and discharge instruction sheets. Must comply with healthcare readability standards.',
     quantity: '8,000 kits',
@@ -140,7 +142,7 @@ export const mockQuotes: Quote[] = [
     phone: '(213) 555-0189',
     industry: 'Finance',
     service: 'Marketing Collateral',
-    status: 'pending',
+    status: 'quoted',
     date: '2026-02-03',
     message: 'Complete brand refresh for all branch marketing materials. Includes rate sheets, product brochures, lobby posters, and business cards for 45 employees.',
     quantity: 'Multiple items',
@@ -156,7 +158,7 @@ export const mockQuotes: Quote[] = [
     phone: '(323) 555-0277',
     industry: 'Automotive',
     service: 'Sales Brochures',
-    status: 'pending',
+    status: 'quoted',
     date: '2026-02-01',
     message: 'Quarterly promotional mailers for our service department. Need 4-page saddle-stitched booklets with perforated coupon tear-outs.',
     quantity: '5,000',

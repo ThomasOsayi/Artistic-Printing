@@ -8,8 +8,10 @@ import { StatsCards, type StatCard } from '@/components/admin/stats-cards'
 import { ClientTable } from '@/components/admin/client-table'
 import { ClientModal } from '@/components/admin/client-modal'
 import type { Client, Quote } from '@/lib/admin-data'
+import { useAdminSearch } from '@/lib/admin-search-context'
 
 export default function ClientsPage() {
+  const { searchValue } = useAdminSearch()
   const [clients, setClients] = useState<Client[]>([])
   const [quotes, setQuotes] = useState<Quote[]>([])
   const [loading, setLoading] = useState(true)
@@ -181,6 +183,7 @@ export default function ClientsPage() {
         <ClientTable
           clients={clients}
           quoteSummaries={quoteSummaries}
+          searchValue={searchValue}
           onAddClient={() => { setEditingClient(null); setModalOpen(true) }}
           onEditClient={(client) => { setEditingClient(client); setModalOpen(true) }}
           onDeleteClient={(client) => setDeleteTarget(client)}

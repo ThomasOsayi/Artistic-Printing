@@ -9,7 +9,6 @@ import {
   Users,
   Image,
   Layout,
-  Settings,
   X,
   LogOut,
 } from 'lucide-react'
@@ -27,8 +26,6 @@ const navItems = [
   { label: 'Management', type: 'section' as const },
   { label: 'Portfolio', href: '/admin/portfolio', icon: Layout },
   { label: 'Site Images', href: '/admin/site-images', icon: Image },
-  { label: 'Settings', type: 'section' as const },
-  { label: 'Settings', href: '#', icon: Settings, soon: true },
 ]
 
 export function AdminSidebar({ newQuoteCount, open, onClose }: AdminSidebarProps) {
@@ -84,19 +81,6 @@ export function AdminSidebar({ newQuoteCount, open, onClose }: AdminSidebarProps
 
             const Icon = item.icon!
             const isActive = item.href !== '#' && pathname.startsWith(item.href!)
-
-            if (item.soon) {
-              return (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 cursor-not-allowed"
-                >
-                  <Icon className="w-4.5 h-4.5" />
-                  <span className="text-sm">{item.label}</span>
-                  <span className="ml-auto text-[10px] italic text-slate-600">Soon</span>
-                </div>
-              )
-            }
 
             return (
               <Link

@@ -1,22 +1,27 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import { collection, onSnapshot, query, orderBy, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import { collection, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { FileText, Clock, CheckCircle, DollarSign, Loader2 } from 'lucide-react'
 import { StatsCards, type StatCard } from '@/components/admin/stats-cards'
 import { QuotesTable } from '@/components/admin/quotes-table'
 import { QuoteDetailPanel } from '@/components/admin/quote-detail-panel'
 import { ReplyModal } from '@/components/admin/reply-modal'
+import { useAdminSearch } from '@/lib/admin-search-context'
 import { type Quote } from '@/lib/admin-data'
 
 export default function QuotesPage() {
+  const { searchValue } = useAdminSearch()
   const [quotes, setQuotes] = useState<Quote[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null)
+  const [selectedQuoteId, setSelectedQuoteId] = useState<string | null>(null)
   const [filterStatus, setFilterStatus] = useState('All')
   const [replyQuote, setReplyQuote] = useState<Quote | null>(null)
   const [toast, setToast] = useState<string | null>(null)
+
+  // Derive selected quote from live data
+  const selectedQuote = quotes.find((q) => q.id === selectedQuoteId) || null
 
   // Real-time Firestore listener
   useEffect(() => {
@@ -41,21 +46,16 @@ export default function QuotesPage() {
           urgency: data.urgency || 'Standard',
           estimatedPrice: data.estimatedPrice,
           finalPrice: data.finalPrice,
+          turnaround: data.turnaround || '',
+          quotedAt: data.quotedAt?.toDate?.()?.toISOString() || '',
         } as Quote
       })
 
       setQuotes(quotesData)
       setLoading(false)
-
-      // Update selected quote if it's still in the list
-      if (selectedQuote) {
-        const updated = quotesData.find((q) => q.id === selectedQuote.id)
-        if (updated) setSelectedQuote(updated)
-      }
     })
 
     return () => unsubscribe()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const showToast = useCallback((message: string) => {
@@ -91,21 +91,58 @@ export default function QuotesPage() {
       const quoteRef = doc(db, 'quotes', replyQuote.id)
       await updateDoc(quoteRef, {
         estimatedPrice: data.estimatedPrice || null,
-        status: replyQuote.status === 'new' ? 'pending' : replyQuote.status,
-        replied: true,
-        repliedAt: serverTimestamp(),
+        turnaround: data.turnaround || null,
+        status: replyQuote.status === 'new' ? 'quoted' : replyQuote.status,
+        quotedAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       })
       setReplyQuote(null)
-      showToast('Reply sent successfully!')
+      showToast('Quote saved — draft copied to clipboard')
     } catch (err) {
-      console.error('Failed to send reply:', err)
-      showToast('Failed to send reply. Please try again.')
+      console.error('Failed to save quote:', err)
+      showToast('Failed to save. Please try again.')
     }
   }, [replyQuote, showToast])
 
+  const handleFinalPrice = useCallback(async (id: string, price: number) => {
+    try {
+      await updateDoc(doc(db, 'quotes', id), {
+        finalPrice: price,
+        updatedAt: serverTimestamp(),
+      })
+      showToast(`Final price saved: $${price.toLocaleString()}`)
+    } catch (err) {
+      console.error('Failed to save final price:', err)
+      showToast('Failed to save final price.')
+    }
+  }, [showToast])
+
+  const handleEstimatedPriceChange = useCallback(async (id: string, price: number) => {
+    try {
+      await updateDoc(doc(db, 'quotes', id), {
+        estimatedPrice: price,
+        updatedAt: serverTimestamp(),
+      })
+      showToast(`Estimated price updated to $${price.toLocaleString()}`)
+    } catch (err) {
+      console.error('Failed to update estimated price:', err)
+      showToast('Failed to update price.')
+    }
+  }, [showToast])
+
+  const handleDeleteQuote = useCallback(async (id: string) => {
+    try {
+      await deleteDoc(doc(db, 'quotes', id))
+      setSelectedQuoteId(null)
+      showToast('Quote deleted')
+    } catch (err) {
+      console.error('Failed to delete quote:', err)
+      showToast('Failed to delete quote.')
+    }
+  }, [showToast])
+
   const newCount = quotes.filter((q) => q.status === 'new').length
-  const pendingCount = quotes.filter((q) => q.status === 'pending').length
+  const quotedCount = quotes.filter((q) => q.status === 'quoted').length
   const approvedCount = quotes.filter((q) => q.status === 'approved').length
   const revenue = quotes
     .filter((q) => q.status === 'completed' && q.finalPrice)
@@ -113,7 +150,7 @@ export default function QuotesPage() {
 
   const stats: StatCard[] = [
     { label: 'New Requests', value: newCount, change: `${quotes.length} total quotes`, icon: FileText, iconColor: 'text-cyan-600', iconBg: 'bg-cyan-50' },
-    { label: 'Pending Review', value: pendingCount, change: 'Awaiting response', icon: Clock, iconColor: 'text-amber-600', iconBg: 'bg-amber-50' },
+    { label: 'Quoted', value: quotedCount, change: 'Awaiting client response', icon: Clock, iconColor: 'text-amber-600', iconBg: 'bg-amber-50' },
     { label: 'Approved', value: approvedCount, change: 'Ready for production', icon: CheckCircle, iconColor: 'text-green-600', iconBg: 'bg-green-50' },
     { label: 'Monthly Revenue', value: `$${revenue.toLocaleString()}`, change: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }), icon: DollarSign, iconColor: 'text-blue-600', iconBg: 'bg-blue-50' },
   ]
@@ -134,15 +171,19 @@ export default function QuotesPage() {
       <div className="mt-6 grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6">
         <QuotesTable
           quotes={quotes}
-          selectedId={selectedQuote?.id || null}
-          onSelect={setSelectedQuote}
+          selectedId={selectedQuoteId}
+          onSelect={(q) => setSelectedQuoteId(q.id)}
           filterStatus={filterStatus}
           onFilterChange={setFilterStatus}
+          searchValue={searchValue}
         />
         <QuoteDetailPanel
           quote={selectedQuote}
           onStatusChange={handleStatusChange}
           onReply={handleReply}
+          onFinalPriceChange={handleFinalPrice}
+          onEstimatedPriceChange={handleEstimatedPriceChange}
+          onDelete={handleDeleteQuote}
         />
       </div>
 

@@ -32,7 +32,7 @@ export function TrustBar() {
         <div data-reveal="fade" className="flex items-center justify-center gap-3 mb-5">
           <Shield className="w-4 h-4 text-slate-400" />
           <span className="text-sm font-medium text-slate-500">
-            Trusted by 500+ LA businesses
+            Trusted by LA businesses since 2010
           </span>
         </div>
 

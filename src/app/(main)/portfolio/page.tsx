@@ -54,7 +54,7 @@ const industryColors: Record<string, string> = {
 
 const stats = [
   { icon: Trophy, value: '500+', label: 'Projects Completed' },
-  { icon: Users, value: '200+', label: 'Happy Clients' },
+  { icon: Users, value: 'Rush', label: 'Orders Available' },
   { icon: Calendar, value: '15+', label: 'Years Experience' },
   { icon: ThumbsUp, value: '100%', label: 'Satisfaction Rate' },
 ]
@@ -101,6 +101,17 @@ export default function PortfolioPage() {
     return () => unsubscribe()
   }, [])
 
+  const [clientNames, setClientNames] = useState<string[]>([])
+
+  useEffect(() => {
+    const q = query(collection(db, 'clients'), orderBy('createdAt', 'desc'))
+    const unsub = onSnapshot(q, (snapshot) => {
+      const names = snapshot.docs.map((doc) => doc.data().name).filter(Boolean)
+      setClientNames(names)
+    })
+    return () => unsub()
+  }, [])
+
   const industries = useMemo(() => {
     const counts: Record<string, number> = {}
     projects.forEach((p) => { counts[p.industry] = (counts[p.industry] || 0) + 1 })
@@ -117,8 +128,6 @@ export default function PortfolioPage() {
 
   const filteredProjects =
     activeFilter === 'all' ? projects : projects.filter((p) => p.industry === activeFilter)
-
-  const clientNames = useMemo(() => [...new Set(projects.map((p) => p.client))], [projects])
 
   return (
     <div>
@@ -298,7 +307,7 @@ export default function PortfolioPage() {
       </section>
 
       {/* ═══════════ CLIENTS MARQUEE ═══════════ */}
-      {clientNames.length > 0 && (
+      {clientNames.length > 3 && (
         <section className="py-16 bg-slate-900 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
             <div className="text-center">

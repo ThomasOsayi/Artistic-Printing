@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { Pencil, Trash2, FileText } from 'lucide-react'
 import type { Client } from '@/lib/admin-data'
 
@@ -12,6 +13,7 @@ interface QuoteSummary {
 interface ClientTableProps {
   clients: Client[]
   quoteSummaries: Record<string, QuoteSummary>
+  searchValue?: string
   onAddClient: () => void
   onEditClient: (client: Client) => void
   onDeleteClient: (client: Client) => void
@@ -29,7 +31,19 @@ const industryColors: Record<string, string> = {
   Other: 'bg-gray-100 text-gray-700',
 }
 
-export function ClientTable({ clients, quoteSummaries, onAddClient, onEditClient, onDeleteClient, onViewQuotes }: ClientTableProps) {
+export function ClientTable({ clients, quoteSummaries, searchValue = '', onAddClient, onEditClient, onDeleteClient, onViewQuotes }: ClientTableProps) {
+  const filteredClients = useMemo(() => {
+    if (!searchValue.trim()) return clients
+    const s = searchValue.toLowerCase()
+    return clients.filter(
+      (c) =>
+        c.name.toLowerCase().includes(s) ||
+        c.industry.toLowerCase().includes(s) ||
+        c.contactEmail?.toLowerCase().includes(s) ||
+        c.contactPhone?.toLowerCase().includes(s)
+    )
+  }, [clients, searchValue])
+
   return (
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
       <div className="p-4 border-b border-slate-200 flex items-center justify-between">
@@ -42,9 +56,11 @@ export function ClientTable({ clients, quoteSummaries, onAddClient, onEditClient
         </button>
       </div>
 
-      {clients.length === 0 ? (
+      {filteredClients.length === 0 ? (
         <div className="py-16 text-center text-slate-400 text-sm">
-          No clients yet. Add your first client to get started.
+          {clients.length === 0
+            ? 'No clients yet. Add your first client to get started.'
+            : 'No clients match your search'}
         </div>
       ) : (
         <div className="overflow-auto">
@@ -60,7 +76,7 @@ export function ClientTable({ clients, quoteSummaries, onAddClient, onEditClient
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {clients.map((client) => {
+              {filteredClients.map((client) => {
                 const initials = client.name.split(' ').map(w => w[0]).join('').slice(0, 2)
                 const colorClass = industryColors[client.industry] || 'bg-slate-100 text-slate-700'
                 const summary = quoteSummaries[client.name] || { totalOrders: 0, totalRevenue: 0, lastOrderDate: null }

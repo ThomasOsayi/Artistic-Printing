@@ -1,10 +1,11 @@
 'use client'
 
+import { useMemo } from 'react'
 import { cn } from '@/lib/utils'
 import { StatusBadge } from './status-badge'
 import type { Quote } from '@/lib/admin-data'
 
-const filterTabs = ['All', 'New', 'Pending', 'In Progress', 'Approved', 'Completed', 'Declined'] as const
+const filterTabs = ['All', 'New', 'Quoted', 'Approved', 'In Production', 'Completed', 'Declined'] as const
 
 interface QuotesTableProps {
   quotes: Quote[]
@@ -12,26 +13,41 @@ interface QuotesTableProps {
   onSelect: (quote: Quote) => void
   filterStatus: string
   onFilterChange: (status: string) => void
+  searchValue?: string
 }
 
-export function QuotesTable({ quotes, selectedId, onSelect, filterStatus, onFilterChange }: QuotesTableProps) {
-  const filtered = filterStatus === 'All'
-    ? quotes
-    : quotes.filter((q) => {
-        const map: Record<string, string> = {
-          'New': 'new',
-          'Pending': 'pending',
-          'In Progress': 'in-progress',
-          'Approved': 'approved',
-          'Completed': 'completed',
-          'Declined': 'declined',
-        }
-        return q.status === map[filterStatus]
-      })
+export function QuotesTable({ quotes, selectedId, onSelect, filterStatus, onFilterChange, searchValue = '' }: QuotesTableProps) {
+  const filtered = useMemo(() => {
+    let result = filterStatus === 'All'
+      ? quotes
+      : quotes.filter((q) => {
+          const map: Record<string, string> = {
+            'New': 'new',
+            'Quoted': 'quoted',
+            'Approved': 'approved',
+            'In Production': 'in-production',
+            'Completed': 'completed',
+            'Declined': 'declined',
+          }
+          return q.status === map[filterStatus]
+        })
+
+    if (searchValue.trim()) {
+      const s = searchValue.toLowerCase()
+      result = result.filter(
+        (q) =>
+          `${q.firstName} ${q.lastName}`.toLowerCase().includes(s) ||
+          q.company.toLowerCase().includes(s) ||
+          q.service.toLowerCase().includes(s) ||
+          q.email.toLowerCase().includes(s)
+      )
+    }
+
+    return result
+  }, [quotes, filterStatus, searchValue])
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-      {/* Header */}
       <div className="p-4 border-b border-slate-200">
         <h2 className="text-base font-semibold text-slate-900 mb-3">All Quote Requests</h2>
         <div className="flex gap-1 flex-wrap">
@@ -52,7 +68,6 @@ export function QuotesTable({ quotes, selectedId, onSelect, filterStatus, onFilt
         </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-auto max-h-[520px]">
         <table className="w-full text-sm">
           <thead className="bg-slate-50 sticky top-0">

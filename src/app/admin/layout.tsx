@@ -2,34 +2,33 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import { useAuth } from '@/lib/auth-context'
 import { AdminSidebar } from '@/components/admin/admin-sidebar'
 import { AdminHeader } from '@/components/admin/admin-header'
-import { mockQuotes } from '@/lib/admin-data'
+import { AdminSearchProvider, useAdminSearch } from '@/lib/admin-search-context'
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
+  const [newQuoteCount, setNewQuoteCount] = useState(0)
+  const { searchValue, setSearchValue } = useAdminSearch()
   const pathname = usePathname()
-  const router = useRouter()
-  const { user, loading } = useAuth()
 
+  // Clear search when navigating between pages
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/staff-login')
-    }
-  }, [user, loading, router])
+    setSearchValue('')
+  }, [pathname, setSearchValue])
 
-  // Show nothing while checking auth
-  if (loading || !user) {
-    return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-        <div className="text-slate-400 text-sm">Loading...</div>
-      </div>
-    )
-  }
+  // Real-time new quote count from Firestore
+  useEffect(() => {
+    const q = query(collection(db, 'quotes'), where('status', '==', 'new'))
+    const unsub = onSnapshot(q, (snap) => {
+      setNewQuoteCount(snap.size)
+    })
+    return unsub
+  }, [])
 
-  const newQuoteCount = mockQuotes.filter((q) => q.status === 'new').length
   const pageTitle = pathname.includes('/site-images')
     ? 'Site Images'
     : pathname.includes('/portfolio')
@@ -57,5 +56,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </main>
       </div>
     </div>
+  )
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const { user, loading } = useAuth()
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/staff-login')
+    }
+  }, [user, loading, router])
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className="text-slate-400 text-sm">Loading...</div>
+      </div>
+    )
+  }
+
+  return (
+    <AdminSearchProvider>
+      <AdminLayoutInner>{children}</AdminLayoutInner>
+    </AdminSearchProvider>
   )
 }

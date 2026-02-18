@@ -23,7 +23,7 @@ import {
 /* ─── DATA ─── */
 const stats = [
   { value: '15+', label: 'Years in Business', icon: Calendar },
-  { value: '500+', label: 'Clients Served', icon: Users },
+  { value: '24-48hr', label: 'Turnaround', icon: Users },
   { value: '10M+', label: 'Prints Delivered', icon: Printer },
   { value: '100%', label: 'Satisfaction Rate', icon: Award },
 ]

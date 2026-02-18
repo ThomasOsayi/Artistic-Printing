@@ -274,7 +274,7 @@ export default function ServicesPage() {
               {[
                 { value: '24-48hr', label: 'Turnaround' },
                 { value: '15+', label: 'Years Experience' },
-                { value: '500+', label: 'Happy Clients' },
+                { value: 'Free', label: 'Estimates' },
               ].map((stat, i) => (
                 <div key={i}>
                   <div className="text-3xl font-bold text-cyan-400">{stat.value}</div>

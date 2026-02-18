@@ -182,7 +182,7 @@ export function PortfolioModal({ item, clients, onClose, onSave }: PortfolioModa
     }
   }, [client, industry, type, description, imageUrl, imagePath, featured, visible, item?.order, onSave])
 
-  const clientChosen = isEditing || selectedClient || (manualEntry && client.trim() && industry)
+  const clientChosen = isEditing || selectedClient || manualEntry
   const canSave = client.trim() && industry && type.trim() && !uploading && !saving
 
   return (
