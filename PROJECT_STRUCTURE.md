@@ -10,14 +10,15 @@ A modern commercial printing company website built with Next.js 16, React 19, Ta
 | React | 19.2.3 | UI library |
 | TypeScript | 5.9.3 | Type safety |
 | Tailwind CSS | 4.x | Utility-first styling |
-| Firebase | 12.9.0 | Backend (Firestore database + Storage) |
-| Radix UI | Latest | Headless UI components (Slot, Tabs) |
+| Firebase | 12.9.0 | Backend (Firestore database + Storage + Auth) |
+| Radix UI (Slot) | 1.2.4 | Headless UI primitive |
+| Radix UI (Tabs) | 1.1.13 | Headless tabs component |
 | Lucide React | 0.563.0 | Icon library |
 | tw-animate-css | 1.4.0 | Animation utilities |
 | class-variance-authority | 0.7.1 | Component variant management |
 | clsx | 2.1.1 | Conditional class names |
 | tailwind-merge | 3.4.0 | Tailwind class deduplication |
-| Resend | Latest | Transactional email (quote notification) |
+| Resend | 6.9.2 | Transactional email (quote notification) |
 
 ---
 
@@ -26,18 +27,12 @@ A modern commercial printing company website built with Next.js 16, React 19, Ta
 ```
 Artistic-Printing/
 ├── public/                              # Static assets
-│   ├── file.svg
-│   ├── globe.svg
-│   ├── next.svg
-│   ├── vercel.svg
-│   ├── window.svg
 │   └── site.webmanifest                 # PWA web app manifest (name, icons, theme_color)
 │
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx                   # Root layout (html, body, font, metadata — NO Header/Footer)
-│   │   ├── globals.css                  # Global styles, CSS variables, scroll animation
-│   │   ├── favicon.ico
+│   │   ├── layout.tsx                   # Root layout (html, body, Inter font, metadata, AuthProvider)
+│   │   ├── globals.css                  # Global styles, CSS variables, animations
 │   │   ├── api/
 │   │   │   └── send-quote-notification/
 │   │   │       └── route.ts             # POST: send quote email via Resend to design@artisticprinting.com
@@ -56,17 +51,17 @@ Artistic-Printing/
 │   │   │   └── staff-login/
 │   │   │       └── page.tsx             # Staff login (Firebase Auth) → redirects to /admin/quotes
 │   │   │
-│   │   └── admin/                       # Admin dashboard section (separate layout)
-│   │       ├── layout.tsx               # Admin layout with sidebar + top header (NO main site nav)
+│   │   └── admin/                       # Admin dashboard section (separate layout, auth-protected)
+│   │       ├── layout.tsx               # Admin layout with sidebar + header; redirects to /staff-login if unauthenticated
 │   │       ├── page.tsx                 # Redirects to /admin/quotes
 │   │       ├── quotes/
 │   │       │   └── page.tsx             # Quote management dashboard
 │   │       ├── clients/
-│   │       │   └── page.tsx            # Client directory page
+│   │       │   └── page.tsx             # Client directory page
 │   │       ├── portfolio/
-│   │       │   └── page.tsx            # Portfolio manager (Firestore + Storage)
+│   │       │   └── page.tsx             # Portfolio manager (Firestore + Storage)
 │   │       └── site-images/
-│   │           └── page.tsx            # Site Images manager (hero, CTA, product cards, etc.)
+│   │           └── page.tsx             # Site Images manager (hero, CTA, product cards, etc.)
 │   │
 │   ├── components/
 │   │   ├── header.tsx                   # Site header with navigation
@@ -83,10 +78,10 @@ Artistic-Printing/
 │   │   ├── admin/                       # Admin dashboard components
 │   │   │   ├── admin-sidebar.tsx        # Left sidebar navigation
 │   │   │   ├── admin-header.tsx         # Top header with search + actions
-│   │   │   ├── stats-cards.tsx          # Stats row (New, Pending, Approved, Revenue)
+│   │   │   ├── stats-cards.tsx          # Stats row (configurable stat cards)
 │   │   │   ├── quotes-table.tsx         # Filterable/searchable quotes table
 │   │   │   ├── quote-detail-panel.tsx   # Right-side detail panel for selected quote
-│   │   │   ├── reply-modal.tsx          # Email reply modal dialog
+│   │   │   ├── reply-modal.tsx          # Quote reply modal (copy draft / open in mail)
 │   │   │   ├── status-badge.tsx         # Reusable status badge component
 │   │   │   ├── client-table.tsx         # Client directory table
 │   │   │   ├── client-modal.tsx         # Add/Edit client modal (from quote companies or manual)
@@ -103,30 +98,29 @@ Artistic-Printing/
 │   │
 │   ├── hooks/
 │   │   ├── use-site-images.ts          # Real-time site images by page; getImageUrl(key)
-│   │   └── use-scroll-reveal.ts        # Scroll-into-view animations (data-reveal on children)
+│   │   └── use-scroll-reveal.ts        # Scroll-into-view animations + parallax
 │   │
 │   └── lib/
-│       ├── firebase.ts                  # Firebase initialization (Firestore + Storage)
+│       ├── firebase.ts                  # Firebase initialization (Firestore + Storage + Auth)
 │       ├── auth-context.tsx             # Firebase Auth context (AuthProvider, useAuth)
 │       ├── admin-search-context.tsx     # Admin shared search (AdminSearchProvider, useAdminSearch)
 │       ├── admin-data.ts                # TypeScript types (Quote, Client, PortfolioItem, SiteImage) + mock data
-│       ├── site-images-seed.ts         # Seed Firestore siteImages with stock URLs + doc IDs
+│       ├── site-images-seed.ts          # Seed Firestore siteImages with stock URLs + doc IDs
 │       └── utils.ts                     # Utility functions (cn helper)
 │
 ├── .claude/                             # Claude AI settings
+│   └── settings.local.json
 ├── .env.local                           # Environment variables (Firebase config — not committed)
 ├── .gitignore
 ├── components.json                      # shadcn/ui configuration
 ├── eslint.config.mjs                    # ESLint configuration
 ├── next.config.ts                       # Next.js config; Unsplash images remotePatterns
+├── next-env.d.ts                        # Next.js TypeScript declarations (auto-generated)
 ├── package.json                         # Dependencies & scripts
 ├── package-lock.json
 ├── postcss.config.mjs                   # PostCSS configuration
 ├── tsconfig.json                        # TypeScript configuration
-├── README.md                            # Default Next.js README
-├── PROJECT_STRUCTURE.md                 # This file — full repo summary
-├── CLAUDE_CODE_INSTRUCTIONS.md          # Original build instructions
-└── ADMIN_DASHBOARD_INSTRUCTIONS.md      # Admin dashboard implementation guide
+└── PROJECT_STRUCTURE.md                 # This file — full repo summary
 ```
 
 ---
@@ -215,11 +209,18 @@ Artistic-Printing/
 ### 7. Admin — Quotes Dashboard (`/admin/quotes`)
 **File:** `src/app/admin/quotes/page.tsx`
 
-- **Data:** Real-time Firestore `quotes` collection via `onSnapshot`; status and `finalPrice` updates written with `updateDoc` + `serverTimestamp`.
-- **Stats Row:** Four stat cards — New Requests (cyan), Pending Review (amber), Approved (green), Monthly Revenue (blue). Each shows count/value, change indicator, tinted icon.
-- **Quotes Table (left ~65%):** Filterable table with status tabs (All, New, Pending, In Progress, Approved, Completed, Declined). Columns: Client (name + company), Service, Status (colored badge), Date. Clickable rows, selected row gets cyan highlight. Search filters by name/company/service. Scrollable body.
-- **Quote Detail Panel (right ~35%):** Shows selected quote — client avatar, status dropdown, contact info, request details, message. Actions: Reply (opens modal), Approve, Decline. When status is "completed", inline Final Price field (persisted to Firestore).
-- **Status / Final Price:** Updates persist to Firestore; toast on success or error.
+- **Data:** Real-time Firestore `quotes` collection via `onSnapshot` (ordered by `createdAt` desc); status, `estimatedPrice`, `turnaround`, and `finalPrice` updates written with `updateDoc` + `serverTimestamp`. Delete via `deleteDoc`.
+- **Stats Row:** Four stat cards — New Requests (cyan), Quoted (amber), Approved (green), Monthly Revenue (blue). Each shows count/value, description, tinted icon.
+- **Quotes Table (left ~65%):** Filterable table with status tabs (All, New, Quoted, Approved, In Production, Completed, Declined). Columns: Client (name + company), Service, Status (colored badge), Date. Clickable rows, selected row gets cyan highlight. Search filters by name/company/service/email. Scrollable body.
+- **Quote Detail Panel (right ~35%):** Shows selected quote — client avatar, status badge, delete button (with confirmation), contact info (email link, phone), request details (service, quantity, urgency, submitted date), message. Status-specific actions:
+  - **New:** Send Quote (opens ReplyModal), Decline
+  - **Quoted:** Edit & Resend Quote, Client Approved, Decline
+  - **Approved:** Start Production
+  - **In Production:** Mark Completed
+  - **Completed:** Final Price input (if not set), or editable display
+  - **Declined:** "This quote was declined" message (panel dimmed)
+- **Pricing Card:** Appears for quoted/approved/in-production/completed statuses. Shows editable estimated price, turnaround, quoted date, and editable final price (with inline edit/save controls).
+- **Status / Final Price:** Updates persist to Firestore; toast notification on success or error.
 
 ### 8. Admin — Clients Directory (`/admin/clients`)
 **File:** `src/app/admin/clients/page.tsx`
@@ -254,13 +255,13 @@ Artistic-Printing/
 ### Layout Components
 
 #### Root Layout (`src/app/layout.tsx`)
-- HTML/body wrapper, Inter font, metadata (title, description, OpenGraph), global CSS import. Wraps app with `AuthProvider` (Firebase Auth). Does NOT include Header/Footer (those are in the `(main)` route group layout).
+- HTML/body wrapper, Inter font (from `next/font/google`), metadata (title, description, OpenGraph, favicons, manifest), global CSS import. Wraps app with `AuthProvider` (Firebase Auth). Does NOT include Header/Footer (those are in the `(main)` route group layout).
 
 #### Main Site Layout (`src/app/(main)/layout.tsx`)
 - Wraps public pages with `<Header>` and `<Footer>`. Uses Next.js route groups so admin routes are excluded.
 
 #### Admin Layout (`src/app/admin/layout.tsx`)
-- `"use client"` — separate layout with **AdminSearchProvider** wrapping `AdminSidebar` + `AdminHeader` + children. No main site nav/footer. Dark sidebar, light content area. Shared admin search state via **useAdminSearch()** (used by Quotes, Portfolio, Clients pages). Responsive: sidebar collapses on mobile with hamburger toggle.
+- `"use client"` — **Auth-protected:** checks `useAuth()` and redirects unauthenticated users to `/staff-login` (loading spinner shown while checking). Wraps content with **AdminSearchProvider**. Inner layout: `AdminSidebar` + `AdminHeader` + children. No main site nav/footer. Dark sidebar, light content area. Shared admin search state via **useAdminSearch()** (used by Quotes, Portfolio, Clients pages). Search value clears on page navigation. Real-time new quote count from Firestore for sidebar badge. Responsive: sidebar collapses on mobile with hamburger toggle.
 
 #### Header (`src/components/header.tsx`)
 - Sticky nav; logo (A + "ARTISTIC PRINTING CO."); desktop nav links; phone; "Get a Quote" CTA; mobile hamburger and slide-down menu; active route highlight via `usePathname`.
@@ -302,6 +303,9 @@ Artistic-Printing/
 #### useScrollReveal (`src/hooks/use-scroll-reveal.ts`)
 - **Client hook.** `useScrollReveal(options?)` — returns a ref to attach to a container; children with `data-reveal` (or `data-reveal="delay-1"`, `from-left`, `from-right`, `scale`, `fade`) animate in when scrolled into view. Options: threshold, rootMargin, once. Used by TrustBar, HomeIndustriesSection, HomePortfolioSection, HomeFeaturesSection, HomeCTASection, TestimonialsSection, Footer, and public pages (portfolio, services, about, contact) for scroll-reveal effects.
 
+#### useParallax (`src/hooks/use-scroll-reveal.ts`)
+- **Client hook.** `useParallax(speed?)` — returns a ref; the element translates vertically on scroll based on `speed` (default `0.3`). Uses `requestAnimationFrame` for smooth performance. Lightweight parallax for background elements.
+
 ### Admin Components
 
 #### AdminSidebar (`src/components/admin/admin-sidebar.tsx`)
@@ -311,19 +315,22 @@ Artistic-Printing/
 - Sticky top header (white). Dynamic page title based on route. Search input bound to **useAdminSearch()** (shared across Quotes, Portfolio, Clients). Notification bell with red dot, external link to live site. Mobile hamburger toggle for sidebar.
 
 #### StatsCards (`src/components/admin/stats-cards.tsx`)
-- Horizontal grid of stat cards. Each card: white background, subtle border, value, label, change indicator, tinted icon square, hover lift effect.
+- Horizontal grid of stat cards. Each card: white background, subtle border, value, label, change indicator, tinted icon square, hover lift effect. Exports `StatCard` type.
 
 #### QuotesTable (`src/components/admin/quotes-table.tsx`)
-- Filterable table of quote requests. Status filter tabs, search integration. Clickable rows with selected highlight (cyan-50 bg, left cyan border). Columns: Client, Service, Status, Date. Scrollable body (~520px max height).
+- Filterable table of quote requests. Status filter tabs (All, New, Quoted, Approved, In Production, Completed, Declined), search integration (name/company/service/email). Clickable rows with selected highlight (cyan-50 bg, left cyan border). Columns: Client, Service, Status, Date. Scrollable body.
 
 #### QuoteDetailPanel (`src/components/admin/quote-detail-panel.tsx`)
-- Right-side sticky panel. Empty state when no quote selected. Shows: client avatar, status dropdown, contact info, request details, message, action buttons (Reply, Approve, Decline). Inline "Final Price" field appears when status is "completed".
+- Right-side sticky panel. Empty state when no quote selected. Shows: client avatar, status badge, delete button (with inline confirmation), contact info (email link, phone), request details (service, quantity, urgency, submitted date), message.
+- **Pricing Card:** Appears after quote is sent (quoted/approved/in-production/completed statuses). Displays editable estimated price, turnaround, quoted-on date, and editable final price — each with inline edit/save/cancel controls.
+- **Final Price Input:** For completed status without a final price, shows a standalone input + save button.
+- **Contextual Actions:** New → Send Quote + Decline; Quoted → Edit & Resend + Client Approved + Decline; Approved → Start Production; In Production → Mark Completed; Declined → info banner (panel dimmed).
 
 #### ReplyModal (`src/components/admin/reply-modal.tsx`)
-- Modal overlay for replying to quotes. Pre-filled To, Subject, and message template. Estimated Price + Turnaround inputs. On send: closes modal, changes "new" quotes to "pending", saves estimatedPrice, shows toast.
+- Modal overlay for sending a quote. Pre-filled To (client email), Subject ("Re: Your Quote Request — Artistic Printing Co."), and message template. Estimated Price (required) + Est. Turnaround inputs. Two actions: "Copy Draft" (copies full message to clipboard, saves to Firestore, changes "new" → "quoted") and "Open in Mail" (opens `mailto:` link, saves to Firestore). Saves `estimatedPrice`, `turnaround`, `quotedAt`, and updated `status` to Firestore.
 
 #### StatusBadge (`src/components/admin/status-badge.tsx`)
-- Colored badge matching status: cyan (new), amber (pending), blue (in-progress), green (approved), green-dark (completed), red (declined).
+- Colored badge matching status: cyan (new), amber (quoted), green (approved), blue (in-production), green-dark (completed), red (declined). Includes legacy support mapping `pending` → Quoted and `in-progress` → In Production.
 
 #### ClientTable (`src/components/admin/client-table.tsx`)
 - Client directory table. Avatar initials, name, industry badge, total orders, last order date, revenue (green, bold). Edit and Delete actions per row; delete confirmation. Integrates with Firestore clients + quote-derived summaries.
@@ -361,7 +368,7 @@ Artistic-Printing/
 ### Setup (`src/lib/firebase.ts`)
 - Initializes Firebase app (singleton pattern with `getApps()` check)
 - Configures Firestore and Storage using environment variables
-- Exports `db` (Firestore instance) and `storage` (Storage instance)
+- Exports `db` (Firestore instance), `storage` (Storage instance), and `app` (default export)
 
 ### Environment Variables (`.env.local` — not committed)
 ```
@@ -376,11 +383,11 @@ RESEND_API_KEY                 # Resend API key for quote notification emails
 ```
 
 ### Firebase Auth
-- **Auth** — Initialized via `getAuth(app)` in `auth-context.tsx`. Used for staff login: `signInWithEmailAndPassword`, `signOut`, `onAuthStateChanged`. Root layout wraps children with `AuthProvider`; `useAuth()` provides `user`, `loading`, `login`, `logout`.
+- **Auth** — Initialized via `getAuth(app)` in `auth-context.tsx`. Used for staff login: `signInWithEmailAndPassword`, `signOut`, `onAuthStateChanged`. Root layout wraps children with `AuthProvider`; `useAuth()` provides `user`, `loading`, `login`, `logout`. Admin layout checks auth state and redirects unauthenticated users to `/staff-login`.
 
 ### Firestore Collections
 - **`quotes`** — Quote submissions from the public form and admin updates
-  - Fields: `firstName`, `lastName`, `email`, `phone`, `company`, `message`, `status`, `createdAt` (serverTimestamp), `updatedAt` (serverTimestamp), plus optional `industry`, `service`, `quantity`, `urgency`, `estimatedPrice`, `finalPrice`
+  - Fields: `firstName`, `lastName`, `email`, `phone`, `company`, `message`, `status`, `createdAt` (serverTimestamp), `updatedAt` (serverTimestamp), plus optional `industry`, `service`, `quantity`, `urgency`, `estimatedPrice`, `finalPrice`, `turnaround`, `quotedAt`
 - **`clients`** — Client directory (admin-managed)
   - Fields: `name`, `industry`, `contactEmail`, `contactPhone`, `notes`, `createdAt` (serverTimestamp)
 - **`portfolio`** — Portfolio projects (admin-managed, shown on public `/portfolio`)
@@ -394,14 +401,14 @@ RESEND_API_KEY                 # Resend API key for quote notification emails
 
 ### Integration Points
 - **QuoteForm** — Writes new quotes to Firestore `quotes` with `serverTimestamp()`, then POSTs to `/api/send-quote-notification` to email the team (Resend).
-- **Admin Quotes page** — Real-time `onSnapshot(quotes)`; `updateDoc` for status and `finalPrice`.
+- **Admin Quotes page** — Real-time `onSnapshot(quotes)`; `updateDoc` for status, `estimatedPrice`, `turnaround`, `quotedAt`, and `finalPrice`; `deleteDoc` for quote deletion.
 - **Admin Clients page** — Real-time `onSnapshot(clients)` and `onSnapshot(quotes)`; `addDoc`/`updateDoc`/`deleteDoc` for clients; revenue/orders derived from quotes by company name.
 - **Admin Portfolio page** — Real-time `onSnapshot(portfolio)` and `onSnapshot(clients)`; `addDoc`/`updateDoc`/`deleteDoc` for portfolio; image upload/delete via Storage.
 - **Public Portfolio page** — Reads from Firestore `portfolio` (visible items only) for project grid.
 - **HomePortfolioSection** — Real-time `onSnapshot` on `portfolio` (visible, orderBy order, limit 6) for home "Recent Projects"; featured-first sort client-side.
 - **useSiteImages** — Public home (and other pages) use `useSiteImages(page)` to read `siteImages` and resolve `getImageUrl(key)` (customUrl || stockUrl) for hero, CTA, product cards, facility strip, etc.
 - **Admin Site Images page** — Real-time `onSnapshot(siteImages)`; seed on load via **site-images-seed.ts**; upload/revert/reset with Storage; updateDoc for customUrl/customPath.
-- **ReplyModal** — Updates quote in Firestore (status, estimatedPrice) when sending reply.
+- **ReplyModal** — Updates quote in Firestore (status "new" → "quoted", estimatedPrice, turnaround, quotedAt) when sending quote; copies draft to clipboard or opens in mail client.
 
 ---
 
@@ -414,18 +421,17 @@ RESEND_API_KEY                 # Resend API key for quote notification emails
 
 ---
 
-## Mock Data (`src/lib/admin-data.ts`)
+## Data Types (`src/lib/admin-data.ts`)
 
 ### TypeScript Interfaces
-- **`Quote`** — id, firstName, lastName, company, email, phone, industry, service, status, date, message, quantity, urgency, estimatedPrice?, finalPrice?
+- **`Quote`** — id, firstName, lastName, company, email, phone, industry, service, status (`'new' | 'quoted' | 'approved' | 'in-production' | 'completed' | 'declined'`), date, message, quantity, urgency, estimatedPrice?, finalPrice?, turnaround?, quotedAt?
 - **`Client`** — id, name, industry, contactEmail, contactPhone, notes, createdAt? (totalOrders, lastOrderDate, totalRevenue are computed on the clients page from quotes)
 - **`PortfolioItem`** — id, client, industry, type, description, imageUrl, imagePath, featured, visible, order, createdAt?, updatedAt?
 - **`SiteImage`** — id, page, section, name, location, stockUrl, customUrl, customPath, recommendedSize, order
 
 ### Seed & Mock Data
 - **site-images-seed.ts** — `seedSiteImages()` ensures Firestore `siteImages` has default docs (by id: e.g. home-hero-bg, home-cta-bg, home-product-*, home-facility-*, etc.) with stockUrl and order; creates only if missing. Used on admin Site Images page load.
-- **mockQuotes** — Used as fallback/reference; admin quotes and clients pages use live Firestore data.
-- **mockClients** — Optional fallback; admin clients page reads from Firestore `clients` and derives order/revenue stats from `quotes`.
+- **mockQuotes** — Array of 11 sample quotes with realistic LA-based printing industry data; used as fallback/reference. Admin quotes page uses live Firestore data.
 
 ---
 
@@ -433,16 +439,25 @@ RESEND_API_KEY                 # Resend API key for quote notification emails
 
 ### Theme Configuration (`src/app/globals.css`)
 - Tailwind CSS 4 with `@theme inline` and CSS custom properties for colors, radius, sidebar, charts.
-- Light/dark mode via `.dark` class; primary cyan-600; slate palette.
-- Base layer: border-border, outline-ring/50, body bg/text.
-- **Custom animation:** `@keyframes scroll` (translateX 0 → -50%); `.animate-scroll` (30s linear infinite, width max-content) for trust bar carousel.
+- Light/dark mode via `.dark` class; primary cyan-600 (light) / cyan-400 (dark); slate palette.
+- Base layer: border-border, outline-ring/50, body bg/text, `overflow-x: hidden` on body.
+
+### Animations & Effects
+- **Trust bar scroll:** `@keyframes scroll` (translateX 0 → -50%); `.animate-scroll` (30s linear infinite).
+- **Scroll reveal:** CSS transitions on `[data-reveal]` elements — opacity + transform variants (default fade-up, `from-left`, `from-right`, `scale`, `fade`). Stagger delays (`delay-1` through `delay-7`). Duration variants (`slow`, `fast`). Revealed state via `.revealed` class.
+- **Stagger children:** `.stagger-children` utility — automatic staggered `transition-delay` on nth-child `[data-reveal]` elements (8 levels, 80ms apart).
+- **Glow orbs:** `@keyframes float-slow` (12s) and `float-slower` (16s) — floating translate/scale animations for decorative orb elements.
+- **Smooth hover transitions:** Global `cubic-bezier(0.16, 1, 0.3, 1)` on links, buttons, and `.group img`.
+- **Header scroll effect:** `.header-scrolled` class — frosted glass (rgba white bg, blur, saturate, shadow).
+- **Counter animation:** `@keyframes count-up` + `.animate-count-up` — fade-up effect for stat numbers.
+- **Scrollbar hide:** `.scrollbar-hide` utility — hides scrollbar for filter bars (cross-browser).
 
 ### Design System
-- **Typography:** Inter (from layout).
-- **Colors:** Slate + cyan primary; chart colors for future data viz.
-- **Admin status colors:** cyan (new), amber (pending), blue (in-progress), green (approved), green-dark (completed), red (declined).
-- **Spacing / radius:** Tailwind scale and theme radius variables.
-- **Motion:** tw-animate-css; custom scroll keyframes; hover transitions. **Scroll reveal:** `useScrollReveal` + `data-reveal` on public pages and home sections for fade/slide/scale-in on scroll.
+- **Typography:** Inter (from `next/font/google` in layout).
+- **Colors:** Slate + cyan primary; chart colors for future data viz; oklch color format.
+- **Admin status colors:** cyan (new), amber (quoted), blue (in-production), green (approved), green-dark (completed), red (declined).
+- **Spacing / radius:** Tailwind scale and theme radius variables (sm through 4xl).
+- **Motion:** tw-animate-css for enter/exit animations; custom keyframes for scroll, float, count-up; hover transitions. **Scroll reveal:** `useScrollReveal` + `data-reveal` on public pages and home sections for fade/slide/scale-in on scroll.
 
 ---
 
@@ -455,15 +470,21 @@ RESEND_API_KEY                 # Resend API key for quote notification emails
 - **site.webmanifest** — Web app manifest: `name`, `short_name`, `icons` (192×192, 512×512), `theme_color` and `background_color` (slate-900), `display: standalone`. Used when adding the site to home screen or as PWA.
 
 ### SEO & Metadata (`src/app/layout.tsx`)
-- Title: "Artistic Printing Company | Commercial Printing in Los Angeles".
-- Meta description and keywords for local/commercial printing.
-- OpenGraph title, description, url, siteName, locale, type.
+- Title: "Artistic Printing Co. | Commercial Printing in Los Angeles".
+- Meta description: "Trusted by LA businesses since 2005 for commercial printing, custom packaging, and large format printing."
+- metadataBase: `https://artistic-printing.vercel.app`
+- Favicon config: favicon.ico, favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png (referenced in metadata).
+- Manifest link to `/site.webmanifest`.
+- OpenGraph: title, description, url, image (`/og-image.png` 1200×630), type: website.
 
 ### shadcn/ui (`components.json`)
 - Style: "new-york"
 - Base color: neutral
 - CSS variables: enabled
 - Icon library: lucide
+
+### TypeScript (`tsconfig.json`)
+- Path aliases: `@/*` → `./src/*`
 
 ---
 
@@ -480,13 +501,12 @@ npm run lint     # Run ESLint
 
 ## Pending / TODO
 
-1. **Protect /admin routes:** Optionally redirect unauthenticated users from `/admin/*` to `/staff-login` (AuthProvider and login page are in place).
-2. **Google Maps:** Contact page map placeholder ready for embed or API.
-3. **Team photos:** About page team cards use real images; update if needed.
-4. **Analytics:** Add tracking (e.g. Google Analytics) if required.
-5. **Admin "Coming Soon" features:** Settings page only (Portfolio and Site Images managers are implemented).
-6. **Email notifications:** Send actual emails on quote reply (e.g. via Firebase Extensions or backend); reply modal currently updates Firestore only.
-7. **Client detail view:** Dedicated client detail page (e.g. `/admin/clients/[id]`) for future expansion.
+1. **Google Maps:** Contact page map placeholder ready for embed or API.
+2. **Analytics:** Add tracking (e.g. Google Analytics) if required.
+3. **Admin "Coming Soon" features:** Settings page only (Portfolio and Site Images managers are implemented).
+4. **Email notifications:** Send actual emails on quote reply (e.g. via Firebase Extensions or backend); reply modal currently updates Firestore and copies draft to clipboard / opens mailto.
+5. **Client detail view:** Dedicated client detail page (e.g. `/admin/clients/[id]`) for future expansion.
+6. **Favicon / OG assets:** Layout metadata references favicon and OG image files not yet in the public directory.
 
 ---
 
