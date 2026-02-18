@@ -117,7 +117,7 @@
   --sidebar-primary: oklch(0.789 0.154 194.769);
   --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
   --sidebar-accent: oklch(0.269 0.014 256.788);
-  --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
+  --sidebar-accent-foreground: oklch(0.208 0.016 265.755);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.789 0.154 194.769);
 }
@@ -128,6 +128,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden; /* FIXED: prevents from-right reveal transforms causing horizontal scroll */
   }
 }
 
@@ -147,7 +148,6 @@
 
 /* ═══════════════════════════════════════════════════════════
    SCROLL REVEAL ANIMATIONS
-   Add this block to the end of your globals.css
    ═══════════════════════════════════════════════════════════ */
 
 /* ─── Base state: hidden before reveal ─── */
@@ -189,7 +189,7 @@
   transform: translateY(0) translateX(0) scale(1);
 }
 
-/* ─── Longer duration variant ─── */
+/* ─── Duration variants ─── */
 [data-reveal~="slow"] {
   transition-duration: 1s;
 }
@@ -202,12 +202,10 @@
    SMOOTH HOVER TRANSITIONS (global)
    ═══════════════════════════════════════════════════════════ */
 
-/* Buttery image zoom on hover parents with .group */
 .group img {
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Smooth color transitions for interactive elements */
 a, button {
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -238,7 +236,6 @@ a, button {
 
 /* ═══════════════════════════════════════════════════════════
    STAGGERED CHILDREN UTILITY
-   Parent gets .stagger-children, children auto-stagger
    ═══════════════════════════════════════════════════════════ */
 .stagger-children > [data-reveal]:nth-child(1) { transition-delay: 0s; }
 .stagger-children > [data-reveal]:nth-child(2) { transition-delay: 0.08s; }
@@ -251,7 +248,7 @@ a, button {
 
 
 /* ═══════════════════════════════════════════════════════════
-   HEADER SCROLL EFFECT (backdrop tightens on scroll)
+   HEADER SCROLL EFFECT
    ═══════════════════════════════════════════════════════════ */
 .header-scrolled {
   background-color: rgba(255, 255, 255, 0.85) !important;
@@ -271,4 +268,15 @@ a, button {
 
 .animate-count-up {
   animation: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HIDE SCROLLBAR UTILITY (used on filter bar)
+   ═══════════════════════════════════════════════════════════ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

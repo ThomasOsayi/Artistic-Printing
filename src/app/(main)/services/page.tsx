@@ -24,17 +24,14 @@ import {
   Send,
 } from 'lucide-react'
 
-/* ─── SERVICE DATA ─── */
 const services = [
   {
     id: 'commercial',
     icon: FileText,
     name: 'Commercial Printing',
     tagline: 'Professional print materials that make an impression',
-    description:
-      'From business cards to booklets, we deliver crisp, professional printing on premium stocks with fast turnaround.',
-    image:
-      'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=800&q=80',
+    description: 'From business cards to booklets, we deliver crisp, professional printing on premium stocks with fast turnaround.',
+    image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=800&q=80',
     color: 'from-cyan-500 to-blue-600',
     lightColor: 'bg-cyan-50 text-cyan-700',
     items: [
@@ -49,10 +46,8 @@ const services = [
     icon: Package,
     name: 'Custom Packaging',
     tagline: 'Branded packaging that elevates your product',
-    description:
-      'Food-safe packaging, custom bags, and retail solutions that showcase your brand at every touchpoint.',
-    image:
-      'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=800&q=80',
+    description: 'Food-safe packaging, custom bags, and retail solutions that showcase your brand at every touchpoint.',
+    image: 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=800&q=80',
     color: 'from-amber-500 to-orange-600',
     lightColor: 'bg-amber-50 text-amber-700',
     items: [
@@ -67,10 +62,8 @@ const services = [
     icon: Printer,
     name: 'Large Format',
     tagline: 'Big visuals that demand attention',
-    description:
-      'Indoor and outdoor signage, trade show graphics, and vehicle wraps printed on durable materials.',
-    image:
-      'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80',
+    description: 'Indoor and outdoor signage, trade show graphics, and vehicle wraps printed on durable materials.',
+    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80',
     color: 'from-purple-500 to-pink-600',
     lightColor: 'bg-purple-50 text-purple-700',
     items: [
@@ -85,10 +78,8 @@ const services = [
     icon: Building2,
     name: 'Office & Forms',
     tagline: 'Essential business documents, professionally printed',
-    description:
-      'Letterheads, NCR forms, labels, and notepads that keep your operations running smoothly.',
-    image:
-      'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=800&q=80',
+    description: 'Letterheads, NCR forms, labels, and notepads that keep your operations running smoothly.',
+    image: 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=800&q=80',
     color: 'from-slate-600 to-slate-800',
     lightColor: 'bg-slate-100 text-slate-700',
     items: [
@@ -125,7 +116,6 @@ const process = [
   { step: 4, icon: Send, title: 'Delivery', desc: 'Free pickup or delivery anywhere in LA' },
 ]
 
-/* ─── SERVICE SECTION COMPONENT ─── */
 function ServiceSection({
   service,
   index,
@@ -142,26 +132,23 @@ function ServiceSection({
   return (
     <section className={`py-20 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`} ref={revealRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${isReversed ? 'lg:flex-row-reverse' : ''}`}
-        >
+        {/* FIXED: gap-8 on mobile, gap-16 on lg+ */}
+        <div className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-center ${isReversed ? 'lg:flex-row-reverse' : ''}`}>
           {/* Image side */}
           <div className={`relative ${isReversed ? 'lg:order-2' : ''}`} data-reveal={isReversed ? 'from-right' : 'from-left'}>
-            <div
-              className={`absolute inset-0 bg-gradient-to-br ${service.color} rounded-3xl transform ${isReversed ? 'rotate-3' : '-rotate-3'} opacity-20`}
-            />
+            <div className={`absolute inset-0 bg-linear-to-br ${service.color} rounded-3xl transform ${isReversed ? 'rotate-3' : '-rotate-3'} opacity-20`} />
             <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imageUrl}
                 alt={service.name}
-                className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-56 sm:h-72 lg:h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-20`} />
+              <div className={`absolute inset-0 bg-linear-to-t ${service.color} opacity-20`} />
               <div className="absolute top-6 left-6">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm shadow-lg">
                   <Icon className="w-5 h-5 text-slate-700" />
-                  <span className="font-semibold text-slate-900">{service.name}</span>
+                  <span className="font-semibold text-slate-900 text-sm">{service.name}</span>
                 </div>
               </div>
             </div>
@@ -170,10 +157,8 @@ function ServiceSection({
           {/* Content side */}
           <div className={isReversed ? 'lg:order-1' : ''}>
             <Badge data-reveal className={service.lightColor + ' mb-4'}>{service.tagline}</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">{service.name}</h2>
-            <p data-reveal="delay-2" className="text-lg text-slate-600 mb-8 leading-relaxed">
-              {service.description}
-            </p>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">{service.name}</h2>
+            <p data-reveal="delay-2" className="text-lg text-slate-600 mb-8 leading-relaxed">{service.description}</p>
 
             <div className="space-y-4">
               {service.items.map((item, i) => (
@@ -183,7 +168,7 @@ function ServiceSection({
                   className="group/item flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 hover:border-cyan-300 hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-x-1"
                 >
                   <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center`}>
+                    <div className={`w-10 h-10 rounded-lg bg-linear-to-br ${service.color} flex items-center justify-center shrink-0`}>
                       <CheckCircle2 className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -193,7 +178,7 @@ function ServiceSection({
                       <div className="text-sm text-slate-500">{item.desc}</div>
                     </div>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover/item:text-cyan-500 group-hover/item:translate-x-1 transition-all duration-300" />
+                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover/item:text-cyan-500 group-hover/item:translate-x-1 transition-all duration-300 shrink-0" />
                 </div>
               ))}
             </div>
@@ -201,7 +186,7 @@ function ServiceSection({
             <Button
               asChild
               data-reveal="delay-6"
-              className={`mt-8 bg-gradient-to-r ${service.color} hover:opacity-90 text-white font-semibold h-12 px-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
+              className={`mt-8 bg-linear-to-r ${service.color} hover:opacity-90 text-white font-semibold h-12 px-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`}
             >
               <Link href="/contact">
                 Get a Quote <ArrowRight className="w-4 h-4 ml-2" />
@@ -237,7 +222,7 @@ export default function ServicesPage() {
             alt=""
             className={`w-full h-full object-cover transition-all duration-[2s] ease-out ${heroMounted ? 'opacity-30 scale-100' : 'opacity-0 scale-105'}`}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-900/80" />
+          <div className="absolute inset-0 bg-linear-to-r from-slate-900 via-slate-900/95 to-slate-900/80" />
         </div>
         <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[100px] animate-float-slow" />
         <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-purple-500/15 rounded-full blur-[80px] animate-float-slower" />
@@ -250,12 +235,13 @@ export default function ServicesPage() {
             >
               Full-Service Printing
             </Badge>
+            {/* FIXED: text-4xl on mobile */}
             <h1
-              className={`text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.35s' }}
             >
               Our{' '}
-              <span className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">
                 Services
               </span>
             </h1>
@@ -277,7 +263,7 @@ export default function ServicesPage() {
                 { value: 'Free', label: 'Estimates' },
               ].map((stat, i) => (
                 <div key={i}>
-                  <div className="text-3xl font-bold text-cyan-400">{stat.value}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-cyan-400">{stat.value}</div>
                   <div className="text-slate-400 text-sm">{stat.label}</div>
                 </div>
               ))}
@@ -311,26 +297,26 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
             <Badge data-reveal="fade" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-4">In-House Equipment</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-white mb-4">Our Capabilities</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-white mb-4">Our Capabilities</h2>
             <p data-reveal="delay-2" className="text-slate-400 max-w-2xl mx-auto text-lg">
               State-of-the-art equipment and experienced technicians for any printing challenge.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
             {capabilities.map((cap, i) => {
               const Icon = cap.icon
               return (
                 <div
                   key={i}
                   data-reveal="scale"
-                  className="group p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 backdrop-blur-sm cursor-pointer hover:-translate-y-1"
+                  className="group p-5 sm:p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300 backdrop-blur-sm cursor-pointer hover:-translate-y-1"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-6 h-6 text-white" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-linear-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
-                  <h3 className="font-semibold text-white mb-1">{cap.name}</h3>
-                  <p className="text-sm text-slate-400">{cap.desc}</p>
+                  <h3 className="font-semibold text-white mb-1 text-sm sm:text-base">{cap.name}</h3>
+                  <p className="text-xs sm:text-sm text-slate-400">{cap.desc}</p>
                 </div>
               )
             })}
@@ -343,31 +329,31 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">How It Works</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">Simple 4-Step Process</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Simple 4-Step Process</h2>
             <p data-reveal="delay-2" className="text-slate-600 max-w-2xl mx-auto text-lg">
               From initial consultation to final delivery, we make printing easy.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8 stagger-children">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 stagger-children">
             {process.map((step, i) => {
               const Icon = step.icon
               return (
                 <div key={i} data-reveal className="relative">
                   {i < process.length - 1 && (
-                    <div className="hidden md:block absolute top-10 left-[60%] w-full h-0.5 bg-gradient-to-r from-cyan-500 to-transparent" />
+                    <div className="hidden md:block absolute top-10 left-[60%] w-full h-0.5 bg-linear-to-r from-cyan-500 to-transparent" />
                   )}
                   <div className="text-center">
                     <div className="relative inline-flex">
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 hover:scale-110 transition-transform duration-300">
-                        <Icon className="w-8 h-8 text-white" />
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-linear-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 hover:scale-110 transition-transform duration-300">
+                        <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                       </div>
-                      <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-bold">
+                      <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs sm:text-sm font-bold">
                         {step.step}
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mt-6 mb-2">{step.title}</h3>
-                    <p className="text-slate-600">{step.desc}</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900 mt-4 sm:mt-6 mb-2">{step.title}</h3>
+                    <p className="text-slate-600 text-sm sm:text-base">{step.desc}</p>
                   </div>
                 </div>
               )
@@ -385,10 +371,10 @@ export default function ServicesPage() {
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/90 to-cyan-500/90" />
+          <div className="absolute inset-0 bg-linear-to-r from-cyan-600/90 to-cyan-500/90" />
         </div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <h2 data-reveal className="text-4xl font-bold text-white mb-4">Don&apos;t See What You Need?</h2>
+          <h2 data-reveal className="text-3xl sm:text-4xl font-bold text-white mb-4">Don&apos;t See What You Need?</h2>
           <p data-reveal="delay-1" className="text-cyan-100 text-lg mb-8 max-w-2xl mx-auto">
             We handle custom projects of all kinds. If you can imagine it, we can print it.
           </p>

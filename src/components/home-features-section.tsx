@@ -52,7 +52,8 @@ export function HomeFeaturesSection() {
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[100px] animate-float-slower" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        {/* FIXED: gap-8 on mobile, gap-16 on lg+ */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left — Features */}
           <div>
             <Badge data-reveal className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6">
@@ -87,12 +88,12 @@ export function HomeFeaturesSection() {
               ))}
             </div>
 
-            {/* Facility image strip */}
-            <div data-reveal="delay-5" className="mt-10 flex gap-3">
+            {/* FIXED: Facility image strip — smaller on mobile, flex-wrap to prevent overflow */}
+            <div data-reveal="delay-5" className="mt-10 flex flex-wrap gap-2 sm:gap-3">
               {facilityKeys.map((key, i) => (
                 <div
                   key={i}
-                  className="w-24 h-16 rounded-lg overflow-hidden border-2 border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:scale-105"
+                  className="w-16 h-12 sm:w-24 sm:h-16 rounded-lg overflow-hidden border-2 border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:scale-105"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -104,7 +105,7 @@ export function HomeFeaturesSection() {
               ))}
               <Link
                 href="/about"
-                className="w-24 h-16 rounded-lg bg-cyan-500/20 border-2 border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs font-semibold cursor-pointer hover:bg-cyan-500/30 transition-all duration-300 hover:scale-105"
+                className="w-16 h-12 sm:w-24 sm:h-16 rounded-lg bg-cyan-500/20 border-2 border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xs font-semibold cursor-pointer hover:bg-cyan-500/30 transition-all duration-300 hover:scale-105"
               >
                 Tour →
               </Link>
@@ -115,7 +116,7 @@ export function HomeFeaturesSection() {
           <div data-reveal="from-right delay-2">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-3xl transform rotate-3 opacity-20" />
-              <div className="relative bg-slate-800/80 backdrop-blur-sm rounded-3xl p-8 border border-slate-700 shadow-2xl">
+              <div className="relative bg-slate-800/80 backdrop-blur-sm rounded-3xl p-6 sm:p-8 border border-slate-700 shadow-2xl">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center">
                     <Sparkles className="w-5 h-5 text-cyan-400" />

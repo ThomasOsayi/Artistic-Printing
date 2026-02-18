@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo, FormEvent } from 'react'
+import { useState, useMemo, FormEvent } from 'react'
 import { X, Search, Check } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
@@ -33,29 +33,14 @@ interface CompanyOption {
 }
 
 export function ClientModal({ client, quotes, existingClientNames, onClose, onSave }: ClientModalProps) {
-  const [selectedCompany, setSelectedCompany] = useState<CompanyOption | null>(null)
+  const [selectedCompany, setSelectedCompany] = useState<CompanyOption | null>(
+    client ? { company: client.name, contactName: '', email: client.contactEmail, phone: client.contactPhone, quoteCount: 0 } : null
+  )
   const [searchQuery, setSearchQuery] = useState('')
-  const [industry, setIndustry] = useState('Other')
-  const [contactEmail, setContactEmail] = useState('')
-  const [contactPhone, setContactPhone] = useState('')
-  const [notes, setNotes] = useState('')
-
-  // If editing, pre-fill fields
-  useEffect(() => {
-    if (client) {
-      setContactEmail(client.contactEmail)
-      setContactPhone(client.contactPhone)
-      setIndustry(client.industry)
-      setNotes(client.notes)
-      setSelectedCompany({
-        company: client.name,
-        contactName: '',
-        email: client.contactEmail,
-        phone: client.contactPhone,
-        quoteCount: 0,
-      })
-    }
-  }, [client])
+  const [industry, setIndustry] = useState(client?.industry ?? 'Other')
+  const [contactEmail, setContactEmail] = useState(client?.contactEmail ?? '')
+  const [contactPhone, setContactPhone] = useState(client?.contactPhone ?? '')
+  const [notes, setNotes] = useState(client?.notes ?? '')
 
   // Build unique company options from quotes, excluding already-added clients
   const companyOptions = useMemo(() => {

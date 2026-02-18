@@ -42,7 +42,8 @@ export default function ImagePreviewModal({
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
+    const id = setTimeout(() => setMounted(true), 0)
+    return () => clearTimeout(id)
   }, [])
 
   const handleEsc = useCallback(
@@ -103,6 +104,7 @@ export default function ImagePreviewModal({
           <div className="flex flex-col sm:flex-row flex-1 min-h-0 overflow-hidden">
             {/* Image */}
             <div className="flex-1 bg-slate-950 relative flex items-center justify-center min-w-0 min-h-[200px] sm:min-h-0">
+              {/* eslint-disable-next-line @next/next/no-img-element -- dynamic Firebase/Resend URL, not known at build */}
               <img
                 src={displayUrl}
                 alt={image.name}

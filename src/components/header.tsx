@@ -27,9 +27,10 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // ─── Close mobile menu on route change ───
+  // ─── Close mobile menu on route change (deferred to avoid sync setState in effect) ───
   useEffect(() => {
-    setMobileMenuOpen(false)
+    const id = setTimeout(() => setMobileMenuOpen(false), 0)
+    return () => clearTimeout(id)
   }, [pathname])
 
   return (

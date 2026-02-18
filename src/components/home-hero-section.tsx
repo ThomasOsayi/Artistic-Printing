@@ -16,7 +16,6 @@ export function HomeHeroSection() {
   const { getImageUrl } = useSiteImages('home')
   const [mounted, setMounted] = useState(false)
 
-  // Trigger entrance animations after mount
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 100)
     return () => clearTimeout(timer)
@@ -66,8 +65,9 @@ export function HomeHeroSection() {
               <span className="text-sm">Trusted by LA businesses since 2010</span>
             </div>
 
+            {/* FIXED: text-4xl on mobile, scales up to text-7xl on lg */}
             <h1
-              className={`text-5xl lg:text-7xl font-bold leading-[1.05] mb-6 transition-all duration-700 ease-out ${
+              className={`text-4xl sm:text-5xl lg:text-7xl font-bold leading-[1.05] mb-6 transition-all duration-700 ease-out ${
                 mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: '0.35s' }}
@@ -140,7 +140,7 @@ export function HomeHeroSection() {
             </div>
           </div>
 
-          {/* Right side — Floating product cards with staggered entrance */}
+          {/* Right side — Floating product cards (hidden on mobile, shown on lg+) */}
           <div className="relative hidden lg:block">
             <div className="relative w-full h-[540px]">
               {/* Business cards */}

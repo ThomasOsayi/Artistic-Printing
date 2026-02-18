@@ -178,6 +178,7 @@ export default function QuotesPage() {
           searchValue={searchValue}
         />
         <QuoteDetailPanel
+          key={selectedQuote?.id ?? 'empty'}
           quote={selectedQuote}
           onStatusChange={handleStatusChange}
           onReply={handleReply}

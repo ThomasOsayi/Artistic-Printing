@@ -53,7 +53,7 @@ export function QuoteForm({ variant = 'light', className = '' }: QuoteFormProps)
         body: JSON.stringify(quoteData),
       }).catch((err) => console.error('Email notification failed:', err))
 
-      setSubmitMessage('Thank you! We\'ll get back to you within 24 hours.')
+      setSubmitMessage("Thank you! We'll get back to you within 24 hours.")
       form.reset()
     } catch {
       setSubmitMessage('Something went wrong. Please call us at (323) 939-8911.')
@@ -64,7 +64,8 @@ export function QuoteForm({ variant = 'light', className = '' }: QuoteFormProps)
 
   return (
     <form className={`space-y-4 ${className}`} onSubmit={handleSubmit}>
-      <div className="grid grid-cols-2 gap-4">
+      {/* FIXED: grid-cols-1 on mobile, 2 cols on sm+ */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
           name="firstName"
           placeholder="First Name"

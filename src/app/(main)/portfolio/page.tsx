@@ -31,7 +31,6 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 
-/* ─── INDUSTRY ICON MAP ─── */
 const industryIcons: Record<string, LucideIcon> = {
   Healthcare: Heart,
   Automotive: Car,
@@ -153,8 +152,9 @@ export default function PortfolioPage() {
             >
               Our Work
             </Badge>
+            {/* FIXED: text-4xl on mobile */}
             <h1
-              className={`text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.35s' }}
             >
               Our{' '}
@@ -176,10 +176,11 @@ export default function PortfolioPage() {
       {/* ═══════════ FILTER BAR ═══════════ */}
       <section className="py-6 bg-white border-b border-slate-200 sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4 overflow-x-auto pb-2">
+          {/* FIXED: negative margin trick to allow scroll to bleed edge-to-edge on mobile */}
+          <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
             <div className="flex items-center gap-2 text-slate-500 text-sm font-medium flex-shrink-0">
               <Filter className="w-4 h-4" />
-              Filter:
+              <span className="hidden sm:inline">Filter:</span>
             </div>
             <div className="flex gap-2">
               {industries.map((ind) => {
@@ -189,7 +190,7 @@ export default function PortfolioPage() {
                   <button
                     key={ind.id}
                     onClick={() => setActiveFilter(ind.id)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+                    className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                       isActive
                         ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/30 scale-105'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:scale-[1.02]'
@@ -218,7 +219,7 @@ export default function PortfolioPage() {
             </div>
           ) : (
             <>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {filteredProjects.map((project, i) => (
                   <div
                     key={project.id}
@@ -229,7 +230,7 @@ export default function PortfolioPage() {
                       opacity: 0,
                     }}
                   >
-                    <div className="relative h-64 overflow-hidden bg-slate-100">
+                    <div className="relative h-56 sm:h-64 overflow-hidden bg-slate-100">
                       {project.imageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -289,16 +290,16 @@ export default function PortfolioPage() {
       {/* ═══════════ STATS ═══════════ */}
       <section className="py-16 bg-white" ref={statsRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 stagger-children">
             {stats.map((stat, i) => {
               const Icon = stat.icon
               return (
                 <div key={i} data-reveal="scale" className="text-center">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-cyan-500/30 hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-8 h-8 text-white" />
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-cyan-500/30 hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
                   </div>
-                  <div className="text-4xl font-bold text-slate-900 mb-1">{stat.value}</div>
-                  <div className="text-slate-500">{stat.label}</div>
+                  <div className="text-3xl sm:text-4xl font-bold text-slate-900 mb-1">{stat.value}</div>
+                  <div className="text-slate-500 text-sm sm:text-base">{stat.label}</div>
                 </div>
               )
             })}
@@ -312,12 +313,12 @@ export default function PortfolioPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
             <div className="text-center">
               <Badge className="bg-white/10 text-white border-white/20 mb-4">Trusted Partners</Badge>
-              <h2 className="text-3xl font-bold text-white">Clients We&apos;ve Worked With</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white">Clients We&apos;ve Worked With</h2>
             </div>
           </div>
           <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-slate-900 to-transparent z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-slate-900 to-transparent z-10" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-slate-900 to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-slate-900 to-transparent z-10" />
             <div className="flex gap-8 animate-scroll">
               {[...clientNames, ...clientNames].map((name, i) => (
                 <div
@@ -344,7 +345,7 @@ export default function PortfolioPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600/90 to-cyan-500/90" />
         </div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <h2 data-reveal className="text-4xl font-bold text-white mb-4">Ready to Start Your Project?</h2>
+          <h2 data-reveal className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Start Your Project?</h2>
           <p data-reveal="delay-1" className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
             Join hundreds of LA businesses who trust us with their printing needs. Get a free quote today.
           </p>

@@ -12,7 +12,6 @@ import {
   RotateCcw,
   Loader2,
   ImageIcon,
-  Globe,
   Layers,
   AlertTriangle,
   Check,

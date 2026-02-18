@@ -20,7 +20,6 @@ import {
   Mail,
 } from 'lucide-react'
 
-/* ─── DATA ─── */
 const stats = [
   { value: '15+', label: 'Years in Business', icon: Calendar },
   { value: '24-48hr', label: 'Turnaround', icon: Users },
@@ -32,29 +31,25 @@ const team = [
   {
     name: 'Kassa',
     role: 'Business Developer & Founder',
-    image:
-      'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
     bio: 'Founded Artistic Printing in 2010 with a vision to bring quality printing to LA businesses.',
   },
   {
     name: 'Marcel',
     role: 'Marketing Manager',
-    image:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
     bio: 'Builds relationships with clients and ensures their needs are always met.',
   },
   {
     name: 'Estevan',
     role: 'Lead Designer',
-    image:
-      'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
     bio: 'Transforms ideas into stunning print-ready designs with 10+ years of experience.',
   },
   {
     name: 'João Serro',
     role: 'Consultant, Graphic & Web Design',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
     bio: 'Provides expert guidance on branding and digital integration for print projects.',
   },
 ]
@@ -65,22 +60,19 @@ const values = [
   {
     icon: Shield,
     title: 'Quality First',
-    description:
-      'Every print job is inspected before it leaves our facility. We never compromise on quality.',
+    description: 'Every print job is inspected before it leaves our facility. We never compromise on quality.',
     color: 'from-cyan-500 to-blue-600',
   },
   {
     icon: Clock,
     title: 'On-Time Delivery',
-    description:
-      'We meet deadlines. Period. Free pickup and delivery anywhere in Los Angeles.',
+    description: 'We meet deadlines. Period. Free pickup and delivery anywhere in Los Angeles.',
     color: 'from-purple-500 to-pink-600',
   },
   {
     icon: DollarSign,
     title: 'Fair Pricing',
-    description:
-      'Competitive rates with no hidden fees or surprises. Transparent quotes every time.',
+    description: 'Competitive rates with no hidden fees or surprises. Transparent quotes every time.',
     color: 'from-amber-500 to-orange-600',
   },
 ]
@@ -154,8 +146,9 @@ export default function AboutPage() {
             >
               Family-Owned Since 2010
             </Badge>
+            {/* FIXED: text-4xl on mobile, scales up */}
             <h1
-              className={`text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.35s' }}
             >
               About{' '}
@@ -180,7 +173,8 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <Badge data-reveal className="bg-cyan-100 text-cyan-700 mb-4">Our Story</Badge>
-              <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-6">
+              {/* FIXED: responsive heading */}
+              <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
                 From Small Shop to{' '}
                 <span className="text-cyan-600">LA&apos;s Trusted Partner</span>
               </h2>
@@ -204,7 +198,7 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div data-reveal="delay-3" className="flex items-center gap-4 mt-8">
+              <div data-reveal="delay-3" className="flex flex-wrap items-center gap-4 mt-8">
                 <Button asChild className="bg-cyan-600 hover:bg-cyan-700 text-white transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 hover:-translate-y-0.5">
                   <Link href="/portfolio">
                     See Our Work <ArrowRight className="w-4 h-4 ml-2" />
@@ -228,7 +222,7 @@ export default function AboutPage() {
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/20">
                       <Icon className="w-6 h-6 text-white" />
                     </div>
-                    <div className="text-4xl font-bold text-cyan-600 mb-1">{stat.value}</div>
+                    <div className="text-3xl sm:text-4xl font-bold text-cyan-600 mb-1">{stat.value}</div>
                     <div className="text-slate-500 text-sm">{stat.label}</div>
                   </div>
                 )
@@ -243,20 +237,20 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">Our Journey</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900">15 Years of Growth</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900">15 Years of Growth</h2>
           </div>
 
           <div className="relative">
             <div className="absolute top-8 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full hidden md:block" />
 
-            <div className="grid md:grid-cols-5 gap-8 stagger-children">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 stagger-children">
               {timeline.map((item, i) => (
                 <div key={i} data-reveal className="relative text-center">
-                  <div className="w-16 h-16 rounded-full bg-white border-4 border-cyan-500 flex items-center justify-center mx-auto mb-4 relative z-10 shadow-lg hover:scale-110 transition-transform duration-300">
-                    <span className="text-cyan-600 font-bold">{item.year}</span>
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white border-4 border-cyan-500 flex items-center justify-center mx-auto mb-4 relative z-10 shadow-lg hover:scale-110 transition-transform duration-300">
+                    <span className="text-cyan-600 font-bold text-sm sm:text-base">{item.year}</span>
                   </div>
-                  <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate-500">{item.desc}</p>
+                  <h3 className="font-bold text-slate-900 mb-2 text-sm sm:text-base">{item.title}</h3>
+                  <p className="text-xs sm:text-sm text-slate-500">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -269,7 +263,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge data-reveal className="bg-amber-100 text-amber-700 mb-4">Meet the Team</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               The People Behind the Press
             </h2>
             <p data-reveal="delay-2" className="text-slate-600 max-w-2xl mx-auto">
@@ -277,7 +271,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
             {team.map((member, i) => (
               <div
                 key={i}
@@ -313,30 +307,30 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12">
             <Badge data-reveal="fade" className="bg-white/10 text-white border-white/20 mb-4">Our Facility</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-white mb-4">Take a Tour</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-white mb-4">Take a Tour</h2>
             <p data-reveal="delay-2" className="text-slate-400 max-w-2xl mx-auto">
               Our 5,000 sq ft facility houses state-of-the-art equipment for every printing need.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
             {facilityImages.map((img, i) => (
               <div key={i} data-reveal="scale" className="group relative rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-500">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={getImageUrl(facilityKeys[i]) || img.src}
                   alt={img.label}
-                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-36 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4">
-                  <span className="text-white font-medium">{img.label}</span>
+                <div className="absolute bottom-3 left-3">
+                  <span className="text-white font-medium text-sm">{img.label}</span>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 grid md:grid-cols-3 gap-6 stagger-children">
+          <div className="mt-12 grid sm:grid-cols-3 gap-6 stagger-children">
             {[
               { icon: MapPin, title: 'Location', desc: '5878 W Pico Blvd, LA 90019' },
               { icon: Clock, title: 'Hours', desc: 'Mon-Fri: 8am - 6pm' },
@@ -345,7 +339,7 @@ export default function AboutPage() {
               const Icon = item.icon
               return (
                 <div key={i} data-reveal className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 hover:border-cyan-500/30 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
                     <Icon className="w-6 h-6 text-cyan-400" />
                   </div>
                   <div>
@@ -364,13 +358,13 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge data-reveal className="bg-cyan-100 text-cyan-700 mb-4">Our Values</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">What We Stand For</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">What We Stand For</h2>
             <p data-reveal="delay-2" className="text-slate-600 max-w-2xl mx-auto">
               These principles guide everything we do, from the smallest business card to the largest banner.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 stagger-children">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 stagger-children">
             {values.map((value, i) => {
               const Icon = value.icon
               return (
@@ -379,16 +373,13 @@ export default function AboutPage() {
                   data-reveal="scale"
                   className="group relative bg-white rounded-2xl p-8 border border-slate-200 hover:border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-1"
                 >
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${value.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                  />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${value.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                   <div className="relative z-10">
-                    <div
-                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg group-hover:bg-white/20 group-hover:scale-110 transition-all duration-500`}
-                    >
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg group-hover:bg-white/20 group-hover:scale-110 transition-all duration-500`}>
                       <Icon className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-slate-900 group-hover:text-white mb-3 transition-colors duration-300">
+                    {/* FIXED: responsive heading */}
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-white mb-3 transition-colors duration-300">
                       {value.title}
                     </h3>
                     <p className="text-slate-600 group-hover:text-white/90 transition-colors duration-300 leading-relaxed">
@@ -415,7 +406,7 @@ export default function AboutPage() {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <h2 data-reveal className="text-4xl font-bold text-white mb-4">Ready to Work Together?</h2>
+          <h2 data-reveal className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Work Together?</h2>
           <p data-reveal="delay-1" className="text-cyan-100 text-lg mb-8 max-w-2xl mx-auto">
             Visit our shop, give us a call, or request a quote online. We&apos;d love to
             hear about your project.

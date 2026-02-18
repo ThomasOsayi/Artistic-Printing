@@ -23,10 +23,8 @@ import {
   FileText,
   HelpCircle,
   ChevronDown,
-  ChevronUp,
 } from 'lucide-react'
 
-/* ─── DATA ─── */
 const contactMethods = [
   {
     icon: MapPin,
@@ -148,8 +146,9 @@ export default function ContactPage() {
             >
               We Respond Within 24 Hours
             </Badge>
+            {/* FIXED: text-4xl on mobile */}
             <h1
-              className={`text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.35s' }}
             >
               Get in{' '}
@@ -168,7 +167,7 @@ export default function ContactPage() {
       {/* ═══════════ CONTACT METHOD CARDS ═══════════ */}
       <section className="py-12 bg-white border-b border-slate-200" ref={methodsRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
             {contactMethods.map((method, i) => {
               const Icon = method.icon
               return (
@@ -183,7 +182,7 @@ export default function ContactPage() {
                       <Icon className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="font-bold text-slate-900 group-hover:text-white mb-1 transition-colors duration-300">{method.title}</h3>
-                    <p className="text-slate-900 group-hover:text-white font-medium transition-colors duration-300">{method.primary}</p>
+                    <p className="text-slate-900 group-hover:text-white font-medium transition-colors duration-300 text-sm sm:text-base">{method.primary}</p>
                     <p className="text-slate-500 group-hover:text-white/80 text-sm transition-colors duration-300">{method.secondary}</p>
                     {method.action && method.href && (
                       <a href={method.href} className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-cyan-600 group-hover:text-white transition-colors duration-300">
@@ -201,15 +200,15 @@ export default function ContactPage() {
       {/* ═══════════ FORM + INFO ═══════════ */}
       <section className="py-20 bg-slate-50" ref={formRef}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-5 gap-12">
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
             {/* Form */}
             <div className="lg:col-span-3" data-reveal="from-left">
-              <div className="bg-white rounded-3xl shadow-xl p-8 lg:p-10 border border-slate-100">
+              <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 lg:p-10 border border-slate-100">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center flex-shrink-0">
                     <MessageSquare className="w-5 h-5 text-white" />
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-900">Request a Quote</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Request a Quote</h2>
                 </div>
                 <p className="text-slate-500 mb-8">Tell us about your project and we&apos;ll get back to you within 24 hours.</p>
 
@@ -226,7 +225,8 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
+                    {/* FIXED: grid-cols-1 on mobile, 2 on sm+ */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">First Name <span className="text-red-500">*</span></label>
                         <Input name="firstName" required placeholder="John" className="h-12 rounded-xl transition-all duration-300 focus:shadow-lg focus:shadow-cyan-500/10" />
@@ -240,7 +240,8 @@ export default function ContactPage() {
                       <label className="block text-sm font-medium text-slate-700 mb-2">Company</label>
                       <Input name="company" placeholder="Your Company" className="h-12 rounded-xl transition-all duration-300 focus:shadow-lg focus:shadow-cyan-500/10" />
                     </div>
-                    <div className="grid md:grid-cols-2 gap-6">
+                    {/* FIXED: grid-cols-1 on mobile, 2 on sm+ */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">Email <span className="text-red-500">*</span></label>
                         <Input name="email" type="email" required placeholder="john@company.com" className="h-12 rounded-xl transition-all duration-300 focus:shadow-lg focus:shadow-cyan-500/10" />
@@ -268,7 +269,7 @@ export default function ContactPage() {
             {/* Info Column */}
             <div className="lg:col-span-2 space-y-6" data-reveal="from-right delay-2">
               <div className="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
-                <div className="relative h-64">
+                <div className="relative h-56 sm:h-64">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.7676095183584!2d-118.36519492357064!3d34.04786501815756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b9143f5c9d2f%3A0x7c0f2c5e7f1b8e4a!2s5878%20W%20Pico%20Blvd%2C%20Los%20Angeles%2C%20CA%2090019!5e0!3m2!1sen!2sus!4v1699999999999!5m2!1sen!2sus"
                     width="100%"
@@ -293,7 +294,7 @@ export default function ContactPage() {
 
               <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-3xl p-6 text-white">
                 <div className="flex items-center gap-3 mb-3">
-                  <Zap className="w-6 h-6" />
+                  <Zap className="w-6 h-6 flex-shrink-0" />
                   <h3 className="font-bold text-lg">Quick Response Guarantee</h3>
                 </div>
                 <p className="text-cyan-100 leading-relaxed">
@@ -309,12 +310,12 @@ export default function ContactPage() {
                     return (
                       <div key={i} className="flex items-center justify-between hover:bg-slate-50 p-2 -mx-2 rounded-lg transition-colors duration-200">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                             <Icon className="w-5 h-5 text-slate-600" />
                           </div>
-                          <span className="text-slate-700">{svc.label}</span>
+                          <span className="text-slate-700 text-sm sm:text-base">{svc.label}</span>
                         </div>
-                        <Badge variant="outline" className="text-cyan-600 border-cyan-200 bg-cyan-50">{svc.time}</Badge>
+                        <Badge variant="outline" className="text-cyan-600 border-cyan-200 bg-cyan-50 flex-shrink-0">{svc.time}</Badge>
                       </div>
                     )
                   })}
@@ -330,7 +331,7 @@ export default function ContactPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">FAQ</Badge>
-            <h2 data-reveal="delay-1" className="text-4xl font-bold text-slate-900 mb-4">Common Questions</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Common Questions</h2>
             <p data-reveal="delay-2" className="text-slate-600">Can&apos;t find what you&apos;re looking for? Give us a call.</p>
           </div>
 
@@ -343,16 +344,16 @@ export default function ContactPage() {
               >
                 <button
                   onClick={() => setOpenFaqIndex(openFaqIndex === i ? null : i)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left"
+                  className="w-full px-5 sm:px-6 py-5 flex items-center justify-between text-left gap-3"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${openFaqIndex === i ? 'bg-cyan-500' : 'bg-cyan-100'}`}>
                       <HelpCircle className={`w-4 h-4 transition-colors duration-300 ${openFaqIndex === i ? 'text-white' : 'text-cyan-600'}`} />
                     </div>
-                    <span className="font-semibold text-slate-900">{faq.q}</span>
+                    <span className="font-semibold text-slate-900 text-sm sm:text-base">{faq.q}</span>
                   </div>
-                  <div className={`transition-transform duration-300 ${openFaqIndex === i ? 'rotate-180' : ''}`}>
-                    <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                  <div className={`transition-transform duration-300 flex-shrink-0 ${openFaqIndex === i ? 'rotate-180' : ''}`}>
+                    <ChevronDown className="w-5 h-5 text-slate-400" />
                   </div>
                 </button>
                 <div
@@ -360,8 +361,8 @@ export default function ContactPage() {
                     openFaqIndex === i ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
                   }`}
                 >
-                  <div className="px-6 pb-5 pt-0">
-                    <p className="text-slate-600 leading-relaxed pl-11">{faq.a}</p>
+                  <div className="px-5 sm:px-6 pb-5 pt-0">
+                    <p className="text-slate-600 leading-relaxed pl-11 text-sm sm:text-base">{faq.a}</p>
                   </div>
                 </div>
               </div>
@@ -382,7 +383,7 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/90 to-cyan-500/90" />
         </div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <h2 data-reveal className="text-4xl font-bold text-white mb-4">Prefer to Talk?</h2>
+          <h2 data-reveal className="text-3xl sm:text-4xl font-bold text-white mb-4">Prefer to Talk?</h2>
           <p data-reveal="delay-1" className="text-emerald-100 text-lg mb-8 max-w-2xl mx-auto">
             Our team is ready to help. Give us a call or stop by our shop on Pico Boulevard.
           </p>

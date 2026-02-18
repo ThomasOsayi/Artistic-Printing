@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   FileText,
   Mail,
@@ -43,14 +43,6 @@ export function QuoteDetailPanel({
   const [editingFinalPrice, setEditingFinalPrice] = useState(false)
   const [finalPriceEditInput, setFinalPriceEditInput] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-
-  // Reset edit states when quote changes
-  useEffect(() => {
-    setEditingEstPrice(false)
-    setEditingFinalPrice(false)
-    setShowDeleteConfirm(false)
-    setFinalPriceInput('')
-  }, [quote?.id])
 
   if (!quote) {
     return (

@@ -17,6 +17,7 @@ A modern commercial printing company website built with Next.js 16, React 19, Ta
 | class-variance-authority | 0.7.1 | Component variant management |
 | clsx | 2.1.1 | Conditional class names |
 | tailwind-merge | 3.4.0 | Tailwind class deduplication |
+| Resend | Latest | Transactional email (quote notification) |
 
 ---
 
@@ -37,6 +38,9 @@ Artistic-Printing/
 │   │   ├── layout.tsx                   # Root layout (html, body, font, metadata — NO Header/Footer)
 │   │   ├── globals.css                  # Global styles, CSS variables, scroll animation
 │   │   ├── favicon.ico
+│   │   ├── api/
+│   │   │   └── send-quote-notification/
+│   │   │       └── route.ts             # POST: send quote email via Resend to design@artisticprinting.com
 │   │   │
 │   │   ├── (main)/                      # Route group for public site pages
 │   │   │   ├── layout.tsx               # Main site layout WITH Header + Footer
@@ -267,7 +271,7 @@ Artistic-Printing/
 ### Public Components
 
 #### QuoteForm (`src/components/quote-form.tsx`)
-- **Firebase-integrated** reusable form: First Name, Last Name, Email, Phone, Project Details. Props: `variant` (light/dark), `className`. Saves submissions directly to Firestore `quotes` collection with `serverTimestamp()`. Shows loading state, success/error messages.
+- **Firebase-integrated** reusable form: First Name, Last Name, Email, Phone, Project Details. Props: `variant` (light/dark), `className`. On submit: (1) saves to Firestore `quotes` with `serverTimestamp()`, (2) calls **POST /api/send-quote-notification** (fire-and-forget) to email the team via Resend. Shows loading state, success/error messages.
 
 #### TestimonialsSection (`src/components/testimonials-section.tsx`)
 - **Client component.** "What Our Clients Say" with Badge "Customer Stories." Left: list of testimonial rows (avatar from Unsplash, name, role/company); click to set active. Right: large card with quote, 5-star display, active author avatar and name. Auto-advance every 6s via `useEffect` + `setInterval`. Dot-pattern background.
@@ -368,6 +372,7 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
 NEXT_PUBLIC_FIREBASE_APP_ID
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+RESEND_API_KEY                 # Resend API key for quote notification emails
 ```
 
 ### Firebase Auth
@@ -388,7 +393,7 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 - **Site Images** — Custom uploads (e.g. `siteImages/{page}/{id}.{ext}`) when admin replaces a stock image; reverted or reset deletes from Storage.
 
 ### Integration Points
-- **QuoteForm** — Writes new quotes to Firestore `quotes` with `serverTimestamp()`.
+- **QuoteForm** — Writes new quotes to Firestore `quotes` with `serverTimestamp()`, then POSTs to `/api/send-quote-notification` to email the team (Resend).
 - **Admin Quotes page** — Real-time `onSnapshot(quotes)`; `updateDoc` for status and `finalPrice`.
 - **Admin Clients page** — Real-time `onSnapshot(clients)` and `onSnapshot(quotes)`; `addDoc`/`updateDoc`/`deleteDoc` for clients; revenue/orders derived from quotes by company name.
 - **Admin Portfolio page** — Real-time `onSnapshot(portfolio)` and `onSnapshot(clients)`; `addDoc`/`updateDoc`/`deleteDoc` for portfolio; image upload/delete via Storage.
@@ -397,6 +402,15 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 - **useSiteImages** — Public home (and other pages) use `useSiteImages(page)` to read `siteImages` and resolve `getImageUrl(key)` (customUrl || stockUrl) for hero, CTA, product cards, facility strip, etc.
 - **Admin Site Images page** — Real-time `onSnapshot(siteImages)`; seed on load via **site-images-seed.ts**; upload/revert/reset with Storage; updateDoc for customUrl/customPath.
 - **ReplyModal** — Updates quote in Firestore (status, estimatedPrice) when sending reply.
+
+---
+
+## API Routes
+
+### POST `/api/send-quote-notification` (`src/app/api/send-quote-notification/route.ts`)
+- **Purpose:** Send an email notification when a new quote is submitted (called by QuoteForm after saving to Firestore).
+- **Body:** JSON with `firstName`, `lastName`, `email`, `phone`, `company`, `service`, `quantity`, `urgency`, `message`.
+- **Implementation:** Uses **Resend** (`RESEND_API_KEY`); sends HTML email to `design@artisticprinting.com` with subject "New Quote Request — {name} ({company})", branded template (contact info + project details). Returns 200 + JSON or 500 on error.
 
 ---
 

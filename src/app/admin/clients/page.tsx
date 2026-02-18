@@ -194,6 +194,7 @@ export default function ClientsPage() {
       {/* Add/Edit Modal */}
       {modalOpen && (
         <ClientModal
+          key={editingClient?.id ?? 'new'}
           client={editingClient}
           quotes={quotes}
           existingClientNames={clients.map((c) => c.name)}
