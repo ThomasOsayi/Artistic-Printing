@@ -69,6 +69,7 @@ Artistic-Printing/
 │   │   ├── footer.tsx                   # Site footer
 │   │   ├── quote-form.tsx               # Reusable quote request form (Firebase integrated)
 │   │   ├── testimonials-section.tsx     # Home page testimonials carousel
+│   │   ├── trust-bar.tsx                # Home trust bar (client pills + useScrollReveal)
 │   │   ├── home-hero-section.tsx        # Home hero (uses useSiteImages('home'))
 │   │   ├── home-industries-section.tsx  # Home industries grid (optional site images)
 │   │   ├── home-features-section.tsx    # Home features + quote form (uses useSiteImages)
@@ -97,11 +98,13 @@ Artistic-Printing/
 │   │       └── textarea.tsx
 │   │
 │   ├── hooks/
-│   │   └── use-site-images.ts          # Real-time site images by page; getImageUrl(key)
+│   │   ├── use-site-images.ts          # Real-time site images by page; getImageUrl(key)
+│   │   └── use-scroll-reveal.ts        # Scroll-into-view animations (data-reveal on children)
 │   │
 │   └── lib/
 │       ├── firebase.ts                  # Firebase initialization (Firestore + Storage)
 │       ├── auth-context.tsx             # Firebase Auth context (AuthProvider, useAuth)
+│       ├── admin-search-context.tsx     # Admin shared search (AdminSearchProvider, useAdminSearch)
 │       ├── admin-data.ts                # TypeScript types (Quote, Client, PortfolioItem, SiteImage) + mock data
 │       ├── site-images-seed.ts         # Seed Firestore siteImages with stock URLs + doc IDs
 │       └── utils.ts                     # Utility functions (cn helper)
@@ -156,7 +159,7 @@ Artistic-Printing/
 
 - Composed of sections (and inline trust bar). Hero, Industries, Features, and CTA use **useSiteImages('home')** for managed images where applicable; fallback to stock URLs if no custom image.
 - **Hero:** `HomeHeroSection` — full-bleed background (site image key `home-hero-bg`), glow orbs, grid pattern, headline "Where Ideas Become Print", CTAs, trust bullets; right: floating product cards (site image keys for business cards, brochures, packaging, banners) with hover rotation/scale.
-- **Trust Bar:** Inline — "Trusted by 500+ LA businesses", infinite horizontal scroll of client pills; gradient edge masks; hover pauses animation.
+- **Trust Bar:** `TrustBar` component — "Trusted by LA businesses since 2010", infinite horizontal scroll of client pills; gradient edge masks; hover pauses animation; uses **useScrollReveal** for reveal-on-scroll.
 - **Industries:** `HomeIndustriesSection` — "Industries We Serve" (optional site image keys per industry); four image-based cards with gradient overlays, hover expand, client stats.
 - **Portfolio Preview:** `HomePortfolioSection` — "Recent Projects" from Firestore `portfolio` (visible, limit 6, featured first). Cards: image, industry badge, optional "Featured" pill, client, type; "View All Work" link. Hides if no items.
 - **Features + Quote Form:** `HomeFeaturesSection` — dark section with background (site image), "LA's Most Trusted Printing Partner", four feature cards, facility image strip (site image keys), "Tour" link, floating QuoteForm (dark).
@@ -253,7 +256,7 @@ Artistic-Printing/
 - Wraps public pages with `<Header>` and `<Footer>`. Uses Next.js route groups so admin routes are excluded.
 
 #### Admin Layout (`src/app/admin/layout.tsx`)
-- `"use client"` — separate layout with `AdminSidebar` + `AdminHeader`. No main site nav/footer. Dark sidebar, light content area. Responsive: sidebar collapses on mobile with hamburger toggle.
+- `"use client"` — separate layout with **AdminSearchProvider** wrapping `AdminSidebar` + `AdminHeader` + children. No main site nav/footer. Dark sidebar, light content area. Shared admin search state via **useAdminSearch()** (used by Quotes, Portfolio, Clients pages). Responsive: sidebar collapses on mobile with hamburger toggle.
 
 #### Header (`src/components/header.tsx`)
 - Sticky nav; logo (A + "ARTISTIC PRINTING CO."); desktop nav links; phone; "Get a Quote" CTA; mobile hamburger and slide-down menu; active route highlight via `usePathname`.
@@ -282,12 +285,18 @@ Artistic-Printing/
 - **Client component.** Final CTA banner: background via `getImageUrl('home-cta-bg')` with fallback; cyan overlay; headline and Request a Quote + phone buttons.
 
 #### HomePortfolioSection (`src/components/home-portfolio-section.tsx`)
-- **Client component.** Home "Recent Projects" block. Real-time Firestore query: `portfolio` where `visible === true`, `orderBy('order')`, `limit(6)`; sorts featured first. Grid of cards (image, industry badge, optional "Featured" pill, client, type), loading state, "View All Work" link. Returns `null` if no items when loading finishes.
+- **Client component.** Home "Recent Projects" block. Real-time Firestore query: `portfolio` where `visible === true`, `orderBy('order')`, `limit(6)`; sorts featured first. Grid of cards (image, industry badge, optional "Featured" pill, client, type), loading state, "View All Work" link. Returns `null` if no items when loading finishes. Uses **useScrollReveal** for section reveal.
+
+#### TrustBar (`src/components/trust-bar.tsx`)
+- **Client component.** Home page trust bar: "Trusted by LA businesses since 2010", infinite horizontal scroll of client pills (icons + names), gradient edge masks, hover pauses animation. Uses **useScrollReveal** with `data-reveal="fade"` for scroll-in effect.
 
 ### Hooks
 
 #### useSiteImages (`src/hooks/use-site-images.ts`)
 - **Client hook.** `useSiteImages(page)` — real-time `onSnapshot` on Firestore `siteImages` where `page === page`, ordered by `order`. Returns `{ images: Map<string, SiteImage>, loading, getImageUrl(key) }`. `getImageUrl(key)` returns `customUrl || stockUrl` for that image key (used by HomeHeroSection, HomeFeaturesSection, HomeCTASection, etc.).
+
+#### useScrollReveal (`src/hooks/use-scroll-reveal.ts`)
+- **Client hook.** `useScrollReveal(options?)` — returns a ref to attach to a container; children with `data-reveal` (or `data-reveal="delay-1"`, `from-left`, `from-right`, `scale`, `fade`) animate in when scrolled into view. Options: threshold, rootMargin, once. Used by TrustBar, HomeIndustriesSection, HomePortfolioSection, HomeFeaturesSection, HomeCTASection, TestimonialsSection, Footer, and public pages (portfolio, services, about, contact) for scroll-reveal effects.
 
 ### Admin Components
 
@@ -295,7 +304,7 @@ Artistic-Printing/
 - Fixed left sidebar (260px, dark `slate-950`). Brand mark, nav links: Quotes (with new-count badge), Clients, Portfolio, Site Images (active). "Coming soon": Settings only. User footer with avatar initials and Sign out (useAuth logout → redirect to `/staff-login`). Collapses off-screen on mobile with overlay.
 
 #### AdminHeader (`src/components/admin/admin-header.tsx`)
-- Sticky top header (white). Dynamic page title based on route. Search input (filters quotes), notification bell with red dot, external link to live site. Mobile hamburger toggle for sidebar.
+- Sticky top header (white). Dynamic page title based on route. Search input bound to **useAdminSearch()** (shared across Quotes, Portfolio, Clients). Notification bell with red dot, external link to live site. Mobile hamburger toggle for sidebar.
 
 #### StatsCards (`src/components/admin/stats-cards.tsx`)
 - Horizontal grid of stat cards. Each card: white background, subtle border, value, label, change indicator, tinted icon square, hover lift effect.
@@ -326,6 +335,9 @@ Artistic-Printing/
 
 ### Auth (`src/lib/auth-context.tsx`)
 - **AuthProvider** wraps the app (in root layout). Uses Firebase Auth: `getAuth(app)`, `onAuthStateChanged`, `signInWithEmailAndPassword`, `signOut`. Exposes **useAuth()**: `{ user, loading, login, logout }`.
+
+### Admin search (`src/lib/admin-search-context.tsx`)
+- **AdminSearchProvider** wraps admin layout content; provides **useAdminSearch()**: `{ searchValue, setSearchValue }`. Used by AdminHeader (search input) and by Quotes, Portfolio, and Clients pages to filter lists by the shared search value.
 
 ### UI Components (shadcn/ui)
 
@@ -416,7 +428,7 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 - **Colors:** Slate + cyan primary; chart colors for future data viz.
 - **Admin status colors:** cyan (new), amber (pending), blue (in-progress), green (approved), green-dark (completed), red (declined).
 - **Spacing / radius:** Tailwind scale and theme radius variables.
-- **Motion:** tw-animate-css; custom scroll keyframes; hover transitions across sections.
+- **Motion:** tw-animate-css; custom scroll keyframes; hover transitions. **Scroll reveal:** `useScrollReveal` + `data-reveal` on public pages and home sections for fade/slide/scale-in on scroll.
 
 ---
 
