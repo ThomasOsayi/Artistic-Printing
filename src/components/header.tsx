@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Phone, Menu, X } from 'lucide-react'
@@ -46,15 +47,17 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2 group"
           >
-            <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center group-hover:bg-cyan-600 transition-colors duration-300">
-              <span className="text-white font-bold text-xl">A</span>
-            </div>
-            <div className="hidden sm:block">
-              <div className="font-semibold text-slate-900 tracking-tight">ARTISTIC</div>
-              <div className="text-xs text-slate-500 tracking-widest">PRINTING CO.</div>
-            </div>
+            <Image
+              src="/logo-header.png"
+              alt="Artistic Printing Company"
+              width={44}
+              height={40}
+              className="group-hover:opacity-80 transition-opacity duration-300"
+              priority
+            />
+            <span className="sr-only">Artistic Printing Company</span>
           </Link>
 
           {/* Desktop Nav */}

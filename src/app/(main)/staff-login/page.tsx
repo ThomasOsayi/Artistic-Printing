@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { useAuth } from '@/lib/auth-context'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -34,8 +35,14 @@ export default function StaffLoginPage() {
     <div className="min-h-[80vh] flex items-center justify-content-center">
       <div className="w-full max-w-md mx-auto px-4">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <span className="text-white font-bold text-2xl">A</span>
+          <div className="mx-auto mb-4 flex justify-center">
+            <Image
+              src="/logo-header.png"
+              alt="Artistic Printing Company"
+              width={64}
+              height={58}
+              priority
+            />
           </div>
           <h1 className="text-2xl font-bold text-slate-900">Staff Login</h1>
           <p className="text-slate-500 text-sm mt-2">

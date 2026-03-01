@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { useScrollReveal } from '@/hooks/use-scroll-reveal'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
@@ -15,8 +16,13 @@ export function Footer() {
           {/* Logo & Description */}
           <div className="col-span-1 md:col-span-2" data-reveal="from-left">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-slate-900 font-bold text-xl">A</span>
+              <div className="w-11 h-10 bg-white rounded-lg flex items-center justify-center p-1">
+                <Image
+                  src="/logo-header.png"
+                  alt="Artistic Printing Company"
+                  width={36}
+                  height={33}
+                />
               </div>
               <div>
                 <div className="font-semibold tracking-tight">ARTISTIC PRINTING CO.</div>
