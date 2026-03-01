@@ -47,7 +47,7 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2 group shrink-0"
           >
             <Image
               src="/logo-header.png"
@@ -57,7 +57,9 @@ export function Header() {
               className="group-hover:opacity-80 transition-opacity duration-300"
               priority
             />
-            <span className="sr-only">Artistic Printing Company</span>
+            <span className="hidden sm:inline text-sm font-bold text-slate-800 tracking-tight whitespace-nowrap">
+              Artistic Printing Co.
+            </span>
           </Link>
 
           {/* Desktop Nav */}

@@ -27,34 +27,39 @@ const stats = [
   { value: '100%', label: 'Satisfaction Rate', icon: Award },
 ]
 
+const avatarColors = [
+  'from-cyan-500 to-blue-600',
+  'from-purple-500 to-pink-600',
+  'from-amber-500 to-orange-600',
+  'from-teal-500 to-emerald-600',
+]
+
+function getInitials(name: string) {
+  return name.split(' ').map(w => w[0]).join('').toUpperCase()
+}
+
 const team = [
   {
     name: 'Kassa',
     role: 'Business Developer & Founder',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
     bio: 'Founded Artistic Printing in 2005 with a vision to bring quality printing to LA businesses.',
   },
   {
     name: 'Marcel',
     role: 'Marketing Manager',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
     bio: 'Builds relationships with clients and ensures their needs are always met.',
   },
   {
     name: 'Estevan',
     role: 'Lead Designer',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
     bio: 'Transforms ideas into stunning print-ready designs with 10+ years of experience.',
   },
   {
     name: 'João Serro',
     role: 'Consultant, Graphic & Web Design',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
     bio: 'Provides expert guidance on branding and digital integration for print projects.',
   },
 ]
-
-const teamKeys = ['about-team-kassa', 'about-team-marcel', 'about-team-estevan', 'about-team-joao']
 
 const values = [
   {
@@ -86,22 +91,10 @@ const timeline = [
 ]
 
 const facilityImages = [
-  {
-    src: 'https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?auto=format&fit=crop&w=600&q=80',
-    label: 'Digital Press Room',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=600&q=80',
-    label: 'Offset Printing',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=600&q=80',
-    label: 'Design Studio',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=600&q=80',
-    label: 'Finishing Area',
-  },
+  { label: 'Digital Press Room' },
+  { label: 'Offset Printing' },
+  { label: 'Design Studio' },
+  { label: 'Finishing Area' },
 ]
 
 const facilityKeys = ['about-facility-digital', 'about-facility-offset', 'about-facility-design', 'about-facility-finishing']
@@ -276,22 +269,16 @@ export default function AboutPage() {
               <div
                 key={i}
                 data-reveal="scale"
-                className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+                className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 text-center"
               >
-                <div className="relative h-64 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={getImageUrl(teamKeys[i]) || member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-xl font-bold text-white">{member.name}</h3>
-                    <p className="text-cyan-300 text-sm">{member.role}</p>
+                <div className="pt-8 pb-4 flex justify-center">
+                  <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${avatarColors[i % avatarColors.length]} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                    <span className="text-2xl font-bold text-white">{getInitials(member.name)}</span>
                   </div>
                 </div>
-                <div className="p-5">
+                <div className="px-5 pb-6">
+                  <h3 className="text-xl font-bold text-slate-900">{member.name}</h3>
+                  <p className="text-cyan-600 text-sm mb-3">{member.role}</p>
                   <p className="text-slate-600 text-sm leading-relaxed">{member.bio}</p>
                 </div>
               </div>
@@ -314,20 +301,29 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 stagger-children">
-            {facilityImages.map((img, i) => (
-              <div key={i} data-reveal="scale" className="group relative rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-500">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={getImageUrl(facilityKeys[i]) || img.src}
-                  alt={img.label}
-                  className="w-full h-36 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-3">
-                  <span className="text-white font-medium text-sm">{img.label}</span>
+            {facilityImages.map((img, i) => {
+              const url = getImageUrl(facilityKeys[i])
+              return (
+                <div key={i} data-reveal="scale" className="group relative rounded-2xl overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-500">
+                  {url ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={url}
+                      alt={img.label}
+                      className="w-full h-36 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  ) : (
+                    <div className="w-full h-36 sm:h-48 bg-white/5 flex items-center justify-center">
+                      <Printer className="w-10 h-10 text-white/20" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-3 left-3">
+                    <span className="text-white font-medium text-sm">{img.label}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           <div className="mt-12 grid sm:grid-cols-3 gap-6 stagger-children">
