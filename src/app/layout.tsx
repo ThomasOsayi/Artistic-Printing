@@ -7,7 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://artistic-printing.vercel.app'),
+  metadataBase: new URL('https://www.artisticprinting.com'),
   title: 'Artistic Printing Co. | Commercial Printing in Los Angeles',
   description: 'Trusted by LA businesses since 2005 for commercial printing, custom packaging, and large format printing. Request a free quote today.',
   icons: {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Artistic Printing Co.',
     description: 'Commercial Printing • Custom Packaging • Large Format — Los Angeles',
-    url: 'https://artistic-printing.vercel.app',
+    url: 'https://www.artisticprinting.com',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
     type: 'website',
   },
