@@ -19,6 +19,7 @@ A modern commercial printing company website built with Next.js 16, React 19, Ta
 | clsx | 2.1.1 | Conditional class names |
 | tailwind-merge | 3.4.0 | Tailwind class deduplication |
 | Resend | 6.9.2 | Transactional email (quote notification) |
+| @vercel/analytics | 2.0.0 | Vercel web analytics |
 
 ---
 
@@ -31,8 +32,12 @@ Artistic-Printing/
 │
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx                   # Root layout (html, body, Inter font, metadata, AuthProvider)
+│   │   ├── layout.tsx                   # Root layout (html, body, Inter font, metadata, JSON-LD, AuthProvider, Analytics)
 │   │   ├── globals.css                  # Global styles, CSS variables, animations
+│   │   ├── robots.ts                    # Robots.txt: allow /, disallow /admin/ /staff-login /api/
+│   │   ├── sitemap.ts                   # Sitemap: /, /services, /portfolio, /about, /contact
+│   │   ├── manifest.json               # PWA manifest (maskable icons, standalone display)
+│   │   ├── icon0.svg                    # App icon asset (SVG with embedded raster)
 │   │   ├── api/
 │   │   │   └── send-quote-notification/
 │   │   │       └── route.ts             # POST: send quote email via Resend to design@artisticprinting.com
@@ -41,12 +46,16 @@ Artistic-Printing/
 │   │   │   ├── layout.tsx               # Main site layout WITH Header + Footer
 │   │   │   ├── page.tsx                 # Home page
 │   │   │   ├── about/
+│   │   │   │   ├── layout.tsx           # About metadata (title, description, OpenGraph)
 │   │   │   │   └── page.tsx             # About Us page
 │   │   │   ├── contact/
+│   │   │   │   ├── layout.tsx           # Contact metadata (title, description, OpenGraph)
 │   │   │   │   └── page.tsx             # Contact page with form
 │   │   │   ├── portfolio/
+│   │   │   │   ├── layout.tsx           # Portfolio metadata (title, description, OpenGraph)
 │   │   │   │   └── page.tsx             # Portfolio with filters and project grid
 │   │   │   ├── services/
+│   │   │   │   ├── layout.tsx           # Services metadata (title, description, OpenGraph)
 │   │   │   │   └── page.tsx             # Services listing with hero and capabilities
 │   │   │   └── staff-login/
 │   │   │       └── page.tsx             # Staff login (Firebase Auth) → redirects to /admin/quotes
@@ -132,10 +141,10 @@ Artistic-Printing/
 | Route | File | Description |
 |-------|------|-------------|
 | `/` | `src/app/(main)/page.tsx` | Homepage |
-| `/about` | `src/app/(main)/about/page.tsx` | About Us |
-| `/services` | `src/app/(main)/services/page.tsx` | Services listing |
-| `/portfolio` | `src/app/(main)/portfolio/page.tsx` | Portfolio with filters |
-| `/contact` | `src/app/(main)/contact/page.tsx` | Contact page with quote form |
+| `/about` | `src/app/(main)/about/page.tsx` | About Us (per-page SEO via `layout.tsx`) |
+| `/services` | `src/app/(main)/services/page.tsx` | Services listing (per-page SEO via `layout.tsx`) |
+| `/portfolio` | `src/app/(main)/portfolio/page.tsx` | Portfolio with filters (per-page SEO via `layout.tsx`) |
+| `/contact` | `src/app/(main)/contact/page.tsx` | Contact page with quote form (per-page SEO via `layout.tsx`) |
 | `/staff-login` | `src/app/(main)/staff-login/page.tsx` | Staff login (Firebase Auth); redirects to `/admin/quotes` on success |
 
 ### Admin Dashboard
@@ -255,10 +264,17 @@ Artistic-Printing/
 ### Layout Components
 
 #### Root Layout (`src/app/layout.tsx`)
-- HTML/body wrapper, Inter font (from `next/font/google`), metadata (title, description, OpenGraph, favicons, manifest), global CSS import. Wraps app with `AuthProvider` (Firebase Auth). Does NOT include Header/Footer (those are in the `(main)` route group layout).
+- HTML/body wrapper, Inter font (from `next/font/google`), metadata (title, description, OpenGraph, favicons, manifest), global CSS import. Wraps app with `AuthProvider` (Firebase Auth) and includes **Vercel Analytics** (`@vercel/analytics/react`). Injects **JSON-LD** `LocalBusiness` structured data (schema.org) with business name, address, geo coordinates, opening hours, founding date, service types, and area served. Adds `apple-mobile-web-app-title` meta tag. Does NOT include Header/Footer (those are in the `(main)` route group layout).
 
 #### Main Site Layout (`src/app/(main)/layout.tsx`)
 - Wraps public pages with `<Header>` and `<Footer>`. Uses Next.js route groups so admin routes are excluded.
+
+#### Per-Page SEO Layouts
+Each public route (except Home and Staff Login) has its own `layout.tsx` that exports page-specific `Metadata` (title, description, OpenGraph) while passing children through unchanged:
+- **Services** (`services/layout.tsx`) — "Printing Services | Business Cards, Packaging, Banners"
+- **Portfolio** (`portfolio/layout.tsx`) — "Our Work | Print Portfolio"
+- **About** (`about/layout.tsx`) — "About Us | Family-Owned Printer Since 2005"
+- **Contact** (`contact/layout.tsx`) — "Contact Us | Free Print Quote"
 
 #### Admin Layout (`src/app/admin/layout.tsx`)
 - `"use client"` — **Auth-protected:** checks `useAuth()` and redirects unauthenticated users to `/staff-login` (loading spinner shown while checking). Wraps content with **AdminSearchProvider**. Inner layout: `AdminSidebar` + `AdminHeader` + children. No main site nav/footer. Dark sidebar, light content area. Shared admin search state via **useAdminSearch()** (used by Quotes, Portfolio, Clients pages). Search value clears on page navigation. Real-time new quote count from Firestore for sidebar badge. Responsive: sidebar collapses on mobile with hamburger toggle.
@@ -466,16 +482,29 @@ RESEND_API_KEY                 # Resend API key for quote notification emails
 ### Next.js (`next.config.ts`)
 - **Images:** `images.remotePatterns` allows `https://images.unsplash.com` for hero images, industry cards, portfolio, testimonials avatars, and facility strips.
 
-### PWA / Web App Manifest (`public/site.webmanifest`)
-- **site.webmanifest** — Web app manifest: `name`, `short_name`, `icons` (192×192, 512×512), `theme_color` and `background_color` (slate-900), `display: standalone`. Used when adding the site to home screen or as PWA.
+### PWA / Web App Manifest
+- **`public/site.webmanifest`** — Primary web app manifest (linked from root layout metadata): `name`, `short_name`, `icons` (192×192, 512×512), `theme_color` and `background_color` (slate-900), `display: standalone`.
+- **`src/app/manifest.json`** — Secondary manifest with maskable icon entries (`web-app-manifest-192x192.png`, `web-app-manifest-512x512.png`), `theme_color` and `background_color` (#000000), `display: standalone`. Root layout links to `site.webmanifest`, not this file.
 
 ### SEO & Metadata (`src/app/layout.tsx`)
 - Title: "Artistic Printing Co. | Commercial Printing in Los Angeles".
-- Meta description: "Trusted by LA businesses since 2005 for commercial printing, custom packaging, and large format printing."
-- metadataBase: `https://artistic-printing.vercel.app`
+- Meta description: "Trusted by LA businesses since 2005 for commercial printing, custom packaging, and large format printing. Request a free quote today."
+- metadataBase: `https://www.artisticprinting.com`
 - Favicon config: favicon.ico, favicon-16x16.png, favicon-32x32.png, apple-touch-icon.png (referenced in metadata).
 - Manifest link to `/site.webmanifest`.
-- OpenGraph: title, description, url, image (`/og-image.png` 1200×630), type: website.
+- OpenGraph: title "Artistic Printing Co.", description "Commercial Printing • Custom Packaging • Large Format — Los Angeles", url `https://www.artisticprinting.com`, image (`/og-image.png` 1200×630), type: website.
+- **JSON-LD:** `LocalBusiness` structured data (schema.org) with name, telephone, email, address (5878 West Pico Blvd, LA, CA 90019), geo coordinates, opening hours (Mon–Fri 8–6, Sat 9–2), founding date 2010, service types, area served (Los Angeles), price range `$$`.
+- **Apple meta tag:** `apple-mobile-web-app-title` set to "Artistic Printing Co."
+- **Vercel Analytics:** `<Analytics />` from `@vercel/analytics/react` included in body.
+
+### Robots (`src/app/robots.ts`)
+- Allows all user agents on `/`.
+- Disallows `/admin/`, `/staff-login`, and `/api/`.
+- Points sitemap to `https://www.artisticprinting.com/sitemap.xml`.
+
+### Sitemap (`src/app/sitemap.ts`)
+- Static sitemap with five entries: `/` (weekly, priority 1), `/services` (monthly, 0.9), `/portfolio` (weekly, 0.8), `/about` (monthly, 0.7), `/contact` (monthly, 0.8).
+- Base URL: `https://www.artisticprinting.com`.
 
 ### shadcn/ui (`components.json`)
 - Style: "new-york"
@@ -502,11 +531,10 @@ npm run lint     # Run ESLint
 ## Pending / TODO
 
 1. **Google Maps:** Contact page map placeholder ready for embed or API.
-2. **Analytics:** Add tracking (e.g. Google Analytics) if required.
-3. **Admin "Coming Soon" features:** Settings page only (Portfolio and Site Images managers are implemented).
-4. **Email notifications:** Send actual emails on quote reply (e.g. via Firebase Extensions or backend); reply modal currently updates Firestore and copies draft to clipboard / opens mailto.
-5. **Client detail view:** Dedicated client detail page (e.g. `/admin/clients/[id]`) for future expansion.
-6. **Favicon / OG assets:** Layout metadata references favicon and OG image files not yet in the public directory.
+2. **Admin "Coming Soon" features:** Settings page only (Portfolio and Site Images managers are implemented).
+3. **Email notifications:** Send actual emails on quote reply (e.g. via Firebase Extensions or backend); reply modal currently updates Firestore and copies draft to clipboard / opens mailto.
+4. **Client detail view:** Dedicated client detail page (e.g. `/admin/clients/[id]`) for future expansion.
+5. **Static assets:** Layout metadata references favicon PNGs and `/og-image.png`; `site.webmanifest` references android-chrome PNGs — these image files are not yet in `public/`. App icon (`icon0.svg`) is present in `src/app/`.
 
 ---
 

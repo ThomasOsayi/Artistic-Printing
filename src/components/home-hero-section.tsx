@@ -156,7 +156,7 @@ export function HomeHeroSection() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={getImageUrl('home-product-business-cards') || 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=500&q=80'}
-                    alt="Business cards"
+                    alt="Custom printed business cards with premium matte finish"
                     className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="bg-white p-4">
@@ -184,7 +184,7 @@ export function HomeHeroSection() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={getImageUrl('home-product-brochures') || 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=500&q=80'}
-                    alt="Brochures"
+                    alt="Tri-fold brochure printing with glossy finish"
                     className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 p-4">
@@ -207,7 +207,7 @@ export function HomeHeroSection() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={getImageUrl('home-product-packaging') || 'https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=500&q=80'}
-                    alt="Custom packaging"
+                    alt="Custom printed food-safe packaging for restaurants"
                     className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="bg-gradient-to-br from-amber-400 to-orange-500 p-4">
@@ -230,7 +230,7 @@ export function HomeHeroSection() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={getImageUrl('home-product-banners') || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=500&q=80'}
-                    alt="Large format banners"
+                    alt="Large format banner and sign printing"
                     className="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="bg-gradient-to-br from-purple-500 to-pink-500 p-3">

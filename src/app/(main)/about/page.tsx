@@ -309,7 +309,7 @@ export default function AboutPage() {
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
                       src={url}
-                      alt={img.label}
+                      alt={`${img.label} at Artistic Printing Company`}
                       className="w-full h-36 sm:h-48 object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                   ) : (

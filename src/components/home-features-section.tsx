@@ -98,7 +98,7 @@ export function HomeFeaturesSection() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={getImageUrl(key) || facilityStockUrls[i]}
-                    alt="Our facility"
+                    alt={['Artistic Printing digital press room', 'Offset printing equipment at Artistic Printing', 'Commercial print production facility in Los Angeles'][i]}
                     className="w-full h-full object-cover"
                   />
                 </div>

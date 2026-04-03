@@ -141,7 +141,7 @@ function ServiceSection({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imageUrl}
-                alt={service.name}
+                alt={`${service.name} — ${service.tagline}`}
                 className="w-full h-56 sm:h-72 lg:h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className={`absolute inset-0 bg-linear-to-t ${service.color} opacity-20`} />

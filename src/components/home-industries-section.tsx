@@ -83,7 +83,7 @@ export function HomeIndustriesSection() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={getImageUrl(industry.key) || industry.image}
-                alt={industry.name}
+                alt={`${industry.name} printing services — ${industry.desc}`}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
               {/* Dark overlay */}

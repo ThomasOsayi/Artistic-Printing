@@ -130,7 +130,7 @@ export function HomePortfolioSection() {
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
                       src={project.imageUrl}
-                      alt={project.client}
+                      alt={`${project.type} printing for ${project.client}`}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                   ) : (
