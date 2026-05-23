@@ -30,7 +30,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-slate-400 text-sm max-w-md mb-4">
-              LA&apos;s trusted commercial printing partner since 2005. We deliver quality printing
+              LA&apos;s trusted commercial printing partner since 2010. We deliver quality printing
               solutions for healthcare, hospitality, education, and automotive industries.
             </p>
             <div className="flex gap-4">
@@ -38,7 +38,7 @@ export function Footer() {
                 Family Owned
               </Badge>
               <Badge variant="outline" className="border-slate-700 text-slate-400">
-                20+ Years
+                15+ Years
               </Badge>
             </div>
           </div>
@@ -80,7 +80,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-2 hover:text-slate-200 transition-colors duration-300">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                info@artisticprinting.com
+                design@artisticprinting.com
               </li>
               <li className="flex items-center gap-2 hover:text-slate-200 transition-colors duration-300">
                 <Clock className="w-4 h-4 flex-shrink-0" />

@@ -56,6 +56,48 @@ export interface SiteImage {
   order: number
 }
 
+// ─── Page Content (Phase 0+) ──────────────────────────────────────────────
+// Hybrid content model: page structure is hardcoded in React templates
+// (IndustryPage, ServicePageTemplate, NeighborhoodPage). The copy strings
+// live here, keyed by doc ID `{type}-{slug}` in the Firestore `pageContent`
+// collection. Templates read the keys they need from `sections`; missing
+// keys fall back to template defaults or hide the section.
+
+export type PageContentType = 'industry' | 'service' | 'neighborhood' | 'page'
+
+export interface PageContent {
+  id: string                          // Firestore doc ID, format: `{type}-{slug}`
+  type: PageContentType               // Drives which React template renders this doc
+  slug: string                        // URL path, no leading slash (e.g. 'healthcare-printing-los-angeles')
+  published: boolean                  // false = draft; excluded from sitemap and 404s on direct hit
+
+  // ─── SEO ──────────────────────────────────────
+  metaTitle: string                   // <title>; root layout's title.template appends " — Artistic Printing Co."
+  metaDescription: string             // <meta name="description"> — keep under ~155 chars
+
+  // ─── Hero ─────────────────────────────────────
+  heroBadge?: string                  // Small label above H1 (e.g. "Los Angeles Healthcare Printing")
+  h1: string                          // Main page heading
+  heroSubtitle: string                // Intro paragraph below H1
+
+  // ─── Body ─────────────────────────────────────
+  // Flexible key-value map; each template reads the keys it expects.
+  // Example for an industry page:
+  //   { intro: '...', whatWePrint: '...', compliance: '...', whyUs: '...', cta: '...' }
+  sections: Record<string, string>
+
+  // ─── Optional FAQ ─────────────────────────────
+  // Rendered as accordion + FAQ JSON-LD on the page.
+  faqs?: Array<{ question: string; answer: string }>
+
+  // ─── Optional internal links ──────────────────
+  // Slugs of related pages, surfaced in a "Related" block at the bottom.
+  relatedSlugs?: string[]
+
+  createdAt?: string
+  updatedAt?: string
+}
+
 export const mockQuotes: Quote[] = [
   {
     id: 'q1',

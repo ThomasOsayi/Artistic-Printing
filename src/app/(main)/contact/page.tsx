@@ -47,11 +47,11 @@ const contactMethods = [
   {
     icon: Mail,
     title: 'Email Us',
-    primary: 'info@artisticprinting.com',
+    primary: 'design@artisticprinting.com',
     secondary: 'We respond within 24 hours',
     color: 'from-amber-500 to-orange-600',
     action: 'Send Email',
-    href: 'mailto:info@artisticprinting.com',
+    href: 'mailto:design@artisticprinting.com',
   },
   {
     icon: Clock,
@@ -146,7 +146,6 @@ export default function ContactPage() {
             >
               We Respond Within 24 Hours
             </Badge>
-            {/* FIXED: text-4xl on mobile */}
             <h1
               className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.35s' }}
@@ -225,7 +224,6 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* FIXED: grid-cols-1 on mobile, 2 on sm+ */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">First Name <span className="text-red-500">*</span></label>
@@ -240,7 +238,6 @@ export default function ContactPage() {
                       <label className="block text-sm font-medium text-slate-700 mb-2">Company</label>
                       <Input name="company" placeholder="Your Company" className="h-12 rounded-xl transition-all duration-300 focus:shadow-lg focus:shadow-cyan-500/10" />
                     </div>
-                    {/* FIXED: grid-cols-1 on mobile, 2 on sm+ */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">Email <span className="text-red-500">*</span></label>

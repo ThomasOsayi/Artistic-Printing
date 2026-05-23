@@ -21,7 +21,7 @@ import {
 } from 'lucide-react'
 
 const stats = [
-  { value: '20+', label: 'Years in Business', icon: Calendar },
+  { value: '15+', label: 'Years in Business', icon: Calendar },
   { value: '24-48hr', label: 'Turnaround', icon: Users },
   { value: '10M+', label: 'Prints Delivered', icon: Printer },
   { value: '100%', label: 'Satisfaction Rate', icon: Award },
@@ -42,7 +42,7 @@ const team = [
   {
     name: 'Kassa',
     role: 'Business Developer & Founder',
-    bio: 'Founded Artistic Printing in 2005 with a vision to bring quality printing to LA businesses.',
+    bio: 'Founded Artistic Printing in 2010 with a vision to bring quality printing to LA businesses.',
   },
   {
     name: 'Marcel',
@@ -83,7 +83,7 @@ const values = [
 ]
 
 const timeline = [
-  { year: '2005', title: 'Founded', desc: 'Started as a small shop on Pico Boulevard' },
+  { year: '2010', title: 'Founded', desc: 'Started as a small shop on Pico Boulevard' },
   { year: '2013', title: 'Expansion', desc: 'Added large format printing capabilities' },
   { year: '2016', title: 'Healthcare Focus', desc: 'Became preferred vendor for major hospitals' },
   { year: '2020', title: 'Digital Upgrade', desc: 'Invested in state-of-the-art digital presses' },
@@ -137,9 +137,8 @@ export default function AboutPage() {
               className={`bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6 transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
               style={{ transitionDelay: '0.2s' }}
             >
-              Family-Owned Since 2005
+              Family-Owned Since 2010
             </Badge>
-            {/* FIXED: text-4xl on mobile, scales up */}
             <h1
               className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.35s' }}
@@ -153,7 +152,7 @@ export default function AboutPage() {
               className={`text-xl text-slate-300 leading-relaxed max-w-2xl transition-all duration-700 ${heroMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: '0.5s' }}
             >
-              Family-owned and operated since 2005, serving Los Angeles businesses with
+              Family-owned and operated since 2010, serving Los Angeles businesses with
               pride, precision, and a personal touch that big print shops can&apos;t match.
             </p>
           </div>
@@ -166,7 +165,6 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <Badge data-reveal className="bg-cyan-100 text-cyan-700 mb-4">Our Story</Badge>
-              {/* FIXED: responsive heading */}
               <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
                 From Small Shop to{' '}
                 <span className="text-cyan-600">LA&apos;s Trusted Partner</span>
@@ -174,7 +172,7 @@ export default function AboutPage() {
 
               <div data-reveal="delay-2" className="space-y-4 text-slate-600 leading-relaxed">
                 <p>
-                  Artistic Printing Company was founded in 2005 with a simple mission:
+                  Artistic Printing Company was founded in 2010 with a simple mission:
                   provide Los Angeles businesses with exceptional printing services and
                   unmatched customer care.
                 </p>
@@ -230,7 +228,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge data-reveal className="bg-purple-100 text-purple-700 mb-4">Our Journey</Badge>
-            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900">20+ Years of Growth</h2>
+            <h2 data-reveal="delay-1" className="text-3xl sm:text-4xl font-bold text-slate-900">15+ Years of Growth</h2>
           </div>
 
           <div className="relative">
@@ -330,7 +328,7 @@ export default function AboutPage() {
             {[
               { icon: MapPin, title: 'Location', desc: '5878 W Pico Blvd, LA 90019' },
               { icon: Clock, title: 'Hours', desc: 'Mon-Fri: 8am - 6pm' },
-              { icon: Mail, title: 'Contact', desc: 'info@artisticprinting.com' },
+              { icon: Mail, title: 'Contact', desc: 'design@artisticprinting.com' },
             ].map((item, i) => {
               const Icon = item.icon
               return (
@@ -374,7 +372,6 @@ export default function AboutPage() {
                     <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg group-hover:bg-white/20 group-hover:scale-110 transition-all duration-500`}>
                       <Icon className="w-8 h-8 text-white" />
                     </div>
-                    {/* FIXED: responsive heading */}
                     <h3 className="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-white mb-3 transition-colors duration-300">
                       {value.title}
                     </h3>
