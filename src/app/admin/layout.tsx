@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/auth-context'
 import { AdminSidebar } from '@/components/admin/admin-sidebar'
 import { AdminHeader } from '@/components/admin/admin-header'
 import { AdminSearchProvider, useAdminSearch } from '@/lib/admin-search-context'
+import { seedPageContent } from '@/lib/page-content-seed'
 
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -27,6 +28,16 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
       setNewQuoteCount(snap.size)
     })
     return unsub
+  }, [])
+
+  // Seed pageContent docs on first admin load.
+  // Idempotent: skips any doc that already exists (4 reads, 0 writes once
+  // seeded), so it's safe to run on every admin mount. Parallel to how
+  // seedSiteImages() runs from the Site Images page.
+  useEffect(() => {
+    seedPageContent().catch((err) => {
+      console.error('[admin] seedPageContent failed:', err)
+    })
   }, [])
 
   const pageTitle = pathname.includes('/site-images')

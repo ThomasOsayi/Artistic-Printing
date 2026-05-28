@@ -34,11 +34,11 @@ export interface PortfolioItem {
   industry: string
   type: string
   description: string
-  imageUrl: string        // Firebase Storage download URL
-  imagePath: string       // Firebase Storage path (for deletion)
+  imageUrl: string
+  imagePath: string
   featured: boolean
   visible: boolean
-  order: number           // For drag-to-reorder (lower = first)
+  order: number
   createdAt?: string
   updatedAt?: string
 }
@@ -60,38 +60,100 @@ export interface SiteImage {
 // Hybrid content model: page structure is hardcoded in React templates
 // (IndustryPage, ServicePageTemplate, NeighborhoodPage). The copy strings
 // live here, keyed by doc ID `{type}-{slug}` in the Firestore `pageContent`
-// collection. Templates read the keys they need from `sections`; missing
-// keys fall back to template defaults or hide the section.
+// collection.
+//
+// `sections` holds short copy (eyebrows, headings, subtitles) as a flat
+// string map. Rich list content (cards, logos, steps) uses the typed
+// optional arrays below — each template reads only the fields it needs;
+// fields not consumed by a given template type are ignored.
 
 export type PageContentType = 'industry' | 'service' | 'neighborhood' | 'page'
 
+// Gradient palette options used by compliance cards (matches existing site).
+export type GradientColor =
+  | 'cyan-blue'
+  | 'purple-pink'
+  | 'amber-orange'
+  | 'emerald-teal'
+  | 'pink-rose'
+  | 'blue-indigo'
+
+// Single-color accents used by trust logo pills and print-item icons.
+export type AccentColor =
+  | 'cyan'
+  | 'emerald'
+  | 'purple'
+  | 'pink'
+  | 'amber'
+  | 'teal'
+  | 'blue'
+  | 'rose'
+
+// One of the 4 "what hospitals/restaurants/etc. look for" cards.
+export interface ComplianceCard {
+  icon: string              // lucide-react icon name in kebab-case (e.g. 'shield-check')
+  color: GradientColor
+  title: string
+  description: string
+}
+
+// One item in the "What We Print" grid (6–9 per page).
+export interface PrintItem {
+  icon: string              // lucide-react icon name in kebab-case
+  title: string
+  subtitle: string          // small descriptive line under the title
+}
+
+// One logo/name pill in the "Trusted by" marquee (6–8 per page).
+export interface TrustLogo {
+  icon: string              // lucide-react icon name in kebab-case
+  color: AccentColor
+  name: string
+}
+
+// One step in the 5-step process timeline.
+export interface ProcessStep {
+  title: string
+  description: string
+}
+
 export interface PageContent {
   id: string                          // Firestore doc ID, format: `{type}-{slug}`
-  type: PageContentType               // Drives which React template renders this doc
+  type: PageContentType
   slug: string                        // URL path, no leading slash (e.g. 'healthcare-printing-los-angeles')
-  published: boolean                  // false = draft; excluded from sitemap and 404s on direct hit
+  published: boolean
 
   // ─── SEO ──────────────────────────────────────
-  metaTitle: string                   // <title>; root layout's title.template appends " — Artistic Printing Co."
-  metaDescription: string             // <meta name="description"> — keep under ~155 chars
+  metaTitle: string
+  metaDescription: string
 
   // ─── Hero ─────────────────────────────────────
-  heroBadge?: string                  // Small label above H1 (e.g. "Los Angeles Healthcare Printing")
-  h1: string                          // Main page heading
-  heroSubtitle: string                // Intro paragraph below H1
+  heroBadge?: string
+  h1: string
+  heroSubtitle: string
+  heroBullets?: string[]              // Hero trust bullets (4–5 short strings with leading check icons)
 
-  // ─── Body ─────────────────────────────────────
-  // Flexible key-value map; each template reads the keys it expects.
-  // Example for an industry page:
-  //   { intro: '...', whatWePrint: '...', compliance: '...', whyUs: '...', cta: '...' }
+  // ─── Section copy (eyebrows, headings, subtitles) ─
+  // Industry pages expect these keys (others may be ignored):
+  //   complianceEyebrow, complianceHeading, complianceSubtitle
+  //   printEyebrow, printHeading, printIntro
+  //   trustEyebrow, trustHeading
+  //   processEyebrow, processHeading, processSubtitle
+  //   faqEyebrow, faqHeading, faqSubtitle
+  //   ctaEyebrow, ctaHeading, ctaSubtitle
   sections: Record<string, string>
 
+  // ─── Industry page structured lists (optional) ─
+  // Other page types ignore these without harm.
+  complianceCards?: ComplianceCard[]
+  printItems?: PrintItem[]
+  trustLogos?: TrustLogo[]
+  processSteps?: ProcessStep[]
+
   // ─── Optional FAQ ─────────────────────────────
-  // Rendered as accordion + FAQ JSON-LD on the page.
   faqs?: Array<{ question: string; answer: string }>
 
   // ─── Optional internal links ──────────────────
-  // Slugs of related pages, surfaced in a "Related" block at the bottom.
   relatedSlugs?: string[]
 
   createdAt?: string

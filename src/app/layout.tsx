@@ -7,10 +7,16 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const SITE_URL = 'https://www.artisticprinting.com'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.artisticprinting.com'),
-  title: 'Artistic Printing Co. | Commercial Printing in Los Angeles',
-  description: 'Trusted by LA businesses since 2005 for commercial printing, custom packaging, and large format printing. Request a free quote today.',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Artistic Printing Co. | Commercial Printing in Los Angeles',
+    template: '%s — Artistic Printing Co.',
+  },
+  description:
+    'Commercial printing in Los Angeles since 2010. Custom healthcare forms, business cards, packaging, and large format banners. Free quotes within 24 hours.',
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -22,65 +28,98 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
   openGraph: {
     title: 'Artistic Printing Co.',
-    description: 'Commercial Printing • Custom Packaging • Large Format — Los Angeles',
-    url: 'https://www.artisticprinting.com',
+    description:
+      'Commercial Printing • Custom Packaging • Large Format — Los Angeles',
+    url: SITE_URL,
+    siteName: 'Artistic Printing Co.',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
     type: 'website',
+    locale: 'en_US',
   },
 }
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': 'https://www.artisticprinting.com',
-  name: 'Artistic Printing Company',
-  description: 'Commercial printing, custom packaging, and large format printing services in Los Angeles. Serving healthcare, hospitality, education, and automotive industries since 2010.',
-  url: 'https://www.artisticprinting.com',
-  telephone: '+1-323-939-8911',
-  email: 'info@artisticprinting.com',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '5878 West Pico Boulevard',
-    addressLocality: 'Los Angeles',
-    addressRegion: 'CA',
-    postalCode: '90019',
-    addressCountry: 'US',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 34.0481,
-    longitude: -118.3626,
-  },
-  openingHoursSpecification: [
+  '@graph': [
     {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '08:00',
-      closes: '18:00',
+      '@type': 'LocalBusiness',
+      '@id': `${SITE_URL}/#business`,
+      name: 'Artistic Printing Company',
+      alternateName: 'Artistic Printing Co.',
+      description:
+        'Commercial printing, custom healthcare forms, packaging, and large format printing in Los Angeles. Serving healthcare, hospitality, education, and automotive industries since 2010.',
+      url: SITE_URL,
+      telephone: '+1-323-939-8911',
+      email: 'design@artisticprinting.com',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '5878 West Pico Boulevard',
+        addressLocality: 'Los Angeles',
+        addressRegion: 'CA',
+        postalCode: '90019',
+        addressCountry: 'US',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 34.0481,
+        longitude: -118.3626,
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '08:00',
+          closes: '18:00',
+        },
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: 'Saturday',
+          opens: '09:00',
+          closes: '14:00',
+        },
+      ],
+      foundingDate: '2010',
+      areaServed: [
+        { '@type': 'City', name: 'Los Angeles' },
+        { '@type': 'AdministrativeArea', name: 'Los Angeles County' },
+      ],
+      serviceType: [
+        'Commercial Printing',
+        'Custom Healthcare Forms',
+        'Medical Forms',
+        'Dental Forms',
+        'Custom Packaging',
+        'Large Format Printing',
+        'Business Cards',
+        'Brochures',
+        'Banners',
+        'Vehicle Wraps',
+      ],
+      priceRange: '$$',
+      image: `${SITE_URL}/og-image.png`,
+      logo: `${SITE_URL}/logo-header.png`,
+      founder: { '@id': `${SITE_URL}/#estevan` },
+      sameAs: [],
     },
     {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Saturday',
-      opens: '09:00',
-      closes: '14:00',
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'Artistic Printing Co.',
+      description:
+        'Commercial printing services in Los Angeles. Healthcare forms, packaging, business cards, and large format.',
+      publisher: { '@id': `${SITE_URL}/#business` },
+      inLanguage: 'en-US',
+    },
+    {
+      // PLACEHOLDER — fill in image, sameAs (LinkedIn), and description when available
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#estevan`,
+      name: 'Estevan',
+      jobTitle: 'Owner',
+      worksFor: { '@id': `${SITE_URL}/#business` },
     },
   ],
-  foundingDate: '2010',
-  areaServed: {
-    '@type': 'City',
-    name: 'Los Angeles',
-  },
-  serviceType: [
-    'Commercial Printing',
-    'Custom Packaging',
-    'Large Format Printing',
-    'Business Cards',
-    'Brochures',
-    'Banners',
-    'Vehicle Wraps',
-  ],
-  priceRange: '$$',
-  sameAs: [],
 }
 
 export default function RootLayout({
@@ -98,9 +137,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
         <Analytics />
         <GoogleAnalytics gaId="G-R91VBXEWDG" />
       </body>
