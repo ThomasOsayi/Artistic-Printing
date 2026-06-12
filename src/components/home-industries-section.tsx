@@ -16,40 +16,44 @@ import {
 const industries = [
   {
     key: 'home-industry-healthcare',
+    href: '/healthcare-printing-los-angeles',
     icon: Heart,
     name: 'Healthcare',
     desc: 'Patient forms, signage, brochures',
-    stats: 'View Work →',
+    stats: 'Learn More',
     color: 'from-rose-500 to-pink-600',
     image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80',
     items: ['Patient intake forms', 'Hospital signage', 'Medical brochures', 'Prescription pads'],
   },
   {
     key: 'home-industry-hospitality',
+    href: '/hospitality-printing-los-angeles',
     icon: UtensilsCrossed,
     name: 'Hospitality',
     desc: 'Menus, napkins, packaging',
-    stats: 'View Work →',
+    stats: 'Learn More',
     color: 'from-amber-500 to-orange-600',
     image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80',
     items: ['Restaurant menus', 'Custom napkins', 'Takeout packaging', 'Table tents'],
   },
   {
     key: 'home-industry-education',
+    href: '/education-printing-los-angeles',
     icon: GraduationCap,
     name: 'Education',
     desc: 'Flyers, handbooks, materials',
-    stats: 'View Work →',
+    stats: 'Learn More',
     color: 'from-blue-500 to-indigo-600',
     image: 'https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=600&q=80',
     items: ['Course catalogs', 'Event flyers', 'Student handbooks', 'Certificates'],
   },
   {
     key: 'home-industry-automotive',
+    href: '/automotive-printing-los-angeles',
     icon: Car,
     name: 'Automotive',
     desc: 'Brochures, forms, signage',
-    stats: 'View Work →',
+    stats: 'Learn More',
     color: 'from-slate-600 to-slate-800',
     image: 'https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=600&q=80',
     items: ['Sales brochures', 'Service forms', 'Showroom signage', 'Promotional materials'],
@@ -75,7 +79,7 @@ export function HomeIndustriesSection() {
           {industries.map((industry, i) => (
             <Link
               key={i}
-              href="/portfolio"
+              href={industry.href}
               data-reveal="scale"
               className="group relative rounded-2xl overflow-hidden cursor-pointer h-[420px] shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1"
             >
