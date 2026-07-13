@@ -9,14 +9,24 @@ const inter = Inter({ subsets: ['latin'] })
 
 const SITE_URL = 'https://www.artisticprinting.com'
 
+// ─────────────────────────────────────────────────────────────────────
+// SINGLE SOURCE OF TRUTH — confirm with Estevan, then change here only.
+// Appears in: root description, LocalBusiness schema, About page copy.
+// If 1995 is correct, that is 30+ years and a major authority signal.
+// ─────────────────────────────────────────────────────────────────────
+const FOUNDING_YEAR = '2010'
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Artistic Printing Co. | Commercial Printing in Los Angeles',
-    template: '%s — Artistic Printing Co.',
+    // Homepage title. Targets "commercial printing company" (pos 8.4)
+    // and "commercial printing" (pos 10.8) with the LA modifier added.
+    default: 'Commercial Printing Company Los Angeles | Artistic Printing',
+    // Short suffix preserves character budget for child page titles.
+    template: '%s | Artistic Printing',
   },
   description:
-    'Commercial printing in Los Angeles since 2010. Custom healthcare forms, business cards, packaging, and large format banners. Free quotes within 24 hours.',
+    `Family-owned Los Angeles commercial printer since ${FOUNDING_YEAR}. Healthcare and dental forms, NCR carbonless, business cards, banners. Free LA pickup and delivery.`,
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -27,9 +37,9 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: {
-    title: 'Artistic Printing Co.',
+    title: 'Commercial Printing Company in Los Angeles | Artistic Printing',
     description:
-      'Commercial Printing • Custom Packaging • Large Format — Los Angeles',
+      `Healthcare forms, NCR carbonless, packaging, and large format printing in Los Angeles. Family-owned since ${FOUNDING_YEAR}. Free local pickup and delivery.`,
     url: SITE_URL,
     siteName: 'Artistic Printing Co.',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
@@ -47,7 +57,7 @@ const jsonLd = {
       name: 'Artistic Printing Company',
       alternateName: 'Artistic Printing Co.',
       description:
-        'Commercial printing, custom healthcare forms, packaging, and large format printing in Los Angeles. Serving healthcare, hospitality, education, and automotive industries since 2010.',
+        `Commercial printing, custom healthcare and dental forms, NCR carbonless forms, packaging, and large format printing in Los Angeles. Serving hospitals, clinics, hospices, home health agencies, dental offices, restaurants, dealerships, and schools since ${FOUNDING_YEAR}.`,
       url: SITE_URL,
       telephone: '+1-323-939-8911',
       email: 'design@artisticprinting.com',
@@ -78,27 +88,52 @@ const jsonLd = {
           closes: '14:00',
         },
       ],
-      foundingDate: '2010',
+      foundingDate: FOUNDING_YEAR,
       areaServed: [
         { '@type': 'City', name: 'Los Angeles' },
         { '@type': 'AdministrativeArea', name: 'Los Angeles County' },
       ],
+      // Expanded to include the exact service terms currently earning
+      // impressions in Search Console but with no dedicated page yet.
       serviceType: [
         'Commercial Printing',
         'Custom Healthcare Forms',
-        'Medical Forms',
-        'Dental Forms',
+        'Medical Forms Printing',
+        'Dental Forms Printing',
+        'NCR Carbonless Forms',
+        'Consent Forms',
+        'Statement Printing and Mailing',
         'Custom Packaging',
         'Large Format Printing',
         'Business Cards',
         'Brochures',
-        'Banners',
-        'Vehicle Wraps',
+        'Restaurant Menu Printing',
+        'Banners and Signage',
+        'Presentation Folders',
+        'Envelopes and Letterhead',
+      ],
+      // Reinforces topical authority in the healthcare vertical, which is
+      // the strongest real specialization and the clearest path to ranking.
+      knowsAbout: [
+        'HIPAA-aware print production',
+        'Patient intake forms',
+        'Carbonless multi-part forms',
+        'Skilled nursing facility forms',
+        'Hospice and home health documentation',
       ],
       priceRange: '$$',
       image: `${SITE_URL}/og-image.png`,
       logo: `${SITE_URL}/logo-header.png`,
       founder: { '@id': `${SITE_URL}/#estevan` },
+      // ───────────────────────────────────────────────────────────────
+      // TODO — populate as each profile goes live. This array is how
+      // Google corroborates that the business is real. Empty = no
+      // corroboration. Add in this order as they become available:
+      //   1. Google Business Profile URL   (highest value)
+      //   2. Yelp listing
+      //   3. BBB listing
+      //   4. LinkedIn / Facebook company page
+      // ───────────────────────────────────────────────────────────────
       sameAs: [],
     },
     {
@@ -107,12 +142,16 @@ const jsonLd = {
       url: SITE_URL,
       name: 'Artistic Printing Co.',
       description:
-        'Commercial printing services in Los Angeles. Healthcare forms, packaging, business cards, and large format.',
+        'Commercial printing services in Los Angeles. Healthcare and dental forms, NCR carbonless, packaging, business cards, and large format.',
       publisher: { '@id': `${SITE_URL}/#business` },
       inLanguage: 'en-US',
     },
     {
-      // PLACEHOLDER — fill in image, sameAs (LinkedIn), and description when available
+      // ───────────────────────────────────────────────────────────────
+      // TODO — a real owner entity is a genuine E-E-A-T signal for a
+      // local business. Ask Estevan for: full name, a one-line bio, and
+      // a LinkedIn URL (goes in sameAs). Until then this stays minimal.
+      // ───────────────────────────────────────────────────────────────
       '@type': 'Person',
       '@id': `${SITE_URL}/#estevan`,
       name: 'Estevan',

@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Free Print Quote',
+  // Root template appends " | Artistic Printing"
+  title: 'Contact Us | 5878 W Pico Blvd, Los Angeles',
   description:
-    'Request a free printing quote from Artistic Printing Co. in Los Angeles. Visit us at 5878 W Pico Blvd or call (323) 939-8911. We respond within 24 hours.',
+    'Call (323) 939-8911 or visit our Pico Blvd shop for a free print quote. Free pickup and delivery across Los Angeles. We respond within 24 hours.',
   openGraph: {
-    title: 'Contact Artistic Printing Co.',
+    title: 'Contact Artistic Printing | Los Angeles',
     description:
-      'Request a free printing quote. Visit us at 5878 W Pico Blvd, Los Angeles, or call (323) 939-8911.',
+      'Request a free printing quote. 5878 W Pico Blvd, Los Angeles. Call (323) 939-8911. Free local pickup and delivery.',
   },
 }
 

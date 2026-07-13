@@ -20,7 +20,7 @@ A modern commercial printing company website built with Next.js 16, React 19, Ta
 | tailwind-merge | 3.4.0 | Tailwind class deduplication |
 | Resend | 6.9.2 | Transactional email (quote notification) |
 | @vercel/analytics | 2.0.0 | Vercel web analytics |
-| @next/third-parties | 16.2.2 | Google Analytics integration |
+| @next/third-parties | 16.2.2 | Google Analytics (`G-R91VBXEWDG`) |
 
 ---
 
@@ -33,105 +33,116 @@ Artistic-Printing/
 │
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx                   # Root layout (html, body, Inter, metadata, JSON-LD, AuthProvider, Analytics, GA)
+│   │   ├── layout.tsx                   # Root layout: Inter, metadata, @graph JSON-LD, AuthProvider, Analytics, GA
 │   │   ├── globals.css                  # Global styles, CSS variables, animations
 │   │   ├── robots.ts                    # Robots.txt: allow /, disallow /admin/ /staff-login /api/
-│   │   ├── sitemap.ts                   # Static routes + dynamic pageContent from Firestore (revalidate 1h)
-│   │   ├── manifest.json                # PWA manifest (maskable icons, standalone display)
+│   │   ├── sitemap.ts                   # Static routes + published pageContent (revalidate 1h)
+│   │   ├── manifest.json                # PWA manifest (maskable icons)
 │   │   ├── api/
 │   │   │   └── send-quote-notification/
 │   │   │       └── route.ts             # POST: Resend email to design@artisticprinting.com
 │   │   │
-│   │   ├── (main)/                      # Route group for public site pages
-│   │   │   ├── layout.tsx               # ⚠️ Currently broken duplicate of root layout (see Known Issues)
-│   │   │   ├── page.tsx                 # Home page (section composition + page metadata)
+│   │   ├── (main)/                      # Public site (Header + Footer via layout)
+│   │   │   ├── layout.tsx               # Wraps children with Header + Footer
+│   │   │   ├── page.tsx                 # Home page
+│   │   │   ├── [slug]/
+│   │   │   │   └── page.tsx             # Dynamic SEO pages (SSG + ISR; industry template live)
 │   │   │   ├── about/
 │   │   │   │   ├── layout.tsx           # About SEO metadata
-│   │   │   │   └── page.tsx             # About Us (hero, story, timeline, team, facility, values, CTA)
+│   │   │   │   └── page.tsx             # About Us
 │   │   │   ├── contact/
 │   │   │   │   ├── layout.tsx           # Contact SEO metadata
-│   │   │   │   └── page.tsx             # Contact (hero, methods, form, FAQ, CTA)
+│   │   │   │   └── page.tsx             # Contact + quote form
 │   │   │   ├── portfolio/
 │   │   │   │   ├── layout.tsx           # Portfolio SEO metadata
-│   │   │   │   └── page.tsx             # Portfolio (Firestore grid, filters, stats, marquee, CTA)
+│   │   │   │   └── page.tsx             # Portfolio grid + filters
 │   │   │   ├── services/
 │   │   │   │   ├── layout.tsx           # Services SEO metadata
-│   │   │   │   └── page.tsx             # Services (hero, categories, capabilities, process, CTA)
+│   │   │   │   └── page.tsx             # Service categories (by product type)
 │   │   │   └── staff-login/
-│   │   │       └── page.tsx             # Staff login (Firebase Auth) → /admin/quotes
+│   │   │       └── page.tsx             # Staff login → /admin/quotes
 │   │   │
-│   │   └── admin/                       # Admin dashboard (auth-protected, separate layout)
-│   │       ├── layout.tsx               # Sidebar + header; redirects unauthenticated to /staff-login
+│   │   └── admin/                       # Auth-protected dashboard
+│   │       ├── layout.tsx               # Sidebar + header; seeds pageContent on mount
 │   │       ├── page.tsx                 # Redirects to /admin/quotes
-│   │       ├── quotes/page.tsx          # Quote management
-│   │       ├── clients/page.tsx         # Client directory
-│   │       ├── portfolio/page.tsx       # Portfolio manager
-│   │       └── site-images/page.tsx     # Site Images manager
+│   │       ├── quotes/page.tsx
+│   │       ├── clients/page.tsx
+│   │       ├── portfolio/page.tsx
+│   │       └── site-images/page.tsx
 │   │
 │   ├── components/
-│   │   ├── header.tsx                   # Sticky nav, logo image, mobile menu, scroll style (not mounted — see Known Issues)
-│   │   ├── footer.tsx                   # Footer with logo, links, contact, scroll reveal (not mounted)
-│   │   ├── breadcrumbs.tsx              # Breadcrumb trail + BreadcrumbList JSON-LD (ready, not used on pages yet)
-│   │   ├── quote-form.tsx               # Reusable quote form (home features section; Firestore + Resend)
-│   │   ├── testimonials-section.tsx     # Home testimonials carousel
-│   │   ├── trust-bar.tsx                # Home trust bar (client pills + scroll reveal)
-│   │   ├── home-hero-section.tsx        # Home hero (useSiteImages)
-│   │   ├── home-industries-section.tsx  # Home industries grid
-│   │   ├── home-features-section.tsx    # Home features + QuoteForm
-│   │   ├── home-cta-section.tsx         # Home CTA banner
-│   │   ├── home-portfolio-section.tsx   # Home recent projects (Firestore)
-│   │   ├── admin/                       # Admin dashboard components (sidebar, header, tables, modals, etc.)
+│   │   ├── header.tsx                   # Sticky nav, logo, mobile menu, scroll style
+│   │   ├── footer.tsx                   # Logo, links, contact, scroll reveal
+│   │   ├── breadcrumbs.tsx              # Breadcrumb trail + BreadcrumbList JSON-LD
+│   │   ├── industry-page.tsx            # Industry landing page template (Phase 1)
+│   │   ├── quote-form.tsx               # Reusable quote form (Firestore + Resend)
+│   │   ├── testimonials-section.tsx
+│   │   ├── trust-bar.tsx
+│   │   ├── home-hero-section.tsx
+│   │   ├── home-industries-section.tsx  # Links to 4 industry landing pages
+│   │   ├── home-features-section.tsx
+│   │   ├── home-cta-section.tsx
+│   │   ├── home-portfolio-section.tsx
+│   │   ├── admin/                       # Admin components (sidebar, tables, modals, etc.)
 │   │   └── ui/                          # shadcn/ui: badge, button, card, input, tabs, textarea
 │   │
 │   ├── hooks/
-│   │   ├── use-site-images.ts           # Real-time site images by page
+│   │   ├── use-site-images.ts
 │   │   └── use-scroll-reveal.ts         # Scroll reveal + useParallax
 │   │
 │   └── lib/
-│       ├── firebase.ts                  # Firestore + Storage init
-│       ├── auth-context.tsx             # Firebase Auth (AuthProvider, useAuth)
-│       ├── admin-search-context.tsx       # Shared admin search state
-│       ├── admin-data.ts                # Types: Quote, Client, PortfolioItem, SiteImage, PageContent + mockQuotes
-│       ├── site-images-seed.ts          # 35 default siteImages docs (home/services/about/portfolio/contact)
-│       ├── page-content-seed.ts         # Phase 0 pageContent seeder (SEED_PAGES empty until Phase 1)
-│       └── utils.ts                     # cn() helper
+│       ├── firebase.ts
+│       ├── auth-context.tsx
+│       ├── admin-search-context.tsx
+│       ├── admin-data.ts                # Quote, Client, PortfolioItem, SiteImage, PageContent types
+│       ├── site-images-seed.ts          # 35 default siteImages docs
+│       ├── page-content-seed.ts         # 4 industry pageContent docs (Phase 1)
+│       └── utils.ts
 │
 ├── .env.local                           # Firebase + RESEND_API_KEY (not committed)
-├── components.json                      # shadcn/ui config
-├── eslint.config.mjs
-├── next.config.ts                       # Unsplash remotePatterns for next/image
+├── components.json
+├── next.config.ts
 ├── package.json
-├── postcss.config.mjs
-├── tsconfig.json                        # @/* path alias
-└── PROJECT_STRUCTURE.md                 # This file
+├── tsconfig.json
+└── PROJECT_STRUCTURE.md
 ```
 
 ---
 
 ## Routes
 
-### Public Pages (under `(main)` route group)
+### Public Pages
 
 | Route | File | Description |
 |-------|------|-------------|
-| `/` | `src/app/(main)/page.tsx` | Homepage (composed sections) |
-| `/about` | `src/app/(main)/about/page.tsx` | About Us |
-| `/services` | `src/app/(main)/services/page.tsx` | Services listing |
-| `/portfolio` | `src/app/(main)/portfolio/page.tsx` | Portfolio with filters |
-| `/contact` | `src/app/(main)/contact/page.tsx` | Contact + quote form |
-| `/staff-login` | `src/app/(main)/staff-login/page.tsx` | Staff login → `/admin/quotes` |
+| `/` | `(main)/page.tsx` | Homepage |
+| `/about` | `(main)/about/page.tsx` | About Us |
+| `/services` | `(main)/services/page.tsx` | Service types (commercial, packaging, large format, office) |
+| `/portfolio` | `(main)/portfolio/page.tsx` | Portfolio with filters |
+| `/contact` | `(main)/contact/page.tsx` | Contact + quote form |
+| `/staff-login` | `(main)/staff-login/page.tsx` | Staff login |
+| `/[slug]` | `(main)/[slug]/page.tsx` | Dynamic SEO landing pages from Firestore `pageContent` |
 
-Dynamic SEO landing pages (`pageContent` collection) are planned (Phase 1+); infrastructure exists but no routes or seed data yet.
+### Industry Landing Pages (Phase 1 — live)
+
+| Slug | Firestore doc ID | Linked from homepage |
+|------|------------------|----------------------|
+| `/healthcare-printing-los-angeles` | `industry-healthcare-printing-los-angeles` | Industries We Serve → Healthcare |
+| `/hospitality-printing-los-angeles` | `industry-hospitality-printing-los-angeles` | Industries We Serve → Hospitality |
+| `/education-printing-los-angeles` | `industry-education-printing-los-angeles` | Industries We Serve → Education |
+| `/automotive-printing-los-angeles` | `industry-automotive-printing-los-angeles` | Industries We Serve → Automotive |
+
+All four are **SSG-prerendered** at build time (`generateStaticParams`), **ISR-revalidated hourly** (`revalidate = 3600`), and included in `sitemap.xml`. Unpublished or unknown slugs return 404.
 
 ### Admin Dashboard
 
-| Route | File | Description |
-|-------|------|-------------|
-| `/admin` | `src/app/admin/page.tsx` | Redirects to `/admin/quotes` |
-| `/admin/quotes` | `src/app/admin/quotes/page.tsx` | Quote management |
-| `/admin/clients` | `src/app/admin/clients/page.tsx` | Client directory |
-| `/admin/portfolio` | `src/app/admin/portfolio/page.tsx` | Portfolio CRUD + image upload |
-| `/admin/site-images` | `src/app/admin/site-images/page.tsx` | Site Images manager |
+| Route | Description |
+|-------|-------------|
+| `/admin` | Redirects to `/admin/quotes` |
+| `/admin/quotes` | Quote management |
+| `/admin/clients` | Client directory |
+| `/admin/portfolio` | Portfolio CRUD + image upload |
+| `/admin/site-images` | Site Images manager |
 
 ---
 
@@ -140,86 +151,49 @@ Dynamic SEO landing pages (`pageContent` collection) are planned (Phase 1+); inf
 ### 1. Home Page (`/`)
 **File:** `src/app/(main)/page.tsx`
 
-Exports page-level `metadata` (title, description, OpenGraph).
-
-- **Hero:** `HomeHeroSection` — `useSiteImages('home')` for `home-hero-bg` and product card images; glow orbs, grid, headline, CTAs, floating product cards.
-- **Trust Bar:** `TrustBar` — infinite scroll client pills, gradient masks, `useScrollReveal`.
-- **Industries:** `HomeIndustriesSection` — four industry cards with optional site images.
+- **Hero:** `HomeHeroSection` — site images, glow orbs, “Where Ideas Become Print”, CTAs; “Trusted by LA businesses since **2010**”.
+- **Trust Bar:** `TrustBar` — client marquee; “Trusted by LA businesses since **2010**”.
+- **Industries:** `HomeIndustriesSection` — four cards link to industry landing pages (`/healthcare-printing-los-angeles`, etc.); CTA label “Learn More”.
 - **Portfolio Preview:** `HomePortfolioSection` — Firestore `portfolio` (visible, limit 6, featured first).
-- **Features + Quote:** `HomeFeaturesSection` — dark section, facility strip images, four feature cards, embedded `QuoteForm` (dark variant).
-- **Testimonials:** `TestimonialsSection` — auto-rotate every 6s.
-- **CTA:** `HomeCTASection` — `home-cta-bg` background, quote + phone CTAs.
+- **Features + Quote:** `HomeFeaturesSection` — dark section, facility images, `QuoteForm` (dark).
+- **Testimonials:** `TestimonialsSection` — auto-rotate 6s.
+- **CTA:** `HomeCTASection` — `home-cta-bg`, quote + phone buttons.
 
-### 2. About Page (`/about`)
-**File:** `src/app/(main)/about/page.tsx` — **client component**
+### 2–6. Static Pages
+- **About** — hero, story, timeline, team, facility tour, values, CTA; `useSiteImages('about')`.
+- **Services** — hero (15+ years experience), four service-type categories, capabilities, 4-step process, CTA; `useSiteImages('services')`.
+- **Portfolio** — Firestore grid, industry filters, stats, client marquee, CTA; `useSiteImages('portfolio')`.
+- **Contact** — hero, contact method cards, inline quote form (Firestore only), FAQ accordion, CTA; `useSiteImages('contact')`.
+- **Staff Login** — Firebase Auth → `/admin/quotes`.
 
-- **Hero:** Dark hero with `about-hero-bg` via `useSiteImages('about')`, animated entrance, badge “Family-Owned Since 2010”.
-- **Story + Stats:** Two-column story with stats grid (15+ Years, 24-48hr Turnaround, 10M+ Prints, 100% Satisfaction).
-- **Timeline:** Company milestones (2010–2026) with scroll reveal.
-- **Team:** Four members (Kassa, Marcel, Estevan, João Serro) with gradient avatar initials and bios.
-- **Facility Tour:** Four facility images via site image keys (`about-facility-digital`, offset, design, finishing).
-- **Values:** Quality First, On-Time Delivery, Fair Pricing with icon cards.
-- **CTA:** Full-width section with `about-cta-bg`, contact buttons.
-- **SEO layout:** `about/layout.tsx` exports metadata.
+### 7. Dynamic Industry Pages (`/[slug]`)
+**Files:** `src/app/(main)/[slug]/page.tsx`, `src/components/industry-page.tsx`
 
-### 3. Services Page (`/services`)
-**File:** `src/app/(main)/services/page.tsx` — **client component**
+**Route handler (`[slug]/page.tsx`):**
+- `generateStaticParams()` — fetches all `pageContent` where `published === true` at build time.
+- `generateMetadata()` — per-page title, description, canonical URL, OpenGraph; 404 metadata for missing pages.
+- `getPage(slug)` — Firestore query by slug; returns null if unpublished or missing.
+- `revalidate = 3600`, `dynamicParams = true` — hourly ISR; new slugs render on first request.
+- Template router: `type === 'industry'` → `IndustryPage`; other types 404 until Phase 2–4.
+- Injects **Service** JSON-LD + optional **FAQPage** JSON-LD.
 
-- **Hero:** `services-hero-bg`, stats row (24-48hr, 20+ Years, Free Estimates), animated entrance.
-- **Service Categories:** Four alternating sections (Commercial, Custom Packaging, Large Format, Office & Forms) with icons, item lists, per-category images from site images (`services-commercial`, `services-packaging`, etc.), “Get a Quote” links.
-- **Capabilities:** Dark section with `services-capabilities-bg`, icon grid (digital, offset, bindery, design, etc.).
-- **Process:** How-we-work steps with scroll reveal.
-- **CTA:** `services-cta-bg` background, “Don't See What You Need?” + Contact Us.
-- **SEO layout:** `services/layout.tsx`.
+**Industry template (`industry-page.tsx`):**
+- **Breadcrumbs** — Home → Industries (`/services`) → page name; `BreadcrumbList` JSON-LD.
+- **Hero** — badge + icon, H1, subtitle, bullets, quote/phone CTAs, optional hero image from `sections.heroImage`.
+- **Compliance grid** — `complianceCards` (icon, gradient color, title, description).
+- **What We Print** — `printItems` grid with icons.
+- **Trusted By** — infinite marquee of `trustLogos`.
+- **Process** — 5-step timeline (`processSteps` or defaults).
+- **FAQ** — accordion; mirrors FAQ JSON-LD on route.
+- **CTA + Form** — contact info + embedded `QuoteForm` (dark); `#quote` anchor.
 
-### 4. Portfolio Page (`/portfolio`)
-**File:** `src/app/(main)/portfolio/page.tsx` — **client component**
+Content is driven entirely by Firestore `pageContent` docs (seeded from `page-content-seed.ts`).
 
-- **Data:** Real-time Firestore `portfolio` where `visible === true`, ordered by `order`.
-- **Hero:** `portfolio-hero-bg` via `useSiteImages('portfolio')`.
-- **Filter Bar:** Sticky industry filters (All + dynamic industries from data) with counts.
-- **Projects Grid:** Cards with industry icon/color mapping, image, badges, hover overlay, loading spinner.
-- **Empty State:** “No projects found” when filter matches nothing.
-- **Stats:** Four stat cards (500+ Projects, Rush Orders, 20+ Years, 100% Satisfaction).
-- **Clients Marquee:** Infinite horizontal scroll of client names.
-- **CTA:** `portfolio-cta-bg` with gradient overlay, quote + phone.
-- **SEO layout:** `portfolio/layout.tsx`.
-
-### 5. Contact Page (`/contact`)
-**File:** `src/app/(main)/contact/page.tsx` — **client component**
-
-- **Hero:** `contact-hero-bg`, “We Respond Within 24 Hours” badge.
-- **Contact Method Cards:** Visit, Call, Email (`design@artisticprinting.com`), Hours — with gradient icons and action links (Google Maps directions, tel:, mailto:).
-- **Quote Form (inline):** First/Last name, company, email, phone, project details; saves to Firestore `quotes` with `serverTimestamp()`. Does **not** call `/api/send-quote-notification` (unlike `QuoteForm` on home).
-- **Quick Services sidebar:** Turnaround hints for common products.
-- **FAQ Accordion:** Five FAQs with expand/collapse.
-- **CTA:** `contact-cta-bg` section.
-- **SEO layout:** `contact/layout.tsx`.
-
-### 6. Staff Login (`/staff-login`)
-**File:** `src/app/(main)/staff-login/page.tsx`
-
-- Email + password via `useAuth().login()`; redirect to `/admin/quotes` on success; branded admin access UI.
-
-### 7. Admin — Quotes (`/admin/quotes`)
-- Real-time Firestore `quotes` (`onSnapshot`, `createdAt` desc).
-- Stats: New, Quoted, Approved, Monthly Revenue.
-- Filterable table + detail panel with status workflow, pricing card, ReplyModal, delete with confirmation.
-- `updateDoc` / `deleteDoc` for status, prices, turnaround.
-
-### 8. Admin — Clients (`/admin/clients`)
-- Real-time `clients` + `quotes`; computed orders/revenue by company name.
-- Stats: Total Clients, Repeat Clients, Avg. Order Value.
-- ClientTable + ClientModal (add from quote companies or manual, edit, delete).
-
-### 9. Admin — Portfolio (`/admin/portfolio`)
-- CRUD on `portfolio` collection; images in Storage `portfolio/{timestamp}-{id}.{ext}`.
-- Stats, search, industry tabs, visibility/featured toggles, PortfolioModal with 5MB image validation.
-
-### 10. Admin — Site Images (`/admin/site-images`)
-- Real-time `siteImages`; `seedSiteImages()` on first load (35 seed docs if collection empty).
-- Tabs: Home (14), Services (7), About (10), Portfolio (2), Contact (2).
-- Upload / revert / reset; ImagePreviewModal (portal); desktop/mobile preview toggle.
+### 8–11. Admin Pages
+- **Quotes** — real-time list, status workflow, pricing, ReplyModal, delete.
+- **Clients** — CRUD, quote-derived metrics.
+- **Portfolio** — CRUD, Storage upload/delete, visibility/featured toggles.
+- **Site Images** — 35 seed images across 5 pages; upload/revert/reset; preview modal.
 
 ---
 
@@ -228,57 +202,40 @@ Exports page-level `metadata` (title, description, OpenGraph).
 ### Layout
 
 #### Root Layout (`src/app/layout.tsx`)
-- `<html>` / `<body>`, Inter font, `globals.css`, `AuthProvider`.
-- **Metadata:** `metadataBase`, title, description, favicons, manifest, OpenGraph (`/og-image.png`).
-- **JSON-LD:** Single `LocalBusiness` entity (address, geo, hours, services, `info@artisticprinting.com`).
-- **Analytics:** Vercel `<Analytics />` + Google Analytics (`G-R91VBXEWDG`) via `@next/third-parties/google`.
+- `title.template`: `%s — Artistic Printing Co.`
+- `@graph` JSON-LD: `LocalBusiness`, `WebSite`, `Person` (Estevan placeholder).
+- `AuthProvider`, Vercel Analytics, Google Analytics.
 
-#### Main Site Layout (`src/app/(main)/layout.tsx`) — Known Issue
-Currently contains a **duplicate** of enhanced root-layout code (metadata with `title.template`, `@graph` JSON-LD, AuthProvider, Analytics, GA) and incorrectly imports `./globals.css` from the wrong path. **Build fails** until this file is restored to wrap children with `<Header>` and `<Footer>` only.
+#### Main Layout (`src/app/(main)/layout.tsx`)
+- `<Header />` + `{children}` + `<Footer />`.
 
-#### Header (`src/components/header.tsx`) — Implemented, not mounted
-- Sticky nav with `/logo-header.png` (next/image), scroll-based `.header-scrolled` style.
-- Links: Home, Services, Portfolio, About, Contact; phone; “Get a Quote”; mobile slide-down menu; active route highlight.
+#### Header / Footer
+- **Header** — `/logo-header.png`, nav links, phone, “Get a Quote”, mobile menu, `.header-scrolled` frosted glass.
+- **Footer** — logo, quick links, contact, “Family Owned” / “15+ Years” badges, scroll reveal.
 
-#### Footer (`src/components/footer.tsx`) — Implemented, not mounted
-- Logo image, description, Family Owned / 15+ Years badges, quick links, contact block, copyright.
-- `useScrollReveal` with staggered `data-reveal`.
+#### Breadcrumbs (`src/components/breadcrumbs.tsx`)
+- Accessible trail + embedded `BreadcrumbList` JSON-LD; `variant` light/dark.
+- Used on industry landing pages.
 
-#### Per-Page SEO Layouts
-- `services/layout.tsx`, `portfolio/layout.tsx`, `about/layout.tsx`, `contact/layout.tsx` — page-specific `Metadata` (title, description, OpenGraph).
-- Home exports metadata from `page.tsx`; staff-login has none.
-
-#### Admin Layout (`src/app/admin/layout.tsx`)
-- Auth guard → `/staff-login`; `AdminSearchProvider`; `AdminSidebar` + `AdminHeader`; real-time new-quote badge; search clears on navigation; responsive sidebar overlay.
-
-### Public Components
-
-| Component | Purpose |
-|-----------|---------|
-| `QuoteForm` | Home features section only; Firestore + Resend notification API |
-| `Breadcrumbs` | Accessible trail + `BreadcrumbList` JSON-LD; `variant` light/dark; not used on pages yet |
-| `TestimonialsSection` | Home carousel, 6s auto-advance |
-| `TrustBar` | Home client marquee |
-| `HomeHeroSection` / `HomeIndustriesSection` / `HomeFeaturesSection` / `HomeCTASection` / `HomePortfolioSection` | Home page sections |
+### Public Section Components
+`HomeHeroSection`, `HomeIndustriesSection`, `HomeFeaturesSection`, `HomeCTASection`, `HomePortfolioSection`, `TrustBar`, `TestimonialsSection`, `QuoteForm`, `IndustryPage`.
 
 ### Hooks
-
-- **`useSiteImages(page)`** — `onSnapshot` on `siteImages` where `page === page`; `getImageUrl(key)` → `customUrl || stockUrl`. Used on home sections and services, about, portfolio, contact pages.
-- **`useScrollReveal`** — IntersectionObserver for `data-reveal` variants; used across public pages and home sections.
-- **`useParallax`** — Lightweight scroll-based translate (exported from `use-scroll-reveal.ts`).
+- **`useSiteImages(page)`** — real-time `siteImages` by page; `getImageUrl(key)`.
+- **`useScrollReveal`** — `data-reveal` scroll animations; `useParallax` for backgrounds.
 
 ### Admin Components
-`admin-sidebar`, `admin-header`, `stats-cards`, `quotes-table`, `quote-detail-panel`, `reply-modal`, `status-badge`, `client-table`, `client-modal`, `portfolio-modal`, `image-preview-modal` — full quote workflow, client CRUD, portfolio CRUD, site image management.
+`admin-sidebar`, `admin-header`, `stats-cards`, `quotes-table`, `quote-detail-panel`, `reply-modal`, `status-badge`, `client-table`, `client-modal`, `portfolio-modal`, `image-preview-modal`.
 
 ### UI (shadcn/ui)
-`badge`, `button`, `card`, `input`, `tabs`, `textarea` — new-york style, lucide icons.
+`badge`, `button`, `card`, `input`, `tabs`, `textarea`.
 
 ---
 
 ## Firebase Integration
 
 ### Setup (`src/lib/firebase.ts`)
-- Singleton Firebase app; exports `db` (Firestore), `storage` (Storage).
+- Singleton app; exports `db` (Firestore), `storage` (Storage).
 
 ### Environment Variables (`.env.local`)
 ```
@@ -292,88 +249,101 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 RESEND_API_KEY
 ```
 
-### Auth (`src/lib/auth-context.tsx`)
-- `signInWithEmailAndPassword`, `signOut`, `onAuthStateChanged`; admin layout redirects if unauthenticated.
+### Auth
+- Staff login via `signInWithEmailAndPassword`; admin layout redirects unauthenticated users.
 
 ### Firestore Collections
 
 | Collection | Purpose |
 |------------|---------|
-| `quotes` | Public form submissions + admin workflow (status, pricing, turnaround) |
+| `quotes` | Public form submissions + admin workflow |
 | `clients` | Admin client directory |
-| `portfolio` | Portfolio projects (public + admin); `visible`, `featured`, `order`, Storage URLs |
-| `siteImages` | Managed images per page/section (35 seed entries) |
-| `pageContent` | **Phase 0+** SEO landing page copy (types + seeder ready; `SEED_PAGES` empty) |
+| `portfolio` | Portfolio projects (public + admin) |
+| `siteImages` | Managed images per page/section (35 seeds) |
+| `pageContent` | SEO landing page copy + structured lists (4 industry seeds) |
+
+**`pageContent` doc shape** (see `PageContent` in `admin-data.ts`):
+- Core: `id`, `type`, `slug`, `published`, `metaTitle`, `metaDescription`, `heroBadge`, `h1`, `heroSubtitle`, `heroBullets?`
+- `sections` — flat string map (eyebrows, headings, image URLs, icon names)
+- Structured lists: `complianceCards?`, `printItems?`, `trustLogos?`, `processSteps?`, `faqs?`, `relatedSlugs?`
 
 ### Storage
 - `portfolio/{timestamp}-{id}.{ext}` — portfolio uploads
 - `siteImages/{page}/{id}.{ext}` — custom site image replacements
 
+### Seed Scripts
+- **`seedSiteImages()`** — creates 35 `siteImages` docs if collection empty (runs on Site Images admin page load).
+- **`seedPageContent()`** — idempotent; creates 4 industry docs if missing (runs on admin layout mount). Preserves existing docs/admin edits.
+
 ### Integration Points
-- **QuoteForm (home)** → Firestore `quotes` + POST `/api/send-quote-notification`
-- **Contact page form** → Firestore `quotes` only (no email API call)
-- **Admin quotes** → real-time list, status/price updates, ReplyModal Firestore writes
-- **Admin clients** → CRUD + quote-derived metrics
-- **Admin portfolio / site-images** → CRUD + Storage upload/delete
-- **Public portfolio + HomePortfolioSection** → read `portfolio` (visible)
-- **useSiteImages** → all major public pages + home sections
-- **sitemap.ts** → reads published `pageContent` docs for dynamic URLs
+- **QuoteForm (home + industry pages)** → Firestore `quotes` + POST `/api/send-quote-notification`
+- **Contact page form** → Firestore `quotes` only (no Resend call)
+- **`[slug]/page.tsx`** → reads `pageContent` at build + ISR; `generateStaticParams` + `getPage`
+- **Sitemap** → static routes + published `pageContent` slugs
+- **Admin** → full CRUD on quotes, clients, portfolio, site images
+
+### Firestore Security (production)
+- `pageContent` requires **public read** on published docs for SSG/ISR prerendering at build time and hourly revalidation. Writes remain admin-only.
 
 ---
 
 ## API Routes
 
 ### POST `/api/send-quote-notification`
-- Resend HTML email to `design@artisticprinting.com` from `onboarding@resend.dev`.
+- Resend HTML email to `design@artisticprinting.com`.
 - Called by `QuoteForm` after Firestore save (fire-and-forget).
-- Body: `firstName`, `lastName`, `email`, `phone`, `company`, `service`, `quantity`, `urgency`, `message`.
-
----
-
-## Data Types (`src/lib/admin-data.ts`)
-
-- **`Quote`** — contact fields, `status` workflow, optional `estimatedPrice`, `finalPrice`, `turnaround`, `quotedAt`
-- **`Client`** — name, industry, contact, notes; orders/revenue computed on clients page
-- **`PortfolioItem`** — client, industry, type, description, imageUrl/Path, featured, visible, order
-- **`SiteImage`** — page, section, name, location, stockUrl, customUrl/Path, recommendedSize, order
-- **`PageContent`** — `type` (industry | service | neighborhood | page), `slug`, `published`, SEO fields, `sections` map, optional `faqs`, `relatedSlugs`
-- **`mockQuotes`** — 11 sample quotes (reference/fallback; admin uses live Firestore)
-
-### Seed Scripts
-- **`site-images-seed.ts`** — `seedSiteImages()` creates 35 docs if collection empty (home: 14, services: 7, about: 10, portfolio: 2, contact: 2).
-- **`page-content-seed.ts`** — `seedPageContent()` idempotent seeder; no-op while `SEED_PAGES` is empty (Phase 1 will add industry/service/neighborhood pages).
 
 ---
 
 ## SEO & Discovery
 
-### Root metadata (`src/app/layout.tsx`)
-- Site-wide title, description, favicons, `/site.webmanifest`, OpenGraph image.
-- `LocalBusiness` JSON-LD.
+### Metadata
+- Root: `metadataBase`, `title.template`, OpenGraph, favicons, manifest.
+- Per-page layouts for About, Services, Portfolio, Contact.
+- Dynamic pages: `generateMetadata` with canonical URLs.
 
-### Enhanced metadata (intended for root — currently duplicated in broken `(main)/layout.tsx`)
-- `title.template`: `%s — Artistic Printing Co.`
-- `@graph` JSON-LD: `LocalBusiness` (with `logo`, `founder` → Person), `WebSite`, `Person` (Estevan, placeholder)
-- Contact email in schema: `design@artisticprinting.com`
+### Structured Data
+- **Site-wide:** `@graph` LocalBusiness + WebSite + Person (root layout).
+- **Industry pages:** `Service` + optional `FAQPage` JSON-LD.
+- **Breadcrumbs:** `BreadcrumbList` on industry pages.
 
 ### Robots (`src/app/robots.ts`)
-- Allow `/`; disallow `/admin/`, `/staff-login`, `/api/`; sitemap URL.
+- Allow `/`; disallow `/admin/`, `/staff-login`, `/api/`.
 
 ### Sitemap (`src/app/sitemap.ts`)
-- **`revalidate = 3600`** (hourly ISR).
-- **Static routes:** `/`, `/services`, `/portfolio`, `/about`, `/contact` with priorities and change frequencies.
-- **Dynamic routes:** Published docs from Firestore `pageContent` (`published === true`); URL `/{slug}`; priority/frequency by `type` (industry/service 0.8, neighborhood 0.7, page 0.5). Graceful fallback to static-only if Firestore fails.
+- `revalidate = 3600`.
+- Static: `/`, `/services`, `/portfolio`, `/about`, `/contact`.
+- Dynamic: published `pageContent` docs; priority by type (industry/service 0.8, neighborhood 0.7).
 
-### Breadcrumbs (`src/components/breadcrumbs.tsx`)
-- Renders nav + embedded `BreadcrumbList` JSON-LD; ready for dynamic landing pages.
+### Internal Linking (SEO)
+- Homepage **Industries We Serve** cards → four industry landing pages (highest-authority internal links).
+- Industry pages breadcrumb parent → `/services` (labeled “Industries”).
+
+---
+
+## Build Output (verified)
+
+```
+npm run build
+```
+
+| Route | Rendering |
+|-------|-----------|
+| `/` | Static |
+| `/about`, `/services`, `/portfolio`, `/contact`, `/staff-login` | Static |
+| `/[slug]` × 4 industry pages | SSG, revalidate 1h |
+| `/sitemap.xml` | ISR, revalidate 1h |
+| `/admin/*` | Static (client-side auth guard) |
+| `/api/send-quote-notification` | Dynamic |
+
+Prerendered slugs: `automotive-printing-los-angeles`, `education-printing-los-angeles`, `healthcare-printing-los-angeles`, `hospitality-printing-los-angeles`.
 
 ---
 
 ## Styling (`src/app/globals.css`)
 
-- Tailwind CSS 4 `@theme inline`, light/dark CSS variables, cyan primary.
-- **Animations:** `animate-scroll` (trust/marquee), `data-reveal` variants + stagger, `float-slow` / `float-slower` orbs, `header-scrolled` frosted glass, `animate-count-up`, `.scrollbar-hide`.
-- **Motion:** `useScrollReveal` + `data-reveal` on public pages and home sections.
+- Tailwind CSS 4 `@theme inline`, cyan primary, slate palette.
+- Animations: `animate-scroll`, `data-reveal` variants + stagger, float orbs, `header-scrolled`, count-up, scrollbar-hide.
 
 ---
 
@@ -383,11 +353,11 @@ RESEND_API_KEY
 - `images.remotePatterns` → `images.unsplash.com`
 
 ### PWA
-- `public/site.webmanifest` — linked from root metadata
-- `src/app/manifest.json` — alternate manifest with maskable icons (not primary link)
+- `public/site.webmanifest` (primary link from metadata)
+- `src/app/manifest.json` (alternate)
 
 ### shadcn/ui (`components.json`)
-- Style: new-york; neutral base; CSS variables; lucide icons
+- Style: new-york; neutral base; lucide icons
 
 ### TypeScript (`tsconfig.json`)
 - `@/*` → `./src/*`
@@ -398,26 +368,26 @@ RESEND_API_KEY
 
 ```bash
 npm run dev      # Start development server
-npm run build    # Build for production
+npm run build    # Build for production (SSG industry pages)
 npm run start    # Start production server
 npm run lint     # Run ESLint
 ```
 
 ---
 
-## Known Issues / Pending
+## Pending / TODO
 
-1. **`(main)/layout.tsx` regression:** File duplicates root layout and breaks build (`Can't resolve './globals.css'`). Should be restored to only render `<Header>` + `{children}` + `<Footer>`.
-2. **Header/Footer not mounted:** Components exist with logo and nav but are not imported anywhere until layout is fixed.
-3. **Contact form email:** Contact page saves to Firestore but does not trigger Resend notification (only home `QuoteForm` does).
-4. **Static assets missing from `public/`:** Referenced but not present: `logo-header.png`, favicons, `og-image.png`, android-chrome icons. Only `site.webmanifest` exists.
-5. **Google Maps:** Contact uses external Google Maps link on “Get Directions”; no embedded map.
-6. **Dynamic SEO pages (Phase 1+):** `PageContent` type, `page-content-seed.ts`, dynamic sitemap entries, and `Breadcrumbs` are ready; no `SEED_PAGES`, route templates, or admin editor yet.
+1. **Phase 2–3:** Service landing pages (`type: 'service'`) — seed data + `ServicePage` template.
+2. **Phase 4:** Neighborhood pages (`type: 'neighborhood'`) — seed data + `NeighborhoodPage` template.
+3. **Admin page content editor:** No admin UI for `pageContent` yet; edits require Firestore console or seed file changes.
+4. **Contact form email:** Contact page does not trigger Resend (only `QuoteForm` does).
+5. **Static assets:** `logo-header.png`, favicons, `og-image.png` referenced in metadata but may be missing from `public/` (only `site.webmanifest` committed).
+6. **Google Maps:** Contact uses external directions link; no embedded map.
 7. **Admin “Coming soon”:** Settings page only.
-8. **Reply email automation:** ReplyModal uses clipboard / `mailto:`; no automated outbound email on quote reply.
-9. **Client detail route:** No `/admin/clients/[id]` page.
-10. **JSON-LD `sameAs`:** Placeholder empty until GBP/social URLs are live.
-11. **Duplicate analytics risk:** When layout is fixed, ensure GA/Analytics are only included once (root vs. main layout).
+8. **Reply automation:** ReplyModal uses clipboard / `mailto:`; no automated outbound email.
+9. **Client detail route:** No `/admin/clients/[id]`.
+10. **JSON-LD `sameAs`:** Empty until GBP/social URLs are live.
+11. **Copy consistency:** Portfolio hero still shows “20+ Years Experience”; `home-features-section` mentions “20+ years” while most site copy uses 2010 / 15+.
 
 ---
 
@@ -426,8 +396,7 @@ npm run lint     # Run ESLint
 - **Company:** Artistic Printing Company
 - **Location:** 5878 West Pico Boulevard, Los Angeles, CA 90019
 - **Phone:** (323) 939-8911
-- **Email (public contact):** design@artisticprinting.com
-- **Email (schema/root legacy):** info@artisticprinting.com (root layout JSON-LD only)
+- **Email:** design@artisticprinting.com
 - **Hours:** Mon–Fri 8am–6pm, Sat 9am–2pm
 - **Founded:** 2010
 - **Focus industries:** Healthcare, Hospitality, Education, Automotive (+ Finance, Media, Retail on portfolio)

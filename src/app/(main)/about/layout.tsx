@@ -1,13 +1,20 @@
 import type { Metadata } from 'next'
 
+// ─────────────────────────────────────────────────────────────────────
+// Keep in sync with FOUNDING_YEAR in src/app/layout.tsx.
+// Confirm the real year with Estevan before shipping.
+// ─────────────────────────────────────────────────────────────────────
+const FOUNDING_YEAR = '2010'
+
 export const metadata: Metadata = {
-  title: 'About Us | Family-Owned Printer Since 2010',
+  // Root template appends " | Artistic Printing"
+  title: `LA Print Shop Since ${FOUNDING_YEAR} | About Us`,
   description:
-    'Family-owned and operated on Pico Boulevard since 2010. Meet our team, tour our facility, and learn why 500+ LA businesses trust Artistic Printing.',
+    `Family-owned commercial printer on Pico Boulevard in Los Angeles since ${FOUNDING_YEAR}. Trusted by hospitals, dental offices, restaurants, and dealerships across LA.`,
   openGraph: {
-    title: 'About Artistic Printing Co.',
+    title: `About Artistic Printing | LA Print Shop Since ${FOUNDING_YEAR}`,
     description:
-      'Family-owned commercial printer on Pico Boulevard since 2010. Serving 500+ businesses across Los Angeles.',
+      `Family-owned commercial printer on Pico Boulevard since ${FOUNDING_YEAR}. Serving healthcare, hospitality, education, and automotive clients across Los Angeles.`,
   },
 }
 

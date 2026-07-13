@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Our Work | Print Portfolio',
+  // Root template appends " | Artistic Printing"
+  title: 'Print Portfolio | Healthcare, Restaurant & Dealership Work in LA',
   description:
-    'Browse printing projects for healthcare, hospitality, automotive, and education clients in Los Angeles. Business cards, packaging, banners, and more.',
+    'See real print work for LA hospitals, dental offices, hospices, restaurants, and auto dealerships. Forms, brochures, menus, folders, and banners. Request a free quote.',
   openGraph: {
-    title: 'Print Portfolio — Artistic Printing Co.',
+    title: 'Print Portfolio | Artistic Printing',
     description:
-      'Browse printing projects for healthcare, hospitality, automotive, and education clients across Los Angeles.',
+      'Print work for Los Angeles hospitals, dental offices, restaurants, and dealerships. Forms, brochures, menus, and large format.',
   },
 }
 

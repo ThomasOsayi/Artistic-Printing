@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Printing Services | Business Cards, Packaging, Banners',
+  // Root template appends " | Artistic Printing"
+  // Targets "printing services in los angeles" and "custom printing
+  // services in los angeles" (both showing impressions, no page owns them).
+  title: 'Printing Services in Los Angeles | Digital, Offset & Large Format',
   description:
-    'Commercial printing, custom packaging, large format banners, and office forms in Los Angeles. Digital and offset printing with in-house design support. Free estimates.',
+    'Digital, offset, and large format printing under one roof in LA. Healthcare forms, NCR carbonless, business cards, brochures, banners. Most orders in 24 to 48 hours.',
   openGraph: {
-    title: 'Printing Services — Artistic Printing Co.',
+    title: 'Printing Services in Los Angeles | Artistic Printing',
     description:
-      'Commercial printing, custom packaging, large format, and office forms in Los Angeles. Free estimates and 24-48 hour turnaround.',
+      'Digital, offset, and large format printing in Los Angeles. Forms, brochures, folders, banners. Free local pickup and delivery, 24 to 48 hour turnaround.',
   },
 }
 
