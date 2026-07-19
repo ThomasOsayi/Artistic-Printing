@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 // Keep in sync with FOUNDING_YEAR in src/app/layout.tsx.
 // Confirm the real year with Estevan before shipping.
 // ─────────────────────────────────────────────────────────────────────
-const FOUNDING_YEAR = '2010'
+const FOUNDING_YEAR = '1995'
 
 export const metadata: Metadata = {
   // Root template appends " | Artistic Printing"

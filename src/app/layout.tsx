@@ -14,7 +14,7 @@ const SITE_URL = 'https://www.artisticprinting.com'
 // Appears in: root description, LocalBusiness schema, About page copy.
 // If 1995 is correct, that is 30+ years and a major authority signal.
 // ─────────────────────────────────────────────────────────────────────
-const FOUNDING_YEAR = '2010'
+const FOUNDING_YEAR = '1995'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
