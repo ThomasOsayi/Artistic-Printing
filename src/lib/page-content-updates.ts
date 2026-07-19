@@ -27,46 +27,16 @@ export interface ContentUpdate {
   fields: FieldUpdates
 }
 
-// ─── Batch: SEO metadata rewrite (July 2026) ──────────────────────────
-// Rationale: pages ranked but earned zero clicks. Titles now lead with the
-// target keyword + location; descriptions lead with a differentiator.
+// ─── Batch: founding-year correction (July 2026) ──────────────────────
 export const CONTENT_UPDATES: ContentUpdate[] = [
   {
     id: 'industry-healthcare-printing-los-angeles',
     label: 'Healthcare',
     fields: {
-      metaTitle: 'Healthcare & Medical Printing Los Angeles | HIPAA-Aware Forms',
-      metaDescription:
-        'HIPAA-aware printing for LA hospitals, hospices, home health, and clinics. Patient intake forms, NCR carbonless, consent forms, folders. Free local pickup and delivery.',
-    },
-  },
-  {
-    id: 'industry-hospitality-printing-los-angeles',
-    label: 'Hospitality',
-    fields: {
-      // Leads with "Restaurant Menu Printing" — a term people actually
-      // search — rather than "Hospitality Printing", which they don't.
-      metaTitle: 'Restaurant Menu Printing Los Angeles | Hospitality Print',
-      metaDescription:
-        'Menus, table tents, takeout packaging, and signage for LA restaurants, cafes, and hotels. Laminated and full-color options. Fast turnaround, free local delivery.',
-    },
-  },
-  {
-    id: 'industry-automotive-printing-los-angeles',
-    label: 'Automotive',
-    fields: {
-      metaTitle: 'Automotive Printing Los Angeles | Dealer Forms & Statements',
-      metaDescription:
-        'Print for LA auto dealerships: service forms, NCR carbonless, statements, brochures, and showroom signage. Free pickup and delivery across Los Angeles.',
-    },
-  },
-  {
-    id: 'industry-education-printing-los-angeles',
-    label: 'Education',
-    fields: {
-      metaTitle: 'Education Printing Los Angeles | Schools & Universities',
-      metaDescription:
-        'Printing for LA schools, colleges, and training programs. Course catalogs, student handbooks, forms, brochures, and folders. Bulk pricing, free local delivery.',
+      sections: {
+        complianceSubtitle:
+          "We've spent 30+ years adapting our shop to the specific needs of LA-area medical providers.",
+      },
     },
   },
 ]
@@ -105,8 +75,18 @@ export async function applyContentUpdates(
         continue
       }
 
+      // Firestore replaces a map when its parent key is updated. Convert
+      // sparse section changes to dot-path fields so other section copy stays.
+      const firestoreFields: Record<string, unknown> = { ...update.fields }
+      if (update.fields.sections) {
+        delete firestoreFields.sections
+        for (const [key, value] of Object.entries(update.fields.sections)) {
+          firestoreFields[`sections.${key}`] = value
+        }
+      }
+
       await updateDoc(ref, {
-        ...update.fields,
+        ...firestoreFields,
         updatedAt: serverTimestamp(),
       })
 

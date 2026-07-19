@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { collection, getDocs, query, where, limit } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { IndustryPage } from '@/components/industry-page'
+import { ServicePage } from '@/components/service-page'
 import type { PageContent } from '@/lib/admin-data'
 
 const SITE_URL = 'https://www.artisticprinting.com'
@@ -83,10 +84,12 @@ export async function generateMetadata({
 }
 
 // ─── JSON-LD builders ──────────────────────────────────────────────────
+
 function buildServiceJsonLd(page: PageContent) {
   // Use heroBadge as the service name when available (shorter than h1).
   const name = page.heroBadge || page.h1
-  return {
+
+  const jsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name,
@@ -96,6 +99,26 @@ function buildServiceJsonLd(page: PageContent) {
     areaServed: { '@type': 'City', name: 'Los Angeles' },
     serviceType: name,
   }
+
+  // ─── Service-page enrichment ───
+  // hasOfferCatalog emits no prices — it's a machine-readable list of the
+  // options offered on service pages.
+  if (page.type === 'service' && page.printItems && page.printItems.length > 0) {
+    jsonLd.hasOfferCatalog = {
+      '@type': 'OfferCatalog',
+      name: `${name} options`,
+      itemListElement: page.printItems.map((item) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: item.title,
+          description: item.subtitle,
+        },
+      })),
+    }
+  }
+
+  return jsonLd
 }
 
 function buildFaqJsonLd(faqs: NonNullable<PageContent['faqs']>) {
@@ -114,13 +137,14 @@ function buildFaqJsonLd(faqs: NonNullable<PageContent['faqs']>) {
 }
 
 // ─── Template router ───────────────────────────────────────────────────
-// Phase 1 ships only the industry template. Phase 2-4 will add 'service'
-// and 'neighborhood' cases here without touching anything else.
+// Phase 1: industry. Phase 2-3: service. Phase 4 will add 'neighborhood'
+// here without touching anything else.
 function getTemplate(type: PageContent['type']) {
   switch (type) {
     case 'industry':
       return IndustryPage
-    // case 'service':       return ServicePage       // Phase 2-3
+    case 'service':
+      return ServicePage
     // case 'neighborhood':  return NeighborhoodPage  // Phase 4
     default:
       return null

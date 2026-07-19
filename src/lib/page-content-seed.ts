@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from './firebase'
 import type { PageContent } from './admin-data'
+import { SERVICE_SEED_PAGES } from './service-content-seed'
 
 // ─── Phase 1+ page content ──────────────────────────────────────────────
 // Each entry seeds one Firestore doc in the `pageContent` collection,
@@ -14,7 +15,7 @@ import type { PageContent } from './admin-data'
 // Phase 2-3: service pages (will add here or in a sibling seed file)
 // Phase 4: neighborhood pages
 
-export const SEED_PAGES: Omit<PageContent, 'createdAt' | 'updatedAt'>[] = [
+const INDUSTRY_SEED_PAGES: Omit<PageContent, 'createdAt' | 'updatedAt'>[] = [
 
   // ═════════════════════════════════════════════════════════════════════
   // HEALTHCARE
@@ -516,6 +517,11 @@ export const SEED_PAGES: Omit<PageContent, 'createdAt' | 'updatedAt'>[] = [
       'automotive-printing-los-angeles',
     ],
   },
+]
+
+export const SEED_PAGES: Omit<PageContent, 'createdAt' | 'updatedAt'>[] = [
+  ...INDUSTRY_SEED_PAGES,
+  ...SERVICE_SEED_PAGES,
 ]
 
 /**

@@ -117,6 +117,13 @@ export interface ProcessStep {
   description: string
 }
 
+// One row in a service page spec table (sizes, stocks, finishes, turnaround).
+// Service pages only — industry and neighborhood templates ignore it.
+export interface SpecRow {
+  label: string             // e.g. 'Standard Sizes'
+  value: string             // e.g. '3.5" × 2" · 2" × 2" square · 3.5" × 1.75" mini'
+}
+
 export interface PageContent {
   id: string                          // Firestore doc ID, format: `{type}-{slug}`
   type: PageContentType
@@ -141,12 +148,24 @@ export interface PageContent {
   //   processEyebrow, processHeading, processSubtitle
   //   faqEyebrow, faqHeading, faqSubtitle
   //   ctaEyebrow, ctaHeading, ctaSubtitle
+  // Service pages expect these keys:
+  //   whyEyebrow, whyHeading, whySubtitle
+  //   specEyebrow, specHeading, specIntro
+  //   printEyebrow, printHeading, printIntro
+  //   trustEyebrow, trustHeading
+  //   processEyebrow, processHeading, processSubtitle
+  //   faqEyebrow, faqHeading, faqSubtitle
+  //   ctaEyebrow, ctaHeading, ctaSubtitle
+  //   heroBadgeIcon, heroImage, ctaImage, startingPrice, turnaround
   sections: Record<string, string>
 
-  // ─── Industry page structured lists (optional) ─
-  // Other page types ignore these without harm.
+  // ─── Structured lists (optional, per template) ─
+  // Templates read only the fields they need; unused fields are ignored.
+  //   industry → complianceCards, printItems, trustLogos, processSteps
+  //   service  → complianceCards, specRows, printItems, trustLogos, processSteps
   complianceCards?: ComplianceCard[]
   printItems?: PrintItem[]
+  specRows?: SpecRow[]
   trustLogos?: TrustLogo[]
   processSteps?: ProcessStep[]
 
