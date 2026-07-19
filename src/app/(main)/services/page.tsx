@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { ServicesGridSection } from '@/components/services-grid-section'
 import { useSiteImages } from '@/hooks/use-site-images'
 import { useScrollReveal } from '@/hooks/use-scroll-reveal'
 import {
@@ -271,6 +272,8 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      <ServicesGridSection />
 
       {/* ═══════════ SERVICE CATEGORIES ═══════════ */}
       {services.map((service, i) => (
