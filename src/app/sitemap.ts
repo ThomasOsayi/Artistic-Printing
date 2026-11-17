@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
+import { guides } from '@/lib/guides'
 
 const SITE_URL = 'https://www.artisticprinting.com'
 
@@ -14,6 +15,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
   { url: `${SITE_URL}/portfolio`,  lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8 },
   { url: `${SITE_URL}/about`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
   { url: `${SITE_URL}/contact`,    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+  { url: `${SITE_URL}/guides`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7 },
+  ...guides.map((g) => ({ url: `${SITE_URL}/guides/${g.slug}`, lastModified: new Date(g.date), changeFrequency: 'yearly' as const, priority: 0.6 })),
 ]
 
 // Priority & change-frequency defaults per page type (overrideable per-doc later if needed)

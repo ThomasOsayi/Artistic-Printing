@@ -51,6 +51,7 @@ export function Footer() {
                 { href: '/services', label: 'Services' },
                 { href: '/portfolio', label: 'Portfolio' },
                 { href: '/about', label: 'About Us' },
+                { href: '/guides', label: 'Printing Guides' },
                 { href: '/contact', label: 'Contact' },
               ].map((link) => (
                 <li key={link.href}>
