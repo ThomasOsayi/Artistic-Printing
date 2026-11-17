@@ -45,3 +45,5 @@ Not created yet. First Thursday run: create a fixed panel of 10 questions and ro
 **Proposed landing-page updates:** none (Saturday task).
 
 **Mention action suggested:** claim/verify Bing Places for Business (https://www.bingplaces.com), import from Google Business Profile.
+
+**Deploy and indexing:** commit 77c844e deployed; all 4 new guides, /guides, /llms.txt, /robots.txt and /sitemap.xml return 200 and the sitemap lists all 5 guides. Requested indexing in URL Inspection for the 4 new guides and /guides (/guides and the new guides were "URL is unknown to Google" before the request).
