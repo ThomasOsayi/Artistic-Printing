@@ -16,9 +16,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description: g.description,
     keywords: g.keywords,
     alternates: { canonical: `/guides/${g.slug}` },
-    openGraph: { type: 'article', title: g.title, description: g.description, url: `${SITE_URL}/guides/${g.slug}`, publishedTime: g.date },
+    openGraph: { type: 'article', title: g.title, description: g.description, url: `${SITE_URL}/guides/${g.slug}`, publishedTime: g.date, modifiedTime: g.updated ?? g.date },
   }
 }
+
+const fmt = (d: string) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
 
 function Body({ text }: { text: string }) {
   const out: React.ReactNode[] = []
@@ -42,7 +44,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   const g = guideBySlug((await params).slug)
   if (!g) notFound()
   const ld = [
-    { '@context': 'https://schema.org', '@type': 'Article', headline: g.title, description: g.description, abstract: g.shortAnswer, datePublished: g.date, dateModified: g.date, url: `${SITE_URL}/guides/${g.slug}`, keywords: g.keywords.join(', '), author: { '@type': 'Organization', name: 'Artistic Printing Co.', url: SITE_URL }, publisher: { '@type': 'Organization', name: 'Artistic Printing Co.', url: SITE_URL } },
+    { '@context': 'https://schema.org', '@type': 'Article', headline: g.title, description: g.description, abstract: g.shortAnswer, datePublished: g.date, dateModified: g.updated ?? g.date, url: `${SITE_URL}/guides/${g.slug}`, keywords: g.keywords.join(', '), author: { '@type': 'Organization', name: 'Artistic Printing Co.', url: SITE_URL }, publisher: { '@type': 'Organization', name: 'Artistic Printing Co.', url: SITE_URL } },
     { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: g.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
   ]
   return (
@@ -50,7 +52,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, '\\u003c') }} />
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
         <Breadcrumbs crumbs={[{ label: 'Home', href: '/' }, { label: 'Guides', href: '/guides' }, { label: g.title }]} />
-        <p className="mt-8 text-sm text-slate-500">{new Date(g.date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} · Artistic Printing Co.</p>
+        <p className="mt-8 text-sm text-slate-500">{fmt(g.date)}{g.updated && g.updated !== g.date ? ` · Updated ${fmt(g.updated)}` : ''} · Artistic Printing Co.</p>
         <h1 className="mt-3 text-4xl sm:text-5xl font-bold tracking-tight text-slate-900">{g.title}</h1>
         <p className="mt-5 text-xl text-slate-600">{g.description}</p>
         <aside className="mt-10 mb-10 rounded-xl border border-cyan-200 bg-cyan-50 p-6" aria-label="Short answer">
