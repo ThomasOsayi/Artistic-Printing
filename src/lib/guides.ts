@@ -18,6 +18,189 @@ export interface Guide {
 
 export const guides: Guide[] = [
   {
+    slug: "digital-vs-offset-printing-which-to-choose",
+    title: "Digital vs offset printing: which is right for your print job?",
+    description: "How digital and offset printing compare on quantity, color matching, paper choice and versioning, with a simple way to decide which method fits your next print run.",
+    date: '2026-11-19',
+    keywords: ["digital vs offset printing", "offset printing Los Angeles", "digital printing Los Angeles", "short run printing", "Pantone color matching"],
+    shortAnswer: "Choose digital printing for short runs, fast changes and pieces that need names or numbers that change from piece to piece. Choose offset printing for long runs where a lower cost per piece, exact Pantone color matching or a special paper matters more than setup. For many jobs in the hundreds, either works, so ask your printer to quote both.",
+    related: [
+      { href: "/brochure-printing-los-angeles", label: "Brochure printing in Los Angeles" },
+      { href: "/flyer-printing-los-angeles", label: "Flyer printing in Los Angeles" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "Is digital printing lower quality than offset?", a: "Not for most business print. Modern production digital presses produce sharp text and photos, and the main differences are in exact spot color matching and very large solid color areas, where offset still has the edge." },
+      { q: "Why does offset printing cost more for small quantities?", a: "Offset needs printing plates and press setup before the first good sheet, and that fixed cost is spread across the run, so it only pays off when the quantity is large enough." },
+      { q: "Can digital printing match a Pantone color?", a: "Digital presses simulate Pantone colors by mixing CMYK toner, which gets close for many colors but not all, so brand-critical colors are matched most reliably with an offset spot color ink." },
+      { q: "Which method is better for personalized mailers?", a: "Digital, because each piece can carry a different name, address, offer code or image in the same run without any extra setup." },
+      { q: "Do I need different files for digital and offset printing?", a: "No. The same press-ready PDF with 0.125 inch bleed, 300 DPI images and embedded fonts works for both, though offset jobs that use spot colors should keep those colors defined as Pantone swatches." },
+    ],
+    body: `Most commercial print today is produced on one of two kinds of press: a digital press, which works much like a very fast, very precise laser printer, or an offset press, which transfers ink from metal plates to paper. We run both, so here is how we help customers pick between them.
+## What is the difference between digital and offset printing?
+Digital printing puts toner or ink straight onto the sheet from a file, with no plates, so the first sheet off the press is a finished, sellable piece. Offset printing burns the image onto aluminum plates, one per ink color, then transfers ink from the plates to rubber blankets and onto paper. That setup takes time and material before the first good sheet, but once the press is running, every additional sheet costs very little. In practice this means digital is efficient for small quantities and anything that changes from piece to piece, while offset becomes more economical as the quantity grows. Both produce professional results on business cards, brochures, flyers and forms. The right choice comes down to four questions: how many pieces you need, whether a brand color must match exactly, what paper you want, and whether any content changes between pieces.
+## When is digital printing the better choice?
+Digital printing is the better choice when the quantity is small, the deadline is tight or each piece needs different information.
+- Best for: short runs, proofs and samples, event materials, variable data mail, frequent reprints with small edits
+- Typical quantities: from one piece up to a few hundred, and often up to a thousand or more for simple single-sheet jobs
+- Color: four-color CMYK, with Pantone colors simulated from CMYK
+- Pros: no plates, low setup, every piece can be personalized, easy to print only what you need now
+- Cons: higher cost per piece on long runs, limited exact spot color matching, some specialty papers and very heavy stocks are not compatible
+Digital is also the practical way to print a few versions of the same piece, such as flyers for several locations, without paying for separate plates.
+## When is offset printing the better choice?
+Offset printing is the better choice for long runs, exact brand colors and jobs where paper choice is part of the design.
+- Best for: large brochure and catalog runs, letterhead and envelopes with a Pantone logo, forms printed by the thousand, packaging
+- Typical quantities: from about a thousand pieces upward, though the crossover point depends on size, colors and paper
+- Color: CMYK plus true Pantone spot color inks, and coatings such as aqueous or varnish
+- Pros: lowest cost per piece at volume, exact spot color matching, consistent large solid areas, wide range of papers, including uncoated and textured stocks
+- Cons: plate and setup cost make short runs expensive, every change requires new plates, and no per-piece personalization
+If your logo is a specific Pantone color and the job is large, offset is usually the safer way to protect that color.
+## How do I decide between digital and offset for my job?
+Decide by starting with quantity, then checking color, paper and versioning. If you need fewer than a few hundred pieces, digital is almost always the answer. If you need several thousand identical pieces, offset usually wins on cost per piece. In the middle range, a few hundred to a few thousand, both methods can make sense, and the details decide it:
+- A brand color that must match a Pantone swatch exactly points to offset
+- Names, numbers, addresses or codes that change on each piece point to digital
+- Uncoated, textured or very heavy paper often points to offset
+- A file that will change again soon points to digital, because you can print smaller batches more often
+When you request a quote, tell us the quantity, finished size, paper, number of colors and whether any content varies. That is enough for us to tell you which press fits the job and quote it accordingly.
+## Does file setup change between digital and offset printing?
+File setup is the same for both methods, which makes switching between them easy. Build the file at the finished size plus 0.125 inch bleed on every edge where color or images run off the page, and keep text and logos at least 0.125 to 0.25 inch inside the trim line. Use images at 300 DPI at the size they print, export a press-ready PDF and embed or outline all fonts. Set rich black (for example 60 percent cyan, 40 magenta, 40 yellow, 100 black) only for large black areas, and keep small text in plain 100 percent black so it stays crisp. If the job will run offset with a spot color, keep that color defined as a named Pantone swatch rather than converting it to CMYK. For digital jobs with variable data, send the list as a clean spreadsheet with one column per field, and we will merge it into the layout.`,
+  },
+  {
+    slug: "coroplast-vs-foam-board-vs-pvc-vs-aluminum-signs",
+    title: "Coroplast vs foam board vs PVC vs aluminum signs: which should you choose?",
+    description: "A side-by-side comparison of corrugated plastic, foam board, PVC and aluminum composite signs: where each works, how long it lasts and the standard sizes and thicknesses.",
+    date: '2026-11-19',
+    keywords: ["coroplast vs foam board", "aluminum composite signs", "PVC signs", "yard sign printing Los Angeles", "rigid sign materials"],
+    shortAnswer: "Use foam board for indoor signs and event displays, coroplast (corrugated plastic) for lightweight outdoor yard signs and short campaigns, PVC for indoor or covered outdoor signs that need a smooth, sturdy finish, and aluminum composite for permanent outdoor signs that must last for years.",
+    related: [
+      { href: "/large-format-printing-los-angeles", label: "Large format printing in Los Angeles" },
+      { href: "/banner-printing-los-angeles", label: "Banner printing in Los Angeles" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "Can foam board signs be used outside?", a: "Only briefly. Foam board warps and its paper facing absorbs moisture, so it should stay indoors or under cover; use coroplast or aluminum composite outdoors." },
+      { q: "What size is a standard yard sign?", a: "The most common yard sign is 18 x 24 inches on 4 mm coroplast, mounted on a metal H-stake that slides into the flutes." },
+      { q: "What is aluminum composite material (ACM)?", a: "ACM is two thin aluminum sheets bonded to a solid plastic core, usually 3 mm thick in total, which makes it rigid, flat and weather resistant for long-term outdoor signs." },
+      { q: "Which sign material is cheapest?", a: "Coroplast and foam board are usually the lowest cost per sign, PVC is in the middle and aluminum composite costs the most, which is offset by its much longer life outdoors." },
+    ],
+    body: `Rigid signs cover a lot of ground: lobby signs, event easels, yard signs, parking signs and permanent building signs. Four materials handle almost all of them, and each one has a job it does best. We print on all four, and this is how we help customers choose.
+## Which rigid sign material should I choose?
+Choose the material by where the sign lives and how long it needs to last. Indoor signs that are seen up close, such as lobby, easel and presentation signs, look best on foam board or PVC. Outdoor signs that only need to last through a campaign, an open house, an election or a seasonal promotion are usually printed on coroplast, because it is light, waterproof and inexpensive. Outdoor signs that need to stay up for years, such as parking, address, wayfinding and storefront signs, belong on aluminum composite. Two more questions refine the choice. Will the sign be moved or carried? Foam board and coroplast are the lightest. Will it be mounted with screws or hardware? PVC and aluminum composite hold fasteners best. If you are unsure, tell us where the sign will hang, how it will be mounted and how long it should last, and we will recommend the material.
+## When is coroplast (corrugated plastic) the right choice?
+Coroplast is the right choice for lightweight outdoor signs that need to survive weather for a season, not for years.
+- Best for: yard signs, real estate and open house signs, campaign signs, temporary directional and construction signs
+- Common thickness: 4 mm, with 10 mm for larger, stiffer signs
+- Common sizes: 18 x 24, 24 x 36 and 4 x 8 feet
+- Durability: waterproof and weather resistant; typically lasts several months to about a year outside, depending on sun exposure
+- Pros: low cost, very light, works with H-stakes slid into the flutes, can be printed on both sides
+- Cons: visible flute texture up close, can bend in strong wind, fades and becomes brittle with long sun exposure
+For H-stake yard signs, ask for the flutes to run vertically so the stake slides in from the bottom edge.
+## When is foam board the right choice?
+Foam board is the right choice for indoor signs that need to look clean and stay light.
+- Best for: event easel signs, welcome and seating signs, trade show and presentation boards, retail displays, temporary lobby signs
+- Common thickness: 3/16 inch for most signs, 1/2 inch for larger or freestanding signs
+- Common sizes: 18 x 24, 24 x 36 and 36 x 48 inches
+- Durability: indoor use; the paper facing dents and absorbs moisture, and the board can warp in humidity or sun
+- Pros: very light, smooth print surface, low cost, easy to carry and set on an easel
+- Cons: not for outdoor use, corners dent easily, cannot hold screws well
+Foam board is the usual pick for events, where a sign is used for a day or a week and then retired.
+## When should I use PVC or aluminum composite instead?
+Use PVC for durable indoor signs and aluminum composite for long-term outdoor signs.
+- PVC (expanded PVC board): best for office and lobby signs, menu boards, retail and wall signs; common in 3 mm and 6 mm; smooth, rigid and moisture resistant; holds screws and standoffs; can work outdoors under cover but can warp in direct heat and sun
+- Aluminum composite (ACM): best for parking, address, wayfinding, storefront and building signs; common in 3 mm; two aluminum skins over a plastic core keep it flat, weatherproof and rigid; lasts for years outdoors, especially with a UV laminate; costs more than the other three
+Both take drilled holes, standoffs, rivets and double-sided mounting tape, so they are the materials to choose when a sign will be permanently installed. For outdoor signs in direct sun, adding a UV-protective laminate over the print helps colors last longer.
+## How should I set up artwork for a rigid sign?
+Set up the file at the exact finished size, add 0.125 inch bleed on every edge where color runs to the edge and keep text and logos at least 1 inch inside the edges on larger signs so nothing feels cramped. Leave extra margin where holes, grommets or standoffs will go, usually 1 inch from each corner. Images should be at least 150 DPI at full printed size for large signs viewed from a few feet away, and 300 DPI for smaller signs read up close. Use large type: as a rough guide, each inch of letter height is readable from about 10 feet away for a quick glance, so a sign read from the street needs letters several inches tall. High contrast, such as dark text on a light background, reads best outdoors. Send a print-ready PDF with fonts embedded, and tell us how the sign will be mounted so we can drill or add hardware before it leaves the shop.`,
+  },
+  {
+    slug: "car-dealership-printing-checklist",
+    title: "What does a car dealership need printed? A checklist for sales, F&I and service",
+    description: "A practical checklist of the printed materials car dealerships use in sales, finance and the service drive, with common sizes, paper types and part counts for each item.",
+    date: '2026-11-19',
+    keywords: ["printing for dealerships", "car dealership printing", "window addendum stickers", "repair order forms", "deal jackets"],
+    shortAnswer: "Most dealerships need window addendum stickers, deal jackets and sales forms for the sales floor and F&I office, multi-part repair orders, key tags, mirror hangers and paper floor mats for the service drive, and brochures, mailers and banners for marketing. Keep a reorder list by department so nothing runs out on a busy weekend.",
+    related: [
+      { href: "/automotive-printing-los-angeles", label: "Automotive and dealership printing" },
+      { href: "/guides/ncr-carbonless-forms-how-many-parts", label: "Guide: 2, 3 or 4 part carbonless forms" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "Do dealerships print the window sticker on new cars?", a: "No. The federally required new-car price label, often called the Monroney sticker, comes from the manufacturer; dealers print a separate addendum sticker for dealer-installed options and adjustments." },
+      { q: "What size is a window addendum sticker?", a: "Addendum stickers are commonly printed on narrow adhesive strips about 4 to 5 inches wide and 11 inches tall so they fit beside the factory label, though some dealers use full 8.5 x 11 inch labels." },
+      { q: "How many parts should a repair order have?", a: "Most repair orders are 3 or 4 part carbonless sets, giving copies to the customer, the technician, the office and sometimes the parts or warranty department." },
+      { q: "Are FTC Buyers Guides something a dealer can print?", a: "Yes, dealers can print Buyers Guides for used vehicles, but the form's wording and layout are set by the FTC Used Car Rule, so use the current official version without changes." },
+      { q: "Can dealership forms be set up as templates for multiple rooftops?", a: "Yes. A master template with a space for each store's name, address and logo lets a dealer group reorder the same form for every location with consistent branding." },
+    ],
+    body: `A dealership runs on paper in more places than most people realize: on the windows of every car on the lot, in every deal jacket, and on the counter of the service drive. This checklist covers what each department typically orders, with the sizes and specs we see most often.
+## What printed materials does a car dealership need?
+A dealership needs printed materials in four areas: the lot and showroom, the sales and F&I office, the service drive, and marketing. On the lot, that means window addendum stickers, used-vehicle Buyers Guides, price and feature stickers and lot banners. In sales and F&I, it means deal jackets, worksheets, checklists and branded folders that hold the paperwork a customer takes home. The service drive uses carbonless repair orders, key tags, mirror hangers, paper floor mats and service reminder cards. Marketing covers brochures, direct mail postcards, event flyers and large format signs for sales events. The easiest way to manage it all is a single reorder list by department, with each item's size, part count and usual quantity, so a manager can reorder in one message instead of hunting for old files. Dealer groups with several rooftops benefit from master templates that change only the store name, address and logo.
+## What does the sales floor and F&I office need?
+The sales floor and F&I office need printed pieces that keep every deal organized and compliant.
+- Window addendum stickers: adhesive strips, commonly about 4 to 5 inches by 11 inches, listing dealer-installed equipment next to the manufacturer's label
+- Used-vehicle Buyers Guides: the FTC-required window form for used cars, printed using the current official wording and layout
+- Deal jackets: envelope-style folders, commonly 9.5 x 12.5 or 10 x 13 inches, with a printed checklist on the front for every document in the deal
+- Worksheets and credit applications: often 2-part carbonless so the customer and the store each keep a copy
+- Presentation folders: 9 x 12 inch pocket folders with a business card slit, for the paperwork the buyer takes home
+- Business cards for every salesperson, usually on 14 to 16 pt card stock
+A printed deal jacket checklist sounds small, but it is one of the simplest ways to catch a missing signature before a deal goes to funding.
+## What does the service department need printed?
+The service department needs durable, high-volume items that are handled by technicians and customers all day.
+- Repair orders: 3 or 4 part carbonless sets, commonly 8.5 x 11 inches, sequentially numbered so every job can be traced
+- Key tags: numbered paper or plastic tags, often printed in sets that match the repair order numbers
+- Mirror hangers: hang tags around 3.5 x 8.5 inches on heavy card stock with a die-cut hole, showing the RO number and promise time
+- Paper floor mats: about 17 x 22 inches, printed with the dealership logo, to protect carpets during service
+- Service reminder postcards: 4 x 6 or 6 x 9 inches, mailed for oil changes and scheduled maintenance
+- Multi-point inspection forms: often 2-part carbonless with a checklist and a car diagram
+Our guide to 2, 3 and 4 part carbonless forms explains how to decide how many copies a repair order really needs.
+## What marketing print do dealerships use?
+Dealership marketing print focuses on sales events, model launches and keeping service customers coming back.
+- Model and sales brochures: often 8.5 x 11 inch trifolds or multi-page booklets on 100 lb gloss text with a heavier cover
+- Direct mail: postcards from 6 x 9 to 6 x 11 inches for sales events, lease-end offers and service specials
+- Lot and showroom banners: 13 oz vinyl with hemmed edges and grommets for sales events, and mesh for fences in windy spots
+- Windshield and showroom signs: rigid foam board or PVC for inside the showroom, coroplast for temporary lot signs
+- Event flyers and door hangers: for tent sales, community events and new model reveals
+Most dealerships also follow a manufacturer brand book for logos, colors and fonts. Share it with your printer at the start so every piece, from a mirror hanger to a banner, uses the approved artwork and colors.
+## How can a dealership keep print costs and reorders under control?
+A dealership keeps print under control by standardizing items and tracking usage. Start by listing every printed item, the department that uses it, its size, paper, part count and how many you go through per month. Standardize sizes across stores where possible, because one repair order design reprinted for five rooftops is easier to manage than five different ones. Order numbered forms in quantities that last a few months, and note the last number used so the next order continues the sequence. Keep compliance forms, such as Buyers Guides and any state-required disclosures, on the official current version and review them when regulations change. Finally, assign one person to approve proofs so brand and legal details are checked consistently. We work with dealerships across Los Angeles and offer free pickup and delivery in LA, which makes regular reorders simple.`,
+  },
+  {
+    slug: "school-event-program-booklet-printing-guide",
+    title: "How do you print a school event or graduation program? Sizes, page counts and paper",
+    description: "How to plan a printed program for a graduation, concert, play or awards night: common sizes, why booklet page counts come in multiples of 4, paper weights and file setup.",
+    date: '2026-11-19',
+    keywords: ["school event programs printing", "graduation program printing", "saddle stitch booklet", "concert program printing", "education printing Los Angeles"],
+    shortAnswer: "Most school programs are printed at 5.5 x 8.5 inches (a letter sheet folded in half) or 8.5 x 11 inches (an 11 x 17 sheet folded), saddle stitched with staples on the fold. Because each folded sheet makes 4 pages, the page count must be a multiple of 4, such as 4, 8, 12 or 16. Use 80 to 100 lb text for the inside pages and a heavier cover stock if the program has more than 8 pages.",
+    related: [
+      { href: "/education-printing-los-angeles", label: "School and education printing" },
+      { href: "/guides/vinyl-vs-mesh-banners-school-fences-sports-fields", label: "Guide: vinyl vs mesh banners for schools" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "Why does a booklet need a page count divisible by 4?", a: "A saddle-stitched booklet is made from sheets folded in half, and each folded sheet creates 4 pages, so the total must be 4, 8, 12, 16 and so on." },
+      { q: "How many programs should a school print?", a: "Count expected attendees, not graduates or performers, and add about 10 percent for families who want extra copies and for keepsakes." },
+      { q: "Can a program include a ticket or donation tear-off?", a: "Yes. A perforated panel can be added to a folded program so guests can tear off a raffle ticket, donation slip or reply card." },
+      { q: "What is the best paper for a graduation program?", a: "A 100 lb text weight in silk or matte for the inside pages, with an 80 to 100 lb cover, gives a keepsake feel that is still easy to fold and read." },
+      { q: "How do I avoid misspelled student names?", a: "Collect names from the official roster in a spreadsheet, have a second person check each name against it on the final proof, and approve the proof only after that check." },
+    ],
+    body: `Programs are the one print piece families keep after a graduation, concert or play. They also tend to come together at the last minute, when the final list of names arrives. Planning the format early makes the final week much calmer.
+## What size should a school event program be?
+Most school programs are 5.5 x 8.5 inches, which is a standard letter sheet folded in half. That size fits comfortably in a hand or a purse, works for a single folded sheet or a small booklet, and is the most economical choice for most events. Larger events with long lists of names, such as a graduation with hundreds of graduates, often move up to 8.5 x 11 inches, made from 11 x 17 sheets folded in half, so names can run in two or three columns at a readable size. A third option is a tall, narrow program made by folding a letter or legal sheet into panels, which works for short concert or recital programs with a simple order of performance. Pick the size by the amount of text: if the names list would need type smaller than about 9 point at 5.5 x 8.5 inches, move up to the larger size rather than shrinking the type.
+## How many pages can a printed program have?
+A printed program can have as many pages as you need, but a stapled booklet must come in multiples of 4. Each sheet folded in half creates 4 pages: front, inside left, inside right and back. A single folded sheet is a 4-page program, two nested sheets make 8 pages, three make 12, and so on. If your content fills 10 pages, plan for 12 and use the extra 2 pages for sponsor thank-yous, notes, photos or a blank page for autographs. Saddle stitching, which staples the booklet through the fold, works well up to about 48 to 64 pages depending on paper weight. Above that, the booklet becomes thick at the spine and the inner pages push outward, an effect called creep, and a perfect bound (glued spine) booklet may be a better fit. For most school events, 4 to 16 pages covers the order of events, the names list, messages and acknowledgments.
+## What paper should a school program be printed on?
+School programs are usually printed on coated text paper inside and, for longer booklets, a heavier cover.
+- Single folded sheet (4 pages): 80 to 100 lb cover stock gives a sturdy feel, or 100 lb text for a lighter, lower cost program
+- 8 pages: 100 lb text throughout is common and folds cleanly
+- 12 pages and up: 80 to 100 lb text inside with an 80 to 100 lb cover, often called plus cover
+- Finish: silk or matte is easiest to read under stage lighting; gloss makes photos pop but can reflect light
+- Color: full color for covers and photos, or black on the inside pages for long name lists to control cost
+If guests will write in the program, such as autographs at a senior event, choose a matte or uncoated stock so pens do not smear.
+## How should program files be set up for printing?
+Program files should be built as single pages at the finished size, in reading order, and exported as a press-ready PDF. The printer arranges pages into printer spreads for the fold, so do not lay out pages side by side yourself unless asked. Add 0.125 inch bleed on every edge where color or photos run off the page, and keep text and page numbers at least 0.25 inch inside the trim, with a little more on the inside edge of thicker booklets to allow for creep. Photos should be 300 DPI at the size they print; phone photos are usually fine if they are not enlarged. Use body text of at least 9 to 10 point and a clear sans serif or serif font for names. Embed all fonts, and use school colors from the school's official values so the program matches signs and banners at the event.
+## How far ahead should a school plan program printing?
+Plan the program design several weeks ahead and leave a fixed window at the end for the final names. Most delays come from content, not printing: rosters change, sponsor logos arrive late and speeches are confirmed in the last week. Build the layout early with placeholder names, lock the cover, sponsor pages and order of events first, then drop in the final roster on a set date. Have two people check every name against the official list on the proof, since misspelled names are the most common and most painful program error. Count attendees, not graduates, when setting the quantity, and add about 10 percent for extras and keepsakes. If you also need banners, signs or tickets for the same event, order them together so colors match across everything guests see. Our guide to 13 oz vinyl vs mesh banners covers the banner side of school events.`,
+  },
+  {
     slug: "laminated-vs-synthetic-vs-paper-restaurant-menus",
     title: "Laminated vs synthetic vs paper menus: which should a restaurant print?",
     description: "How paper, laminated and synthetic (waterproof) menus compare on durability, cost to update and feel, with sizes and file specs for restaurant menu printing.",
