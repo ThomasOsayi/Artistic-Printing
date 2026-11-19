@@ -84,4 +84,4 @@ Next Thursday (2026-11-26): set B.
 
 **Mention action suggested:** claim/complete the Yelp business page at https://biz.yelp.com (services: NCR forms, dental/medical forms, banners; photos of the shop and finished jobs).
 
-**Deploy and indexing:** see commit for this run.
+**Deploy and indexing:** commit 6f0912d deployed; all 4 new guides, /guides, /llms.txt, /robots.txt and /sitemap.xml return 200; sitemap and llms.txt list all 9 guides; robots allows all user agents. Requested indexing in URL Inspection for the 4 new guides (all were "URL is unknown to Google") and /guides (already indexed).
