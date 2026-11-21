@@ -119,3 +119,5 @@ Next Thursday (2026-11-26): set B.
 **Technical:** robots.txt 200, allows all user agents (no AI crawler blocked); llms.txt 200 (guide list generated from guides.ts).
 
 **Mention action suggested:** claim Apple Business Connect (https://businessconnect.apple.com) for Apple Maps and Siri, using the same name, address, phone and hours as Google.
+
+**Deploy and indexing:** commit 2b0b593 deployed; all 4 new guides and the rewritten NCR guide return 200, are in sitemap.xml (13 guides + /guides) and llms.txt; NCR guide shows "Updated November 21, 2026" and dateModified 2026-11-21. Requested indexing in URL Inspection for the 4 new guides, the NCR guide and /guides (6 requests). Note: NCR guide was still "URL is unknown to Google" 4 days after its first request; /guides is on Google.
