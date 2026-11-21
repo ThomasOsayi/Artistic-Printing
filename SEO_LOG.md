@@ -15,6 +15,10 @@ Running log for the scheduled SEO program (Tue/Thu/Sat). Read before each run so
 | /guides/coroplast-vs-foam-board-vs-pvc-vs-aluminum-signs | coroplast vs foam board vs PVC vs aluminum signs (comparison) |
 | /guides/car-dealership-printing-checklist | printing for dealerships / dealership print checklist (addendum stickers, ROs, deal jackets) |
 | /guides/school-event-program-booklet-printing-guide | school event / graduation program printing (booklet sizes, page counts) |
+| /guides/padded-vs-booked-vs-snap-set-carbonless-forms | padded vs booked vs snap-set carbonless forms (comparison; form formats) |
+| /guides/hipaa-print-vendor-business-associate-agreement | HIPAA compliant printing / print vendor BAA (PHI vs no-PHI jobs) |
+| /guides/statement-printing-and-mailing-how-it-works | statement printing and mailing (process, remittance stub, #10 double-window, CASS/NCOA/presort) |
+| /guides/16pt-vs-18pt-vs-22pt-vs-32pt-business-cards | business card thickness, 16 vs 18 vs 22 vs 32 pt (comparison) |
 | Landing pages (Firestore) | healthcare, hospitality, education, automotive printing LA; banner, large format, business card, brochure, flyer printing LA |
 
 ## AI visibility panel (created on first Thursday run)
@@ -85,3 +89,33 @@ Next Thursday (2026-11-26): set B.
 **Mention action suggested:** claim/complete the Yelp business page at https://biz.yelp.com (services: NCR forms, dental/medical forms, banners; photos of the shop and finished jobs).
 
 **Deploy and indexing:** commit 6f0912d deployed; all 4 new guides, /guides, /llms.txt, /robots.txt and /sitemap.xml return 200; sitemap and llms.txt list all 9 guides; robots allows all user agents. Requested indexing in URL Inspection for the 4 new guides (all were "URL is unknown to Google") and /guides (already indexed).
+
+---
+
+## 2026-11-21 (Sat)
+
+**Search Console** (https://www.artisticprinting.com/ URL-prefix), last 28 days (Oct 23 to Nov 19):
+- Clicks 16 (12 last run), impressions 1.44K (1.29K), CTR 1.1% (0.9%), avg position 44.6 (49.4)
+- Generative AI report: 75 AI feature impressions in 28 days (38 last run). By page: / 20, /guides/laminated-vs-synthetic-vs-paper-restaurant-menus 18, /healthcare 8, /guides/school-event-program-booklet-printing-guide 6, /guides/matte-vs-gloss-vs-soft-touch-business-cards 5, /contact 4, /hospitality 4, /education 3, /guides/vinyl-vs-mesh-banners-school-fences-sports-fields 3, /about 1
+- Pages: / 305 imp (12 clicks, pos 27.6), /education 440 (68.7), /about 238 (7.7, 0.4% CTR; mostly brand and the unrelated Elmont NY "rtistic printing" query), /hospitality 177 (49.3), /healthcare 173 (71.6, 1 click), /contact 112 (8.2, 2 clicks), /portfolio 62, /services 51, guides: menus 44 imp pos 6.0 (FIRST GUIDE CLICK), matte/gloss 29 (17.7), program 12 (3.8), dental 11 (17.3), vinyl/mesh 8 (10.5), digital/offset 6 (6.2), sign materials 4 (36.5), dealership 2 (1.5), /guides 2; /banner 18 (10.8), /business-card 9 (15.0), /brochure 6 (7.7), /large-format 5 (8.4), /flyer 3 (6.0)
+- New query signals: "custom napkin printing los angeles" 8 (61), "automotive statement printing services" 6 (47.8) -> statement guide, "hipaa compliant printing company" (77), "medical forms printing" (65) -> HIPAA guide, "what paper eliminates lamination for restaurant menus" (7), "how much does durable menu paper cost compared to lamination" (10), "is coroplast waterproof" (37), "what is coroplast signs" (99), "how to choose the right business card finish" (pos 3.0), "matte or glossy business cards" 3 (56)
+- Indexing (report dated 11/15): 13 indexed, 5 not indexed: 1 x 404 (old spam URL, correct), 4 x "Crawled - currently not indexed" = menus, matte/gloss and vinyl/mesh guides (crawled Nov 17) + /favicon.ico. They already earn impressions, so likely a lagging report; internal links added between guides this run.
+- Sitemap: Success, 14 discovered, last read Jul 19 2026 (still not re-read). Not resubmitted (no error).
+- Vercel Web Analytics: not checked this run (API returned "not found" on the previous two runs).
+
+**Guides published** (2026-11-21):
+- Padded vs booked vs snap-set carbonless forms: which format should you order? (comparison)
+- Does your print vendor need a HIPAA business associate agreement? (HIPAA compliant printing)
+- How does statement printing and mailing work? (statement printing and mailing)
+- 16 pt vs 18 pt vs 22 pt vs 32 pt business cards: how thick should your card be? (comparison; uses the stocks listed on the live business card page)
+
+**Refreshed / Saturday guide pass:** no guide is older than 30 days, so no freshness refresh. Saturday pass: rewrote the NCR guide to the AI citation rules (question H2s, 6 sections of ~130-170 words, new sections on standard sizes and CB/CFB/CF paper, numbering ranges per location, layout specs, reorder and storage; 5 FAQs), set updated 2026-11-21. Internal links added: NCR -> formats guide, dental checklist -> HIPAA guide, dealership checklist -> statement guide, matte/gloss -> thickness guide, statement <-> HIPAA. Matte/gloss keyword "16 pt business cards" swapped to "best finish for business cards" so it does not compete with the thickness guide.
+
+**Proposed landing-page updates (batch "SEO meta 2026-11-21" in src/lib/page-content-updates.ts, apply at /admin/content-update):**
+- service-banner-printing-los-angeles: title "Vinyl & Mesh Banner Printing in Los Angeles"; description "Custom 13 oz vinyl, mesh and retractable banners printed in Los Angeles for schools, sports fields, restaurants and events. Grommets included, free LA delivery."
+- service-business-card-printing-los-angeles: title "Business Card Printing in LA: Matte, Gloss, Soft-Touch"; description "Business cards printed in Los Angeles on 16pt to 32pt stock with matte, gloss, soft-touch, spot UV or foil finishes. Proofs you approve and free LA delivery."
+- (The July founding-year healthcare entry is still in the array; re-applying it is harmless.)
+
+**Technical:** robots.txt 200, allows all user agents (no AI crawler blocked); llms.txt 200 (guide list generated from guides.ts).
+
+**Mention action suggested:** claim Apple Business Connect (https://businessconnect.apple.com) for Apple Maps and Siri, using the same name, address, phone and hours as Google.

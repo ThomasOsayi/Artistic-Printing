@@ -39,6 +39,27 @@ export const CONTENT_UPDATES: ContentUpdate[] = [
       },
     },
   },
+  // ─── Batch: SEO meta for weak-CTR service pages (2026-11-21) ─────────
+  // Banner page ranks ~10.8 for school/sports and restaurant vinyl banner queries;
+  // business card page ranks ~15 for finish queries (soft-touch, matte vs gloss).
+  {
+    id: 'service-banner-printing-los-angeles',
+    label: 'Banner printing (SEO meta 2026-11-21)',
+    fields: {
+      metaTitle: 'Vinyl & Mesh Banner Printing in Los Angeles',
+      metaDescription:
+        'Custom 13 oz vinyl, mesh and retractable banners printed in Los Angeles for schools, sports fields, restaurants and events. Grommets included, free LA delivery.',
+    },
+  },
+  {
+    id: 'service-business-card-printing-los-angeles',
+    label: 'Business card printing (SEO meta 2026-11-21)',
+    fields: {
+      metaTitle: 'Business Card Printing in LA: Matte, Gloss, Soft-Touch',
+      metaDescription:
+        'Business cards printed in Los Angeles on 16pt to 32pt stock with matte, gloss, soft-touch, spot UV or foil finishes. Proofs you approve and free LA delivery.',
+    },
+  },
 ]
 
 export interface UpdateResult {
