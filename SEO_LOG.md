@@ -151,3 +151,7 @@ Next Thursday (2026-11-26): set B.
 **Proposed landing-page updates:** none (Saturday task).
 
 **Mention action suggested:** create a Google Business Profile post with a photo of a finished brochure or flyer job on the shop counter, linking to the new brochure fold guide.
+
+**Technical:** robots.txt 200, allows all user agents (only /admin, /staff-login, /api disallowed; no AI crawler blocked); llms.txt 200 and lists all 17 guides; sitemap.xml 200, 17 guides, every URL has a lastmod.
+
+**Deploy:** commit dc3f3c7 deployed; all 4 new guides return 200 and show lastmod 2026-11-24 in sitemap.xml. Indexing requests left to the daily indexing task.
