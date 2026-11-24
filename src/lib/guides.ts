@@ -18,6 +18,299 @@ export interface Guide {
 
 export const guides: Guide[] = [
   {
+    slug: "tri-fold-vs-bi-fold-vs-z-fold-vs-gate-fold-brochures",
+    title: "Tri-fold vs bi-fold vs Z-fold vs gate fold brochures: which fold should you choose?",
+    description: "How tri-fold, bi-fold, Z-fold, gate fold and roll fold brochures compare on panel count, folded size, rack and envelope fit, and best use, with file setup specs for each.",
+    date: '2026-11-24',
+    keywords: ["tri-fold vs bi-fold brochure", "z-fold vs tri-fold", "brochure fold types", "gate fold brochure", "brochure printing Los Angeles"],
+    shortAnswer: "Choose a tri-fold for rack cards, mailers and patient or guest information, because an 8.5 x 11 inch tri-fold folds to about 3.7 x 8.5 inches and fits a #10 envelope and a standard 4 x 9 inch rack pocket. Choose a bi-fold when you need larger pages, such as a menu or program, a Z-fold for step-by-step content, and a gate fold for a product or event reveal.",
+    related: [
+      { href: "/brochure-printing-los-angeles", label: "Brochure printing in Los Angeles" },
+      { href: "/guides/digital-vs-offset-printing-which-to-choose", label: "Guide: digital vs offset printing" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "What size is a tri-fold brochure when folded?", a: "An 8.5 x 11 inch tri-fold folds to about 3.7 x 8.5 inches, which fits a #10 envelope and a standard 4 x 9 inch brochure rack pocket." },
+      { q: "How many panels does a tri-fold brochure have?", a: "A tri-fold has six panels, three on each side of the sheet, while a bi-fold has four panels." },
+      { q: "Why is one panel of a tri-fold narrower?", a: "The panel that folds inside is made about 1/16 inch narrower so it can tuck in without buckling against the fold." },
+      { q: "What paper is best for a folded brochure?", a: "100 lb gloss or matte text is the most common brochure stock, and heavier cover stocks need to be scored before folding so the fold does not crack." },
+      { q: "Can a brochure be mailed without an envelope?", a: "Yes, as a self-mailer, but USPS rules require folded self-mailers to be closed with tabs or wafer seals, so plan the address panel and tab positions before design." },
+    ],
+    body: `The fold decides how a brochure opens, how much room each message gets and whether it fits a rack, an envelope or a table. We score and fold brochures in-house, and these are the folds customers ask us about most, with the sizes and specs for each.
+## What are the main brochure fold types?
+The five most common brochure folds are the tri-fold, bi-fold, Z-fold, gate fold and roll fold. Each starts as one flat sheet, usually 8.5 x 11, 8.5 x 14 or 11 x 17 inches, and the fold pattern sets the panel count and finished size.
+- Tri-fold (letter fold): 6 panels, 8.5 x 11 folds to about 3.7 x 8.5 inches
+- Bi-fold (half fold): 4 panels, 8.5 x 11 folds to 5.5 x 8.5 inches, 11 x 17 folds to 8.5 x 11 inches
+- Z-fold (accordion): 6 panels of equal width, 8.5 x 11 folds to about 3.7 x 8.5 inches
+- Gate fold: 2 outer panels that meet in the middle over a wide center panel, 11 x 17 folds to 8.5 x 11 inches
+- Roll fold: 4 or more panels that roll inward, each slightly narrower than the last
+The tri-fold and Z-fold finish at the same size, so the real choice between them is how the reader moves through the content, not how the piece fits in a rack.
+## When is a tri-fold brochure the right choice?
+A tri-fold is the right choice for most rack, counter and mail brochures, because it is compact, familiar and cheap to fold at any quantity. The front cover leads to one inside flap, then opens to a three-panel spread.
+- Best for: patient education, service menus, hotel and visitor information, school and program overviews
+- Durability: the tucked panel protects the inside spread in racks and bags
+- Typical use: 8.5 x 11 inch sheet on 100 lb gloss or matte text
+- Pros: fits a #10 envelope and a 4 x 9 inch rack pocket, easy to read in order, lowest folding cost
+- Cons: narrow panels of about 3.7 inches limit large photos and tables
+Because the inside flap is about 1/16 inch narrower than the other panels, a tri-fold file is not three equal columns. We adjust panel widths on our side and send a folding proof before printing.
+## When should you choose a bi-fold brochure?
+Choose a bi-fold when content needs wider pages, such as a menu, price list, event program or a product sheet with large photos. One fold in the middle creates four panels that read like a small booklet.
+- Best for: menus, event and graduation programs, sales sheets, presentation folder inserts
+- Durability: a single fold on heavier stock stands up well on tables and counters
+- Typical use: 11 x 17 inch sheet folded to 8.5 x 11, or 8.5 x 11 folded to 5.5 x 8.5
+- Pros: widest panels of any fold, simple layout, works on text or cover stock
+- Cons: an 8.5 x 11 finished bi-fold does not fit a 4 x 9 inch rack or a #10 envelope
+A 5.5 x 8.5 inch bi-fold fits an A9 envelope, which measures 5.75 x 8.75 inches. If you need more than four pages, a saddle-stitched booklet is usually the next step up.
+## When does a Z-fold work better than a tri-fold?
+A Z-fold works better than a tri-fold when the content reads in a sequence, such as steps, a timeline or a map. It folds back and forth like an accordion, so all six panels are the same width and the reader can pull it open to see one long side at once.
+- Best for: process steps, before and after instructions, maps, timelines, inserts that ship with a product
+- Durability: no tucked panel, so the edges are more exposed in racks
+- Typical use: 8.5 x 11 inch sheet with three equal panels of about 3.67 inches per side
+- Pros: equal panels make layout simple, a full side can be read as one continuous strip, opens quickly
+- Cons: no protected inside spread, and the front and back covers sit on different sides of the sheet
+Z-folds also work well for patient discharge or aftercare instructions, where staff want to point to each step in order.
+## What are gate folds and roll folds best for?
+Gate folds are best for reveals and roll folds are best for packing a lot of content into a small piece. Both cost more to fold than a tri-fold, so they are used when the format adds something.
+- Gate fold best for: product launches, real estate listings, invitations, hotel and venue packages
+- Gate fold specs: an 11 x 17 inch sheet with outer panels of about 4.25 inches and a center panel of 8.5 inches, finishing at 8.5 x 11 inches
+- Roll fold best for: detailed price lists, menus of services, reference cards with many sections
+- Roll fold specs: an 8.5 x 14 inch sheet folds into 4 panels, with each inward panel made about 1/16 to 1/8 inch narrower
+- Cons for both: higher folding cost and more careful file setup
+On a gate fold, the two outer panels are trimmed slightly short of the center so they meet without overlapping or buckling.
+## Which brochure fold should you choose?
+Choose the fold by where the brochure lives and how people read it. A quick guide by use case:
+- Brochure rack, counter display or #10 envelope: tri-fold
+- Steps, maps or a timeline: Z-fold
+- Menu, program or large photos: bi-fold on 11 x 17 inch stock
+- Product or event reveal: gate fold
+- Many sections in a pocket-sized piece: roll fold
+- Bilingual English and Spanish content: bi-fold for side-by-side text, or a tri-fold printed as two language versions
+If you are unsure, a printed folding dummy is the fastest way to decide. Holding the folded piece shows where the cover, the first flap and the main message actually land.
+## How should you set up a folded brochure file?
+Set up a folded brochure as one flat file with 0.125 inch bleed on every edge and panel widths that match the fold, not equal thirds. Keep text and logos at least 0.125 inch from the trim and from every fold line, so nothing disappears into the crease.
+- Bleed: 0.125 inch on all four sides, so an 8.5 x 11 inch tri-fold file is 8.75 x 11.25 inches
+- Tri-fold panels: about 3.6875, 3.6875 and 3.625 inches, with the narrow panel tucking inside
+- Images: 300 DPI at final size, in CMYK
+- Paper: 100 lb gloss or matte text folds cleanly, while 80 lb and 100 lb cover need scoring first
+- Grain: folds run parallel to the paper grain where possible, which reduces cracking on heavy ink coverage
+If you send equal panels, we correct the widths and send a proof showing how the panels break before anything is printed.`,
+  },
+  {
+    slug: "best-paper-weight-for-flyers-text-vs-cover-stock",
+    title: "What paper weight should a flyer be? 70 lb text vs 100 lb text vs 100 lb cover vs 14 pt",
+    description: "How flyer paper weights compare, from 70 lb uncoated text to 100 lb gloss text, 100 lb cover and 14 pt card, with thickness, best uses and a recommendation for handouts, mailers and counter cards.",
+    date: '2026-11-24',
+    keywords: ["best paper weight for flyers", "100 lb text vs 100 lb cover", "flyer paper stock", "text weight vs cover weight", "flyer printing Los Angeles"],
+    shortAnswer: "For most handout flyers, 100 lb gloss or matte text is the best paper weight: it feels substantial, shows color well and still folds cleanly. Use 70 lb uncoated text for budget handouts that people may write on, and step up to 100 lb cover or 14 pt card for flyers that are mailed as postcards, stand on a counter or need to last for weeks.",
+    related: [
+      { href: "/flyer-printing-los-angeles", label: "Flyer printing in Los Angeles" },
+      { href: "/guides/digital-vs-offset-printing-which-to-choose", label: "Guide: digital vs offset printing" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "Is 100 lb text heavier than 80 lb cover?", a: "No. Text and cover weights are measured on different base sheet sizes, so 80 lb cover is thicker and stiffer than 100 lb text." },
+      { q: "What is 100 lb text in GSM?", a: "100 lb text is about 148 GSM, while 100 lb cover is about 270 GSM." },
+      { q: "Can I mail a flyer as a postcard?", a: "Only on card stock thick enough for USPS rules, which require pieces larger than 4.25 x 6 inches to be at least 0.009 inch thick, so use 100 lb cover or 14 pt rather than text weight paper." },
+      { q: "Is gloss or matte better for flyers?", a: "Gloss makes photos and bright colors pop, while matte reduces glare and is easier to read and write on, so text-heavy flyers usually look better on matte." },
+      { q: "What is the cheapest flyer paper?", a: "70 lb uncoated text printed on one side is the most economical flyer configuration." },
+    ],
+    body: `Paper weight is the spec most flyer buyers guess at, and it changes how the flyer feels, how it handles and whether it can be mailed. Our standard flyer stocks are 70 lb text, 100 lb gloss text, 100 lb matte text, 14 pt card and 100 lb cover. Here is how they compare.
+## What do text weight and cover weight mean?
+Text weight and cover weight are two separate scales, so the numbers cannot be compared directly. Paper weight in pounds is the weight of 500 sheets at a base size, and text paper uses a larger base sheet than cover paper. That is why 80 lb cover is thicker than 100 lb text, even though 80 is the smaller number.
+- 70 lb text: about 104 GSM, similar to a heavy copy paper
+- 100 lb text: about 148 GSM, a firm sheet that still folds easily
+- 80 lb cover: about 216 GSM, a light card
+- 100 lb cover: about 270 GSM and roughly 0.011 inch thick, a stiff card
+- 14 pt card: about 0.014 inch thick, measured in points (thousandths of an inch)
+GSM, grams per square meter, is the one scale that works across all papers, so it is the most reliable way to compare a quote that lists weights in different units.
+## When is 70 lb text the right flyer paper?
+70 lb text is the right flyer paper when you need a large quantity at the lowest cost and the flyer has a short life. It is usually uncoated, so it feels like good office paper.
+- Best for: event handouts, inserts, menus for delivery bags, internal notices, school take-home flyers
+- Durability: creases easily and softens with handling, fine for a few days of use
+- Typical use: 8.5 x 11 or 5.5 x 8.5 inches, printed one or both sides
+- Pros: lowest cost, easy to write on, light to carry and mail inside an envelope
+- Cons: some show-through when printed on both sides, colors look softer than on coated stock
+For a school or community flyer that goes home in a backpack, 70 lb text is usually all you need.
+## Why is 100 lb text the most popular flyer weight?
+100 lb gloss or matte text is the most popular flyer weight because it balances feel, color and cost. It is noticeably heavier than copy paper, the coating makes photos and brand colors sharp, and it still folds cleanly into a half fold or tri-fold.
+- Best for: promotional flyers, sales sheets, open house and grand opening handouts, price lists
+- Durability: holds up through handling for a few weeks, resists curling
+- Typical use: 8.5 x 11 inches full color both sides, or 11 x 17 inches folded
+- Pros: professional feel, strong color on gloss, low glare and writable surface on matte
+- Cons: too thin to mail as a postcard or to stand on its own
+Gloss suits photo-heavy flyers. Matte is better for text-heavy pieces, menus and anything people will read under bright lights.
+## When should a flyer be printed on 100 lb cover or 14 pt card?
+Print a flyer on 100 lb cover or 14 pt card when it must stand up, be mailed without an envelope or last for weeks. At this weight the piece behaves like a card, not a sheet of paper.
+- Best for: postcards and direct mail, counter cards, rack cards, door hangers, event cards people keep
+- Durability: high, it resists bending and creasing in bags and mailboxes
+- Typical use: 4 x 6, 5 x 7 or 6 x 9 inch mailers, 4 x 9 inch rack cards, 4.25 x 11 inch door hangers
+- Pros: premium feel, meets USPS minimum thickness for postcard and letter mail, stands upright in holders
+- Cons: costs more per piece, and folding requires scoring first to prevent cracking
+USPS requires mail pieces larger than 4.25 x 6 inches to be at least 0.009 inch thick, so 100 lb cover and 14 pt are safe choices for 5 x 7 and 6 x 9 inch mailers.
+## Which flyer paper weight should you choose?
+Choose the lightest stock that survives how the flyer will be used. A quick guide by use case:
+- Large handout runs, short life, lowest cost: 70 lb uncoated text
+- Promotional flyers and sales sheets: 100 lb gloss text
+- Text-heavy flyers, menus, anything read under lights: 100 lb matte text
+- Folded flyers and small brochures: 100 lb text
+- Postcards, door hangers and mailers without envelopes: 14 pt card or 100 lb cover
+- Rack cards and counter display: 14 pt card
+If you are comparing two stocks, ask for both on the quote. The price difference on a few hundred flyers is often small, and the heavier stock can change how long people keep the piece.
+## How should you set up a flyer file for printing?
+Set up a flyer file at the finished size plus 0.125 inch bleed on each edge, with images at 300 DPI and colors in CMYK. An 8.5 x 11 inch flyer file should be 8.75 x 11.25 inches, and a 4 x 6 inch postcard file should be 4.25 x 6.25 inches.
+- Safe zone: keep text and logos at least 0.125 inch inside the trim line
+- Images: 300 DPI at the size they print, not just at the size they appear on screen
+- Color: CMYK for full color, with brand colors checked against a printed proof
+- Mailers: leave the USPS address and indicia area clear of artwork on the back
+- Fonts: embed or outline fonts in the final PDF
+Send a PDF and tell us the stock you want, then check the proof for trim, color and spelling before approving it.`,
+  },
+  {
+    slug: "hotel-printing-checklist-front-desk-rooms-events",
+    title: "What does a hotel need printed? A checklist for the front desk, guest rooms, dining and events",
+    description: "A practical hotel printing checklist: key card sleeves, registration cards, in-room directories, door hangers, room service menus, valet tickets, event signage and back-of-house forms, with common sizes and stocks.",
+    date: '2026-11-24',
+    keywords: ["hotel printing checklist", "hotel printed materials", "key card sleeves printing", "hotel collateral printing", "hospitality printing Los Angeles"],
+    shortAnswer: "Most hotels need printed pieces in five areas: the front desk (key card sleeves, registration cards), guest rooms (directories, door hangers, room service menus, tent cards), dining (menus, table tents), meetings and events (banners, signage, programs) and back of house (numbered valet tickets and carbonless work orders). Print the high-turnover items in larger runs and keep anything with prices or hours on short, easy-to-reprint runs.",
+    related: [
+      { href: "/hospitality-printing-los-angeles", label: "Restaurant and hospitality printing in Los Angeles" },
+      { href: "/guides/laminated-vs-synthetic-vs-paper-restaurant-menus", label: "Guide: laminated vs synthetic vs paper menus" },
+      { href: "/guides/padded-vs-booked-vs-snap-set-carbonless-forms", label: "Guide: carbonless form formats" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "What size is a hotel key card sleeve?", a: "Key card sleeves are built to hold a standard 3.375 x 2.125 inch card, so the folded sleeve is usually about 2.5 x 3.5 inches." },
+      { q: "What size is a hotel door hanger?", a: "Common door hanger sizes are 3.5 x 8.5 inches and 4.25 x 11 inches, die-cut from card stock with a hole that fits a standard door handle." },
+      { q: "Should hotel menus be laminated?", a: "Room service and pool menus that get handled or wiped often last longer laminated or on synthetic paper, while menus that change often are cheaper on coated card stock reprinted as needed." },
+      { q: "Why are valet tickets numbered?", a: "Matching numbers on the guest stub, the key tag and the hotel copy make each car traceable, so valet tickets are printed in sequence on multi-part or perforated stock." },
+      { q: "Can hotel print materials be bilingual?", a: "Yes. Directories, menus and signage are often set in English and Spanish, either side by side or as separate language versions." },
+    ],
+    body: `A hotel touches guests with print at almost every step, from the key card sleeve at check-in to the menu on the nightstand and the signs outside the ballroom. We print menus, collateral, signage and forms for LA hospitality clients, and this checklist covers what most properties need, grouped by where it is used.
+## What does a hotel front desk need printed?
+The front desk needs print that speeds up check-in and keeps every guest's details organized. These are high-turnover items, so they are worth ordering in larger runs once the design is final.
+- Key card sleeves: hold a standard 3.375 x 2.125 inch key card, folded to about 2.5 x 3.5 inches, with room number and Wi-Fi fields on the inside
+- Registration cards: 4 x 6 or 5.5 x 8.5 inches, often on writable uncoated stock
+- Folio and receipt envelopes: #10 or 6 x 9 inch envelopes with the hotel logo
+- Business cards for managers and sales staff
+- Letterhead and envelopes for confirmations and group contracts
+- Welcome cards and local area maps
+Choose an uncoated or matte stock for anything staff or guests write on, because ballpoint ink smears on gloss. Keep Wi-Fi names, passwords and checkout times off the printed sleeve if they change often, and leave a blank field to fill in instead.
+## What printed materials go in a hotel room?
+A guest room usually needs a directory, door hangers, a room service menu and a few tent cards. These pieces sit in the room for months, so durability matters more than on front desk items.
+- Guest services directory: a bi-fold, saddle-stitched booklet or binder inserts, commonly 5.5 x 8.5 or 8.5 x 11 inches
+- Door hangers: 3.5 x 8.5 or 4.25 x 11 inches on 14 pt card or thicker, often with privacy on one side and a service request on the other
+- Room service menu: card stock, laminated or synthetic paper, sized to sit on a desk or nightstand
+- Tent cards: linen and towel reuse, amenities, breakfast hours, about 4 x 6 inches folded
+- Notepads: 4 x 6 or 5.5 x 8.5 inch pads of 50 sheets
+- Emergency evacuation maps: posted inside the room door, following your fire safety plan
+Laminated and synthetic stocks survive cleaning sprays. Our menu guide compares them in detail.
+## What does hotel dining and the bar need printed?
+Hotel restaurants, bars and pool areas need menus and table pieces that can change with the season without wasting a large print run. The right stock depends on how often each piece is handled and wiped.
+- Dining menus: single-page card menus, bi-folds or inserts for menu covers
+- Bar and pool menus: synthetic or laminated, because they get wet
+- Table tents: specials, happy hour and events, about 4 x 6 inches folded
+- Wine lists and dessert cards: short runs on premium uncoated or cotton stock
+- Takeout packaging and stickers for grab-and-go items
+- Gift cards and gift certificates for the restaurant or spa
+Print items with prices in smaller quantities so a price change does not leave you with boxes of outdated menus. Permanent pieces, such as the menu cover or the table tent design, can be printed in larger runs.
+## What do hotel meetings and events need printed?
+Meetings, weddings and conferences need signage that guides guests and print that carries the event brand. Most of it is printed per event, so fast, accurate reprints matter more than large runs.
+- Directional and welcome signs: 18 x 24 or 24 x 36 inches on foam board or PVC for easels
+- Banners: 13 oz vinyl with grommets for walls, or retractable banner stands for registration tables
+- Event programs and agendas: 5.5 x 8.5 inch bi-folds or saddle-stitched booklets
+- Name badges and table numbers
+- Meeting space brochures and wedding package folders for the sales team
+- Floor plans and capacity sheets for planners
+Foam board is light and inexpensive for single-event signs, while PVC holds up when the same signs are reused. Our sign materials guide compares the options side by side.
+## What forms does the back of house need?
+The back of house needs forms that create a record and travel between departments. Carbonless forms are the standard, because each copy goes to a different person without a printer or a screen.
+- Valet tickets: numbered in sequence, with a guest stub, a key tag and a hotel copy, often on perforated card stock
+- Maintenance work orders: 2 or 3 part carbonless, so engineering, the front desk and the requester each keep a copy
+- Housekeeping checklists and room status sheets, padded in 50 sheets
+- Lost and found tags and logs
+- Banquet event orders and delivery receipts
+- Incident and inspection reports
+Number every form that needs to be accounted for. Booked forms keep a copy behind in the book, which is useful for valet and lost and found records.
+## How should a hotel organize reorders?
+Organize hotel printing by keeping one master list of every printed item with its size, stock, quantity and file version. That list turns reorders into a quick approval instead of a design project each time.
+- Group items by department so each manager knows what they own
+- Note which pieces include prices, hours or Wi-Fi details that change
+- Set a reorder point, such as when a box of key card sleeves drops to one month of use
+- Keep final print-ready PDFs in one shared folder, named by item and date
+- Review all pieces when the brand, rates or amenities change
+With free pickup and delivery across Los Angeles, small and frequent reprints stay practical for busy properties.`,
+  },
+  {
+    slug: "print-ready-file-setup-bleed-safe-zone-300-dpi-cmyk",
+    title: "How do you set up a print-ready file? Bleed, safe zone, 300 DPI, CMYK and fonts",
+    description: "A plain checklist for print-ready files: 0.125 inch bleed, safe zones, 300 DPI images, CMYK and rich black, fonts, PDF export settings, and the extra rules for folded pieces and large format banners.",
+    date: '2026-11-24',
+    keywords: ["print ready file setup", "how to add bleed for printing", "300 dpi for print", "CMYK vs RGB for printing", "print ready PDF checklist"],
+    shortAnswer: "A print-ready file is a PDF at the finished size plus 0.125 inch of bleed on every edge, with text kept at least 0.125 inch inside the trim, images at 300 DPI at the size they print, colors in CMYK and every font embedded or outlined. Large format banners and signs are the exception: they print well at 100 to 150 DPI at full size because they are viewed from a distance.",
+    related: [
+      { href: "/services", label: "All printing services" },
+      { href: "/large-format-printing-los-angeles", label: "Large format printing in Los Angeles" },
+      { href: "/guides/tri-fold-vs-bi-fold-vs-z-fold-vs-gate-fold-brochures", label: "Guide: brochure fold types" },
+      { href: "/contact", label: "Request a quote" },
+    ],
+    faqs: [
+      { q: "How much bleed do I need for printing?", a: "Add 0.125 inch of bleed to every edge, so an 8.5 x 11 inch flyer file is 8.75 x 11.25 inches." },
+      { q: "Is 72 DPI good enough for print?", a: "No. A 72 DPI web image prints soft and pixelated on paper, so photos for flyers, brochures and cards should be 300 DPI at the size they print." },
+      { q: "Should I send RGB or CMYK files?", a: "Send CMYK for printed pieces, because RGB colors are converted on press and bright screen colors such as vivid blues and greens can shift." },
+      { q: "What is rich black?", a: "Rich black adds cyan, magenta and yellow under 100 percent black, such as 60 C, 40 M, 40 Y, 100 K, to make large black areas deeper, while small text should stay 100 percent black only." },
+      { q: "What if my file is not print-ready?", a: "Send what you have and tell us the finished size; missing bleed, low-resolution images and font problems can usually be fixed, and the proof shows the result before printing." },
+    ],
+    body: `Most print delays start with the file, not the press. A missing bleed, a low-resolution logo or an RGB color can mean white slivers on the edge, blurry images or a brand color that looks wrong. This checklist covers what a printer needs, with exact measurements, so your file prints the way it looks on screen.
+## What makes a file print-ready?
+A file is print-ready when it can go to press without anyone changing it. In practice that means six things are correct: size, bleed, safe zone, image resolution, color mode and fonts.
+- Size: the document is built at the finished trim size, such as 3.5 x 2 inches for a business card or 8.5 x 11 inches for a flyer
+- Bleed: artwork that touches the edge extends 0.125 inch past the trim on every side
+- Safe zone: text, logos and key details sit at least 0.125 inch inside the trim
+- Resolution: photos and raster images are 300 DPI at the printed size
+- Color: CMYK for full color work, with any Pantone spot colors named correctly
+- Fonts: embedded in the PDF or converted to outlines
+Export a PDF, ideally PDF/X-1a or PDF/X-4, with crop marks and bleed included. Those presets lock in most of these settings for you.
+## How do bleed and safe zones work?
+Bleed is extra artwork past the edge that gets trimmed off, and the safe zone is a margin inside the edge where nothing important should sit. Both exist because cutting a stack of paper is accurate to a small tolerance, not to the exact hairline.
+- Bleed: 0.125 inch on every edge. A 3.5 x 2 inch card file is 3.75 x 2.25 inches, and a 4 x 6 inch postcard file is 4.25 x 6.25 inches
+- Safe zone: keep text at least 0.125 inch inside the trim, and 0.25 inch is safer for small pieces
+- Borders: avoid thin borders close to the edge, because any shift in the cut makes them look uneven; keep borders at least 0.25 inch wide or leave them out
+- Backgrounds and photos: extend them fully into the bleed, never stop them at the trim line
+Without bleed, a background that stops exactly at the edge can leave a thin white line when the sheet is trimmed.
+## What resolution do images need for printing?
+Images need 300 DPI at the size they will print for anything held in the hand, such as cards, flyers, brochures and forms. DPI is measured at the final size, so enlarging a 300 DPI photo to twice its size cuts it to 150 DPI.
+- Small format print: 300 DPI at final size
+- Posters up to about 24 x 36 inches: 150 to 300 DPI at final size
+- Banners and large format signs: 100 to 150 DPI at full size is usually enough, because they are seen from several feet away
+- Logos: vector files such as AI, EPS, SVG or a vector PDF print sharp at any size
+- Web images: usually 72 DPI and too small, so avoid images saved from a website or social media
+To check, divide the image's pixel width by the printed width in inches. A 1,050 pixel wide image printed 3.5 inches wide is exactly 300 DPI.
+## Should print files be CMYK or RGB?
+Print files should be CMYK, because presses print with cyan, magenta, yellow and black inks, not the red, green and blue light of a screen. RGB files are converted during printing, and some bright screen colors cannot be matched in ink.
+- Convert to CMYK in your design software and review the colors before exporting
+- Vivid RGB blues, greens and oranges are the colors most likely to shift
+- Large black backgrounds: use rich black, such as 60 C, 40 M, 40 Y, 100 K, for a deep black
+- Small text and fine lines: use 100 percent black only, so they stay sharp
+- Brand colors: specify the Pantone number if exact matching matters
+Screens are brighter than paper, so a printed proof is the only reliable way to judge color.
+## How should fonts and text be handled?
+Fonts must be embedded in the PDF or converted to outlines, or the printer's system may substitute a different font. A missing font can reflow text, break lines or drop special characters.
+- Embed all fonts when exporting the PDF, which PDF/X presets do automatically
+- Outline fonts in logos and headlines if you are sending an AI or EPS file
+- Minimum text size: about 6 to 7 pt for legible small print, larger for reversed white text on a dark background
+- Minimum line weight: 0.25 pt, since thinner lines can break up in print
+- Spell check names, phone numbers, addresses and URLs on the proof, because they are the most common errors
+Bilingual English and Spanish layouts need extra room, since Spanish text often runs longer than the English.
+## What extra rules apply to folded pieces and banners?
+Folded pieces and large format jobs each have their own setup rules on top of the basics. Planning them in the file avoids reprints.
+- Tri-fold brochures: the tucked panel is about 1/16 inch narrower, so panels are not equal thirds
+- Folds: keep text at least 0.125 inch away from every fold line
+- Saddle-stitched booklets: page counts must be a multiple of 4, and inner pages shift outward slightly, so keep margins generous
+- Banners: keep text and logos 1 to 2 inches in from the edge, clear of hems and grommets
+- Carbonless forms: leave enough writing space in each field, and keep numbering areas clear
+Send your PDF with the finished size and any fold or finishing notes, and review the proof carefully before approving it.`,
+  },
+  {
     slug: "padded-vs-booked-vs-snap-set-carbonless-forms",
     title: "Padded vs booked vs snap-set carbonless forms: which format should you order?",
     description: "How padded, booked, snap-set and loose carbonless forms differ, what each format is best for, and how to pick the right one for invoices, work orders, receipts and patient forms.",

@@ -19,6 +19,10 @@ Running log for the scheduled SEO program (Tue/Thu/Sat). Read before each run so
 | /guides/hipaa-print-vendor-business-associate-agreement | HIPAA compliant printing / print vendor BAA (PHI vs no-PHI jobs) |
 | /guides/statement-printing-and-mailing-how-it-works | statement printing and mailing (process, remittance stub, #10 double-window, CASS/NCOA/presort) |
 | /guides/16pt-vs-18pt-vs-22pt-vs-32pt-business-cards | business card thickness, 16 vs 18 vs 22 vs 32 pt (comparison) |
+| /guides/tri-fold-vs-bi-fold-vs-z-fold-vs-gate-fold-brochures | brochure fold types: tri-fold vs bi-fold vs Z-fold vs gate fold (comparison) |
+| /guides/best-paper-weight-for-flyers-text-vs-cover-stock | best paper weight for flyers, text vs cover stock (comparison) |
+| /guides/hotel-printing-checklist-front-desk-rooms-events | hotel printing checklist (key card sleeves, directories, door hangers, valet tickets) |
+| /guides/print-ready-file-setup-bleed-safe-zone-300-dpi-cmyk | print-ready file setup (bleed, safe zone, 300 DPI, CMYK, fonts) |
 | Landing pages (Firestore) | healthcare, hospitality, education, automotive printing LA; banner, large format, business card, brochure, flyer printing LA |
 
 ## AI visibility panel (created on first Thursday run)
@@ -121,3 +125,29 @@ Next Thursday (2026-11-26): set B.
 **Mention action suggested:** claim Apple Business Connect (https://businessconnect.apple.com) for Apple Maps and Siri, using the same name, address, phone and hours as Google.
 
 **Deploy and indexing:** commit 2b0b593 deployed; all 4 new guides and the rewritten NCR guide return 200, are in sitemap.xml (13 guides + /guides) and llms.txt; NCR guide shows "Updated November 21, 2026" and dateModified 2026-11-21. Requested indexing in URL Inspection for the 4 new guides, the NCR guide and /guides (6 requests). Note: NCR guide was still "URL is unknown to Google" 4 days after its first request; /guides is on Google.
+
+---
+
+## 2026-11-24 (Tue)
+
+**Search Console** (https://www.artisticprinting.com/ URL-prefix), last 28 days (Oct 26 to Nov 22):
+- Clicks 18 (16 last run), impressions 1.77K (1.44K), CTR 1.0% (1.1%), avg position 38.1 (44.6)
+- Generative AI report: 147 AI feature impressions in 28 days (75 last run). By page: menus guide 40, program guide 23, / 19, matte/gloss guide 17, sign materials guide 8, /healthcare 8, digital/offset guide 6, /contact 5, vinyl/mesh guide 4, /education 3 (19 pages total)
+- Pages: / 301 imp (13 clicks, pos 27.5), /education 437 (68.0), /about 295 (7.7; mostly the unrelated Elmont NY "rtistic printing" query), /hospitality 179 (48.5), /healthcare 171 (70.2, 1 click), /contact 111 (7.5, 2 clicks), guides: menus 107 imp pos 5.8 (1 click), program 60 (5.2, 1 click), matte/gloss 77 (20.1), vinyl/mesh 29 (19.5), dental 27 (25.9), sign materials 26 (29.8), statement 23 (17.1), digital/offset 18 (4.8), thickness 12 (11.8), dealership 7 (5.6), NCR 3 (1.0), padded/booked 2 (11.0), HIPAA 1 (8.0); /banner 15 (10.9), /business-card 8 (13.9), /large-format 5, /brochure 3, /flyer not listed
+- Opportunity queries (pos 5-20): "statement printing and mailing" 11 imp pos 9.4 (statement guide working), "school and sporting events vinyl banner printing los angeles" 13 (11.2), "printing for dealerships" 9 (11.9), "educational print fulfillment los angeles ca" 8 (14.5), "restaurant menus printing los angeles" 5 (16.2), "how much does durable menu paper cost compared to lamination" 4 (8.0), "standard program size" 3 (11.7), "printing for auto dealerships" 4 (19.2), "laminated card printing los angeles" 4 (20.5)
+- Head terms still far back: "printing for education" 266 imp pos 81, "hospitality printing solutions" 57 (57), "healthcare printing services" 48 (81), "medical printing services" 43 (90), "commercial printing los angeles" 20 (33)
+- Indexing (report still dated 11/15): 13 indexed, 5 not indexed (1 x 404 old spam URL, 4 crawled - currently not indexed). Sitemap: Success, 14 discovered, last read Jul 19 2026. Not resubmitted (no error).
+- Vercel Web Analytics: not checked (API returned "not found" on earlier runs).
+
+**Guides published** (2026-11-24):
+- Tri-fold vs bi-fold vs Z-fold vs gate fold brochures: which fold should you choose? (comparison; brochure fold types)
+- What paper weight should a flyer be? 70 lb text vs 100 lb text vs 100 lb cover vs 14 pt (comparison; best paper weight for flyers; uses the stocks listed on the live flyer page)
+- What does a hotel need printed? A checklist for the front desk, guest rooms, dining and events (hotel printing checklist; supports /hospitality)
+- How do you set up a print-ready file? Bleed, safe zone, 300 DPI, CMYK and fonts (print-ready file setup)
+- Cross-links: print-ready guide -> brochure fold guide; hotel guide -> menus guide and carbonless formats guide; brochure and flyer guides -> digital vs offset guide.
+
+**Refreshed:** none. Oldest guides were published 2026-11-17 (7 days old); the refresh rule needs 30+ days. First refresh candidates once eligible (Dec 17+): matte/gloss guide (77 imp, pos 20.1; add a "matte or glossy" query section), vinyl/mesh guide (pos 19.5; add "mesh banner vs vinyl banner" wording), sign materials guide (answer "is coroplast waterproof" / "what is coroplast").
+
+**Proposed landing-page updates:** none (Saturday task).
+
+**Mention action suggested:** create a Google Business Profile post with a photo of a finished brochure or flyer job on the shop counter, linking to the new brochure fold guide.
