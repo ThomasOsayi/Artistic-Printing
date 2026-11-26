@@ -23,6 +23,9 @@ Running log for the scheduled SEO program (Tue/Thu/Sat). Read before each run so
 | /guides/best-paper-weight-for-flyers-text-vs-cover-stock | best paper weight for flyers, text vs cover stock (comparison) |
 | /guides/hotel-printing-checklist-front-desk-rooms-events | hotel printing checklist (key card sleeves, directories, door hangers, valet tickets) |
 | /guides/print-ready-file-setup-bleed-safe-zone-300-dpi-cmyk | print-ready file setup (bleed, safe zone, 300 DPI, CMYK, fonts) |
+| /guides/saddle-stitch-vs-perfect-binding-vs-spiral-vs-wire-o | booklet binding types: saddle stitch vs perfect binding vs spiral vs Wire-O (comparison) |
+| /guides/retractable-banner-vs-x-banner-vs-tabletop-vs-step-and-repeat | event displays: retractable banner vs X-banner vs tabletop vs step-and-repeat (comparison) |
+| /guides/school-printing-checklist-front-office-classrooms-events | printing for schools / school printing checklist (front office, enrollment, handbooks, signage, events) |
 | Landing pages (Firestore) | healthcare, hospitality, education, automotive printing LA; banner, large format, business card, brochure, flyer printing LA |
 
 ## AI visibility panel (created on first Thursday run)
@@ -30,7 +33,7 @@ Running log for the scheduled SEO program (Tue/Thu/Sat). Read before each run so
 Fixed panel (created 2026-11-19). Run 5 per Thursday, alternating set A and set B so all 10 are covered every 2 weeks. Engines: Perplexity (logged out), Bing, Google (AI Overview).
 - Set A: (1) commercial printer in Los Angeles (2) where to print NCR forms in Los Angeles (3) dental office printing Los Angeles (4) same week business card printing Los Angeles (5) banner printing near Mid-City Los Angeles
 - Set B: (6) restaurant menu printing Los Angeles (7) printing for car dealerships Los Angeles (8) school banner printing Los Angeles (9) medical forms printing Los Angeles (10) print shop near Pico Boulevard Los Angeles
-Next Thursday (2026-11-26): set B.
+Next Thursday (2026-12-03): set A.
 
 ---
 
@@ -155,3 +158,35 @@ Next Thursday (2026-11-26): set B.
 **Technical:** robots.txt 200, allows all user agents (only /admin, /staff-login, /api disallowed; no AI crawler blocked); llms.txt 200 and lists all 17 guides; sitemap.xml 200, 17 guides, every URL has a lastmod.
 
 **Deploy:** commit dc3f3c7 deployed; all 4 new guides return 200 and show lastmod 2026-11-24 in sitemap.xml. Indexing requests left to the daily indexing task.
+
+---
+
+## 2026-11-26 (Thu)
+
+**Search Console** (https://www.artisticprinting.com/ URL-prefix), last 28 days (Oct 28 to Nov 24):
+- Clicks 21 (18 last run), impressions 2.28K (1.77K), CTR 0.9% (1.0%), avg position 32.6 (38.1)
+- Generative AI report: 273 AI feature impressions in 28 days (147 last run). By page: menus guide 65, program guide 44, matte/gloss guide 25, / 20, NCR guide 18, sign materials guide 17, digital/offset guide 17, thickness guide 9, /healthcare 9, vinyl/mesh guide 8 (20 pages total)
+- Pages: / 327 imp (15 clicks, pos 28.7), /education 438 (67.6), /about 340 (7.7; mostly the unrelated Elmont NY query), /healthcare 189 (66.9, 1 click), /hospitality 179 (47.0), /contact 119 (8.4, 2 clicks); guides: menus 171 (6.1, 1 click), program 119 (5.7, 1 click), matte/gloss 113 (20.5), statement 74 (15.3), thickness 56 (12.3), sign materials 56 (22.6), vinyl/mesh 52 (18.0), dental 43 (23.7), digital/offset 39 (4.9), NCR 39 (7.4), padded/booked 25 (5.8, 1 click), dealership 15 (5.0), HIPAA 11 (39.5); /automotive 37 (35.7), /banner 14 (11.1), /business-card 7 (14.9), /large-format 5, /brochure 3
+- Opportunity queries (pos 5-25): "statement printing and mailing" 33 imp pos 10.7, "school and sporting events vinyl banner printing los angeles" 13 (11.2), "educational print fulfillment los angeles ca" 9 (14.6), "printing for dealerships" 7 (14.7), "how much does durable menu paper cost compared to lamination" 8 (8.2), "restaurant menus printing los angeles" 5 (16.2), "printing for auto dealerships" 5 (17.6), "school printing services" 23 (26.8) -> school checklist guide
+- Refresh candidates for Dec 17+: matte/gloss (113 imp, pos 20.5; "matte or glossy business cards" cluster 30+ imp at pos 45-65), vinyl/mesh ("mesh banner vs vinyl banner" 10 imp pos 46), sign materials ("what is coroplast signs", "is coroplast waterproof"), statement guide (33 imp pos 10.7)
+- Indexing: 27 indexed (13 last report), 2 not indexed (1 x 404 old spam URL, 1 crawled - currently not indexed). Sitemap: Success, 14 discovered, last read Jul 19 2026. Not resubmitted (no error).
+- Vercel Web Analytics: not checked (API returned "not found" on earlier runs).
+
+**Guides published** (2026-11-26):
+- Saddle stitch vs perfect binding vs spiral vs Wire-O: which booklet binding should you choose? (comparison; booklet binding; uses the saddle-stitched 8-48 pp and perfect-bound 40-300 pp ranges on the live brochure page)
+- Retractable banner vs X-banner vs tabletop display vs step-and-repeat: which event display should you choose? (comparison; uses the 33 x 79 / 39 x 79 stand sizes on the live banner page)
+- What does a school need printed? A checklist for the front office, classrooms, enrollment and events (printing for schools; supports /education)
+- Cross-links: program guide -> binding guide; vinyl/mesh guide -> event display guide.
+
+**Refreshed:** none. Oldest guides are from 2026-11-17 (9 days); refresh rule needs 30+ days.
+
+**AI visibility (set B):**
+- Google: (6) restaurant menu printing LA: AI Overview present (local pack style: Seda's Printing, Indie Printing, Super Copy), not cited; organic smartpress, terraslate, menudesigns, sedasprinting, indieprinting, supercopyinla, magentacolorprint, lapressprinting, platinumprintusa, goldimageprinting, yelp. (7) printing for car dealerships LA: no AI Overview; artisticprinting.com/automotive-printing-los-angeles is #1 organic. (8) school banner printing LA: AI Overview present, not cited (losangelesbanner, iworksprinting, platinumprintusa, supercopyinla, bruincustomprint, losangelesbannerprinting, yelp, dprintla). (9) medical forms printing LA: AI Overview present and lists Artistic Printing Company FIRST (GBP 4.8, 8 reviews; healthcare forms, bilingual, HIPAA-aware with BAA, free LA delivery, and "24-48 hour turnaround" pulled from the healthcare page); /healthcare is #2 organic. (10) print shop near Pico Blvd: AI Overview present, not cited (Genesis Printing at 5872 W Pico, Copyland, J&F Photo Lab); organic yelp, theupsstore, theprintshopla, eandtgraphics, mapquest, niceprintingla.
+- Bing (organic, no Copilot answer): (6) #7 /hospitality; (7) #1 /automotive; (8) #6 /banner; (9) #1 /healthcare; (10) #10 /contact. Other recurring sites: yelp, laprintcenter, printingfly, losangelesbannerprinting, chamberofcommerce.com, mapquest.
+- Perplexity: sign-in wall on the first query, stopped (not bypassed).
+- Mention opportunities: Yelp (Pico query, Bing and Google), chamberofcommerce.com and MapQuest listings (Bing, Pico query), Google Business Profile reviews (AI Overview shows 8 reviews).
+
+**Mention action suggested:** ask 2 or 3 recent healthcare/dental clients for a Google review (AI Overview for "medical forms printing Los Angeles" now leads with the GBP listing at 8 reviews).
+
+**Flag for Estevan:** the Google AI Overview repeats "24-48 hour turnaround" from the healthcare page seed; confirm it is accurate or adjust it at /admin/content-update.
+
