@@ -190,3 +190,7 @@ Next Thursday (2026-12-03): set A.
 
 **Flag for Estevan:** the Google AI Overview repeats "24-48 hour turnaround" from the healthcare page seed; confirm it is accurate or adjust it at /admin/content-update.
 
+**Technical:** robots.txt 200, allows all user agents (only /admin, /staff-login, /api disallowed; no AI crawler blocked); llms.txt 200 and lists all 20 guides; sitemap.xml 200, 20 guides, every URL has a lastmod.
+
+**Deploy:** commit 6caf55a deployed; all 3 new guides return 200 and show lastmod 2026-11-26 in sitemap.xml. Indexing requests left to the daily indexing task.
+
