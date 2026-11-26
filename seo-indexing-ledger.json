@@ -1,0 +1,208 @@
+{
+  "urls": {
+    "https://www.artisticprinting.com": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/services": {
+      "requested": [],
+      "status": "not_indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/portfolio": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/about": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/contact": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides": {
+      "requested": [
+        "2026-11-17",
+        "2026-11-19",
+        "2026-11-21"
+      ],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides/tri-fold-vs-bi-fold-vs-z-fold-vs-gate-fold-brochures": {
+      "requested": [],
+      "status": "not_indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides/best-paper-weight-for-flyers-text-vs-cover-stock": {
+      "requested": [],
+      "status": "not_indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides/hotel-printing-checklist-front-desk-rooms-events": {
+      "requested": [],
+      "status": "not_indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides/print-ready-file-setup-bleed-safe-zone-300-dpi-cmyk": {
+      "requested": [],
+      "status": "not_indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides/padded-vs-booked-vs-snap-set-carbonless-forms": {
+      "requested": [
+        "2026-11-21"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/hipaa-print-vendor-business-associate-agreement": {
+      "requested": [
+        "2026-11-21"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/statement-printing-and-mailing-how-it-works": {
+      "requested": [
+        "2026-11-21"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/16pt-vs-18pt-vs-22pt-vs-32pt-business-cards": {
+      "requested": [
+        "2026-11-21"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/digital-vs-offset-printing-which-to-choose": {
+      "requested": [
+        "2026-11-19"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/coroplast-vs-foam-board-vs-pvc-vs-aluminum-signs": {
+      "requested": [
+        "2026-11-19"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/car-dealership-printing-checklist": {
+      "requested": [
+        "2026-11-19"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/school-event-program-booklet-printing-guide": {
+      "requested": [
+        "2026-11-19"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/laminated-vs-synthetic-vs-paper-restaurant-menus": {
+      "requested": [
+        "2026-11-17"
+      ],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides/vinyl-vs-mesh-banners-school-fences-sports-fields": {
+      "requested": [
+        "2026-11-17"
+      ],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/guides/matte-vs-gloss-vs-soft-touch-business-cards": {
+      "requested": [
+        "2026-11-17"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/dental-office-printed-forms-checklist": {
+      "requested": [
+        "2026-11-17"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/guides/ncr-carbonless-forms-how-many-parts": {
+      "requested": [
+        "2026-11-17",
+        "2026-11-21"
+      ],
+      "status": "unknown",
+      "checked": null
+    },
+    "https://www.artisticprinting.com/automotive-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/education-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/healthcare-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/hospitality-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/banner-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/brochure-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/business-card-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/flyer-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    },
+    "https://www.artisticprinting.com/large-format-printing-los-angeles": {
+      "requested": [],
+      "status": "indexed",
+      "checked": "2026-11-25"
+    }
+  },
+  "report": {
+    "date": "2026-11-25",
+    "indexed": 13,
+    "not_indexed": 5,
+    "reasons": {
+      "Not found (404)": 1,
+      "Crawled - currently not indexed": 4
+    }
+  },
+  "quota_exceeded": [
+    "2026-11-25"
+  ],
+  "notes": "Property: https://www.artisticprinting.com/ (URL-prefix). Request dates before 2026-11-25 seeded from SEO_LOG.md."
+}
